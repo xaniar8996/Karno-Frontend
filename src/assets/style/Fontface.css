@@ -1,0 +1,8 @@
+@font-face {
+  font-family: 'Vazirmatn';
+  src: url('../Fonts/Vazirmatn-Bold.ttf') format('woff2 supports variations'),
+       url('../Fonts/Vazirmatn-Regular.ttf') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}

@@ -1,0 +1,36 @@
+:root {
+    --color-background: #F9FAFB;
+    --color-primary: #2563EB;
+    --color-secondary: #475569;
+    --color-accent: #0EA5E9;
+    --color-text: #1E293B;
+}
+
+body {
+    background-color: var(--color-secondary);
+    color: var(--color-text);
+    font-family: Vazirmatn, sans-serif;
+}
+
+/* دکمه‌ها */
+.btn-primary {
+    background-color: var(--color-primary);
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    transition: 0.2s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--color-accent);
+}
+
+/* لینک‌ها */
+a {
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--color-accent);
+}

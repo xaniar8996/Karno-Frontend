@@ -4,7 +4,6 @@ import "../assets/style/globals.css";
 import "../assets/style/Fontface.css";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import AuthForm from "@/components/Auth/AuthForm";
 import { getAccessToken, isAccessTokenValid } from "@lib/auth";
 import Homepage from "./Home/page";
 import { useRefreshAccessToken } from "@/hooks/useRefreshAccesstoken";

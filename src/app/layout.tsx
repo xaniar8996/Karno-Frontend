@@ -1,6 +1,10 @@
 import { Toaster } from "react-hot-toast";
 import "../assets/style/globals.css";
 import "../assets/style/Fontface.css";
+// import AuthProvider from "./providers/AuthProvider";
+import Header from "@layout/Header";
+import Footer from "@layout/Footer";
+import QueryProvider from "./providers/QueryProvider";
 
 export default function RootLayout({
   children,
@@ -10,7 +14,7 @@ export default function RootLayout({
   return (
     <html lang="fa" dir="rtl">
       <head>
-        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,shrink-to-fit=no,viewport-fit=cover"></meta>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body>
         <Toaster
@@ -23,19 +27,37 @@ export default function RootLayout({
             duration: 5000,
             removeDelay: 1000,
             style: {
-              background: '#363636',
+              background: 'rgba(255, 255, 255, 0.15)',
               color: '#fff',
+              backdropFilter: 'blur(10px)',
+              WebkitBackdropFilter: 'blur(10px)',
+              borderRadius: '50px',
+              border: '1px solid rgba(255,255,255,0.3)',
+              boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
             },
             success: {
-              duration: 3000,
+              duration: 4000,
               iconTheme: {
                 primary: 'green',
-                secondary: 'black',
+                secondary: "white",
               },
             },
+            error: {
+              duration: 4000,
+              iconTheme: {
+                primary: 'red',
+                secondary: 'white',
+              },
+            }
           }}
         />
-        {children}
+        <QueryProvider>
+          {/* <AuthProvider> */}
+            <Header />
+            {children}
+            <Footer />
+          {/* </AuthProvider> */}
+        </QueryProvider>
       </body>
     </html>
   );

@@ -1,3 +1,4 @@
+"use client"
 import { Dispatch, SetStateAction } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AuthValidation, AuthValidationType } from "@Schemas/AuthSchema";
@@ -5,12 +6,12 @@ import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { BaseAPI } from "@lib/axios";
 import toast from "react-hot-toast";
+import axios from "axios";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 
-interface SwitchSideProps {
-    setSwitchSide: Dispatch<SetStateAction<boolean>>;
-}
-
-export default function RegisterForm({ setSwitchSide }: SwitchSideProps) {
+export default function RegisterForm() {
+    const router = useRouter();
 
     const { register, handleSubmit, formState: { isSubmitting } } = useForm<AuthValidationType>({
         resolver: zodResolver(AuthValidation)
@@ -18,14 +19,23 @@ export default function RegisterForm({ setSwitchSide }: SwitchSideProps) {
 
     const Submit = async (data: AuthValidationType) => {
         try {
+            const {confirmPassword , ...userdata} = data;
 
-            const HandleAddUser = await BaseAPI.post("/Register", data);
-            if (HandleAddUser.data) {
+            const HandleAddUser = await BaseAPI.post("/Register", userdata);
+            if (HandleAddUser.data && HandleAddUser.status === 200) {
                 toast.success("ثبت نام با موفقیت انجام شد");
+                router.replace("/Auth/login");
             }
-
-        } catch {
-            console.log("خطا در ثبت نام , لطفا دوباره امتحان کنید");
+        } catch (error) {
+            if(axios.isAxiosError(error)){
+                if(error.status === 409){
+                    toast.error("این کاربر قبلا ثبت شده");
+                }else if(error.status === 400){
+                    toast.error("اطلاعات کامل نیست");
+                }else if(error.status === 500){
+                    toast.error("خطای داخلی سرور");
+                }
+            }
         }
     }
 
@@ -48,7 +58,7 @@ export default function RegisterForm({ setSwitchSide }: SwitchSideProps) {
                 className="absolute top-8 right-8"
             >
                 <button
-                    onClick={() => setSwitchSide(true)}
+                    onClick={() => router.push("/Auth/login")}
                     className="text-white bg-black p-3 px-8 cursor-pointer rounded-full flex flex-row justify-center items-center gap-2 hover:bg-gray-900 transition-all"
                 >
                     <span>ورود</span>
@@ -71,8 +81,8 @@ export default function RegisterForm({ setSwitchSide }: SwitchSideProps) {
                 }}
                 className="w-1/2 h-11/12 bg-white/40 py-20 backdrop-blur-3xl rounded-3xl flex flex-col justify-center items-center gap-10 px-20"
             >
-                <form onSubmit={() => handleSubmit(Submit)} className="w-full h-full flex flex-col justify-start items-center gap-14">
-                    <img src="/logo/logo.png" alt="logo" className="w-1/3 h-auto" />
+                <form onSubmit={handleSubmit(Submit)} className="w-full h-full flex flex-col justify-start items-center gap-14">
+                    <Image width={100} height={100} src="/logo/logo.png" alt="logo" className="w-1/3 h-auto" />
                     <div className="w-full h-auto grid grid-cols-2 justify-center items-start gap-5">
                         <div className="w-full flex flex-col gap-5">
                             <h6 className="text-lg">نام و نام خانوادگی</h6>

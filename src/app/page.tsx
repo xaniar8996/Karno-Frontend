@@ -1,11 +1,9 @@
 "use client"
-
 import "../assets/style/globals.css";
 import "../assets/style/Fontface.css";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getAccessToken, isAccessTokenValid } from "@lib/auth";
-import Homepage from "./Home/page";
 import { useRefreshAccessToken } from "@/hooks/useRefreshAccesstoken";
 
 export default function Home() {

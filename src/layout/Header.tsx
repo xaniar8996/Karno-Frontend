@@ -1,17 +1,23 @@
 "use client";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { GoPerson } from "react-icons/go";
 import { CiSearch } from "react-icons/ci";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
-import { BaseAPI } from "@lib/axios";
-import { getAccessToken } from "@lib/auth";
 import { usePathname } from "next/navigation";
+import UserStore from "@Store/UserStore";
+import { CiLogout } from "react-icons/ci";
+import { MdMarkEmailRead } from "react-icons/md";
+import Link from "next/link";
+import axios from "axios";
+import { BaseAPI } from "@lib/axios";
+import toast from "react-hot-toast";
+
 
 export default function Header() {
+  const GetUser = UserStore((state) => state?.GetUser)
   const [scrolled, setScrolled] = useState(false);
-  const accessToken = getAccessToken();
+  const [hideTab, setHideTab] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -23,21 +29,25 @@ export default function Header() {
   }, []);
 
 
-  const { data, isLoading } = useQuery<{ Fullname?: string } | null>({
+  const { data, isLoading } = useQuery({
     queryKey: ["User"],
-    queryFn: async () => {
-      try{
-        const response = await BaseAPI.get("/users/single-user",);
-        return response?.data?.data ?? null;
-      }catch (error) {
-        console.log(error);
-        return null;
-      }      
-    }
+    queryFn: GetUser,
   });
 
-  // don't show header in login or register
-  if(pathname === "/Auth/login" || pathname === "/Auth/register" ){
+  const HandleSendOTP = async () => {
+    try {
+      const OTPResponse = await BaseAPI.post("/otp/send-otp");
+      if (OTPResponse.data && OTPResponse.status === 200) {
+        toast.success("کد تایید به ایمیل شما ارسال شد");
+        console.log(OTPResponse);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
+  if (pathname === "/Auth/login" || pathname === "/Auth/register" || pathname === "/Auth/VerifyEmail") {
     return null;
   }
 
@@ -55,13 +65,17 @@ export default function Header() {
       className={`${scrolled ? "fixed" : "relative"} top-0 left-0 w-full h-auto z-50 flex flex-row justify-around items-center gap-20 transition-all ${scrolled ? "rounded-xl border-white/20" : ""
         }`}
     >
-      <Image
-        width={150}
-        height={150}
-        src="/logo/logo.png"
-        alt="logo"
-        className="transition-all duration-300"
-      />
+      <Link
+        href="/"
+      >
+        <Image
+          width={150}
+          height={150}
+          src="/logo/logo.png"
+          alt="logo"
+          className="transition-all duration-300"
+        />
+      </Link>
       <div className="flex flex-row justify-center items-center gap-10 text-black">
         <h6 className="hover:scale-110 transition-all cursor-pointer active:scale-105">
           ساخت رزومه
@@ -80,10 +94,55 @@ export default function Header() {
         {isLoading ? (
           <span>در حال بارگذاری ...</span>
         ) : (
-          <motion.div whileTap={{ scale: 0.95 }} className="cursor-pointer">
-          {/* <GoPerson className="text-black text-2xl" /> */}
-          {data?.Fullname ?? 'حساب کاربری'}
-        </motion.div>
+          <div className="w-full flex flex-col justify-center items-center gap-5">
+            <motion.div
+              onMouseEnter={() => setHideTab(true)}
+              whileTap={{ scale: 0.95 }}
+              className="cursor-pointer bg-blue-600/20 p-2 rounded-xl"
+            >
+              {data?.Fullname ?? 'حساب کاربری'}
+            </motion.div>
+            {/* Tab */}
+            <AnimatePresence>
+              {hideTab && (
+                <motion.div
+                  initial={{ y: -10, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: -10, opacity: 0 }}
+
+                  transition={{
+                    duration: 3000,
+                    repeatType: "reverse",
+                    type: "spring",
+                    stiffness: 100,
+                    damping: 10
+                  }}
+                  onMouseLeave={() => setHideTab(false)}
+                  className="w-auto h-auto text-sm p-1 flex flex-col justify-center items-center gap-1 backdrop-blur-xl border bg-white/40 border-white/60 shadow-gray-600/25 rounded-xl absolute top-20">
+                  {!data?.isAccountVerified && (
+                    <Link
+                      href="/Auth/VerifyEmail"
+                      className="w-full"
+                    >
+                      <h3
+                        className="w-full flex flex-row-reverse justify-center items-center gap-2 p-2 rounded-lg cursor-pointer transition-all hover:bg-gray-300/30 active:scale-95"
+                        onClick={() => HandleSendOTP()}
+                      >
+                        <span>تایید ایمیل</span>
+                        <MdMarkEmailRead className="text-md font-semibold" />
+                      </h3>
+                    </Link>
+                  )}
+                  <h3
+                    className="w-full flex flex-row-reverse justify-center items-center gap-2 p-2 rounded-lg cursor-pointer transition-all hover:bg-red-400/30 active:scale-95"
+                  >
+                    <span>خروج </span>
+                    <CiLogout className="text-md font-semibold" />
+                  </h3>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         )}
         <motion.div whileTap={{ scale: 0.95 }} className="cursor-pointer">
           <CiSearch className="text-black text-2xl" />

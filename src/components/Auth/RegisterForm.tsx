@@ -1,5 +1,4 @@
 "use client"
-import { Dispatch, SetStateAction } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AuthValidation, AuthValidationType } from "@Schemas/AuthSchema";
 import { motion } from "framer-motion";
@@ -13,7 +12,7 @@ import { useRouter } from "next/navigation";
 export default function RegisterForm() {
     const router = useRouter();
 
-    const { register, handleSubmit, formState: { isSubmitting } } = useForm<AuthValidationType>({
+    const { register, handleSubmit } = useForm<AuthValidationType>({
         resolver: zodResolver(AuthValidation)
     });
 
@@ -41,7 +40,6 @@ export default function RegisterForm() {
 
     return (
         <div className="w-full h-dvh flex justify-center items-center bg-[url(/Images/green-landscape-3840x2160-20840.jpg)] bg-cover bg-no-repeat relative">
-            {/* دکمه بالا سمت راست */}
             <motion.div
                 initial={{
                     y: -20,

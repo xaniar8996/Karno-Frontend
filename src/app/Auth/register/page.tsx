@@ -1,12 +1,7 @@
 import RegisterForm from "@components/Auth/RegisterForm";
-import { Dispatch, SetStateAction } from "react";
 
-interface SwitchSideProps {
-    setSwitchSide: Dispatch<SetStateAction<boolean>>
-}
-
-export default function page({ setSwitchSide }: SwitchSideProps) {
+export default function page() {
     return (
-        <RegisterForm setSwitchSide={setSwitchSide}/>
+        <RegisterForm />
     )
 }

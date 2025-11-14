@@ -28,7 +28,7 @@ export default function RootLayout({
             removeDelay: 1000,
             style: {
               background: 'rgba(255, 255, 255, 0.15)',
-              color: '#fff',
+              color: '#000',
               backdropFilter: 'blur(10px)',
               WebkitBackdropFilter: 'blur(10px)',
               borderRadius: '50px',

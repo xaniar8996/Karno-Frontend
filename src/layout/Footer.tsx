@@ -5,11 +5,10 @@ import { usePathname } from "next/navigation";
 export default function Footer() {
     const pathname = usePathname();
 
-    // don't show footer in login or register
-    if (pathname === "/Auth/login" || pathname === "/Auth/register") {
-        return null;
-    }
-
+  // don't show header in login or register
+  if (pathname === "/Auth/login" || pathname === "/Auth/register" || pathname === "/Auth/VerifyEmail") {
+    return null;
+  }
     return (
         <footer className="w-full bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white py-12 px-8 md:px-20 mt-20 border-t border-gray-700">
             <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">

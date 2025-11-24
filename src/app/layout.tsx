@@ -5,6 +5,7 @@ import "../assets/style/Fontface.css";
 import Header from "@layout/Header";
 import Footer from "@layout/Footer";
 import QueryProvider from "./providers/QueryProvider";
+import AuthProvider from "./providers/AuthProvider";
 
 export default function RootLayout({
   children,
@@ -51,13 +52,15 @@ export default function RootLayout({
             }
           }}
         />
-        <QueryProvider>
-          {/* <AuthProvider> */}
+        <AuthProvider>
+          <QueryProvider>
+            {/* <AuthProvider> */}
             <Header />
             {children}
             <Footer />
-          {/* </AuthProvider> */}
-        </QueryProvider>
+            {/* </AuthProvider> */}
+          </QueryProvider>
+        </AuthProvider>
       </body>
     </html>
   );

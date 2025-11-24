@@ -4,3 +4,13 @@
 body {
     font-family: Vazirmatn;
 }
+
+.scrollbar::-webkit-scrollbar {
+    height: 4px;
+    background: transparent;
+}
+
+.scrollbar:hover::-webkit-scrollbar-thumb {
+    background: #b3b3b3;
+    transition: all;
+}

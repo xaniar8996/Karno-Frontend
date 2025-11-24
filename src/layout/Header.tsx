@@ -3,19 +3,24 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { CiSearch } from "react-icons/ci";
 import { motion, AnimatePresence } from "framer-motion";
-import { useQuery } from "@tanstack/react-query";
 import { usePathname } from "next/navigation";
-import UserStore from "@Store/UserStore";
 import { CiLogout } from "react-icons/ci";
 import { MdMarkEmailRead } from "react-icons/md";
 import Link from "next/link";
-import axios from "axios";
 import { BaseAPI } from "@lib/axios";
 import toast from "react-hot-toast";
+import { useQuery } from "@tanstack/react-query";
+import UserStore from "@Store/UserStore";
 
 
 export default function Header() {
-  const GetUser = UserStore((state) => state?.GetUser)
+  const GetUser = UserStore((state) => state?.GetUser);
+  
+  const { data, isLoading } = useQuery({
+    queryKey: ["User"],
+    queryFn: GetUser,
+  });
+
   const [scrolled, setScrolled] = useState(false);
   const [hideTab, setHideTab] = useState(false);
   const pathname = usePathname();
@@ -27,12 +32,6 @@ export default function Header() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-
-  const { data, isLoading } = useQuery({
-    queryKey: ["User"],
-    queryFn: GetUser,
-  });
 
   const HandleSendOTP = async () => {
     try {

@@ -11,7 +11,6 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 
-
 export default function LoginForm() {
     const [showPass, setShowPass] = useState(false);
     const router = useRouter();

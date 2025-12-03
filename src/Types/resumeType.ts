@@ -58,7 +58,8 @@ export interface Interests {
   Description:string
 }
 
-export interface ResumeState {
+
+export interface ResumeData {
   personal: PersonalInfos;
   skills: Skill[];
   experiences: Experience[];
@@ -66,9 +67,13 @@ export interface ResumeState {
   education: Education[];
   socialLink: SocialLink[];
   certificate: Certificate[];
-  languages:Languages[];
-  interests:Interests[];
+  languages: Languages[];
+  interests: Interests[];
+}
 
+export interface ResumeState extends ResumeData {
+  template: string;
+  setTemplate: (template: string) => void;
   setPersonalField: (field: keyof PersonalInfos, value: string) => void;
   addSkill: (skill: Skill) => void;
   removeSkill: (index: number) => void;
@@ -79,8 +84,9 @@ export interface ResumeState {
   removeSocialLink: (index: number) => void;
   addcertificate: (cer: Certificate) => void;
   removecertificate: (index: number) => void;
-  addLanguages:(lan:Languages) => void;
-  removeLanguages:(index:number) => void;
-  addinterests : (interest:Interests) => void;
-  removeInterests : (index:number) => void;
+  addLanguages: (lan: Languages) => void;
+  removeLanguages: (index: number) => void;
+  addinterests: (interest: Interests) => void;
+  removeInterests: (index: number) => void;
+  reset: () => void;
 }

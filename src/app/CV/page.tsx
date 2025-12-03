@@ -8,7 +8,7 @@ export default function page(){
     const [viewMode, setViewMode] = useState<"both" | "form" | "resume">("both");
     
     return(
-        <div className="w-full min-h-screen bg-gray-100 p-4">
+        <div className="w-full min-h-screen p-4">
             <div className="max-w-7xl mx-auto mb-6 flex justify-center gap-3">
                 <button
                     onClick={() => setViewMode("both")}

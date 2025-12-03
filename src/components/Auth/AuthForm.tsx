@@ -11,10 +11,10 @@ export default function AuthForm() {
     return (
         <div className="w-full flex flex-row justify-center items-center">
             {switchSide ? (
-                <LoginPage setSwitchSide={setSwitchSide} />
+                <LoginPage />
 
             ) : (
-                <Resgisterpage setSwitchSide={setSwitchSide}/>
+                <Resgisterpage />
             )}
         </div>
     )

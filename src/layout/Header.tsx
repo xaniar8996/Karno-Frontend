@@ -35,7 +35,7 @@ export default function Header() {
 
   const HandleSendOTP = async () => {
     try {
-      const OTPResponse = await BaseAPI.post("/otp/send-otp");
+      const OTPResponse = await BaseAPI.post("/api/Auth/otp/sendOtp");
       if (OTPResponse.data && OTPResponse.status === 200) {
         toast.success("کد تایید به ایمیل شما ارسال شد");
         console.log(OTPResponse);

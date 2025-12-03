@@ -26,7 +26,7 @@ export default function HeroSection() {
                 <div className='w-auto flex flex-col justify-center items-center gap-7'>
                     <h1 className='w-auto text-6xl text-white text-shadow-lg'>به کارنو خوش اومدی</h1>
                     <p className='w-auto text-3xl text-white text-shadow-lg'>اینجا میتونی رزومه رویاییت بسازی</p>
-                    <Link href="/CV" className='w-full'>
+                    <Link href="/CV/CVSlider" className='w-full'>
                         <motion.div
                             whileTap={{
                                 scale: 0.97

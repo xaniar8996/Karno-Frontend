@@ -41,7 +41,7 @@ export default function VerifyEmail() {
         }
 
         try {
-            const response = await BaseAPI.post("/otp/verify-account", { OTP: OTP.join("") });
+            const response = await BaseAPI.post("/api/Auth/otp/verifyEmail", { OTP: OTP.join("") });
             if (response.data && response.status === 200) {
                 toast.success("اکانت با موفقیت تایید شد");
                 console.log(response.data);

@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { persist, createJSONStorage } from "zustand/middleware";
 import {
   ResumeState,
   Skill,
@@ -28,11 +28,12 @@ if (typeof window !== "undefined" && rawToken) {
     "guest";
 }
 
-const resumeStoreStorageKey = `resume-store-userId=${userId}`;
+export const resumeStoreStorageKey = `resume-store-userId=${userId}`;
 
 const createInitialState = () => ({
   template: "",
   personal: {
+    Image:"",
     fullName: "",
     email: "",
     phone: "",
@@ -50,7 +51,7 @@ const createInitialState = () => ({
   interests: [] as Interests[],
 });
 
-export const useResumeStore = create(
+export const useResumeStore = create<ResumeState>()(
   persist<ResumeState>(
     (set) => ({
       ...createInitialState(),
@@ -91,6 +92,21 @@ export const useResumeStore = create(
       removeInterests: (index: number) =>
         set((state) => ({ interests: [...state.interests.filter((_, i) => i !== index)] })),
 
+      hydrate: (data: Partial<ResumeState>) =>
+        set((state) => ({
+          ...state,
+          template: data.template ?? state.template,
+          personal: data.personal ?? state.personal,
+          skills: data.skills ?? state.skills,
+          experiences: data.experiences ?? state.experiences,
+          projects: data.projects ?? state.projects,
+          education: data.education ?? state.education,
+          socialLink: data.socialLink ?? state.socialLink,
+          certificate: data.certificate ?? state.certificate,
+          languages: data.languages ?? state.languages,
+          interests: data.interests ?? state.interests,
+        })),
+
       reset: () => {
         set(() => createInitialState());
         if (typeof window !== "undefined") {
@@ -98,6 +114,15 @@ export const useResumeStore = create(
         }
       },
     }),
-    { name: resumeStoreStorageKey }
+    {
+      name: resumeStoreStorageKey,
+      storage: createJSONStorage(() => {
+        if (typeof window === "undefined") return localStorage;
+        // When editing (editId in URL), keep data ephemeral in sessionStorage
+        return window.location.search.includes("editId")
+          ? sessionStorage
+          : localStorage;
+      }),
+    }
   )
 );

@@ -1,49 +1,59 @@
 "use client"
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { FiEye } from "react-icons/fi";
 import { useForm } from "react-hook-form"
 import { FiEyeOff } from "react-icons/fi";
 import { PiSignInFill } from "react-icons/pi";
-import { BaseAPI } from "@lib/axios";
 import { setAccessToken } from "@lib/auth";
 import toast from "react-hot-toast";
-import axios from "axios";
+import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import { useApiMutation } from "@hooks/useAPIMutation";
+
+interface LoginData {
+    email: string;
+    password: string;
+}
 
 export default function LoginForm() {
     const [showPass, setShowPass] = useState(false);
+    const queryClient = useQueryClient();
     const router = useRouter();
 
-    const { register, handleSubmit, formState: { isSubmitting } } = useForm();
+    const { register, handleSubmit } = useForm<LoginData>();
 
-    const handleLogin = async (data: any) => {
-        try {
-
-            const HandleAddUser = await BaseAPI.post("/Login", data);
-            if (HandleAddUser.data) {
-                const token = HandleAddUser.data.accessToken;
-                if (token) {
-                    setAccessToken(token);
-                }
-                toast.success("ورود با موفقیت انجام شد");
+    const loginMutation = useApiMutation({
+        url: "/api/Auth/account/Login",
+        successMessage: "ورود با موفقیت انجام شد",
+        useNextAPI:true,
+        onSuccessCallback: (res: any) => {
+            const token = res?.data?.accessToken;
+            if (token) {
+                setAccessToken(token);
             }
-        } catch (error) {
+            router.replace("/Home");
+            queryClient.invalidateQueries({ queryKey: ["User"] })
+        },
+        onErrorCallback: (error) => {
             console.log("خطا در ورود , لطفا دوباره امتحان کنید");
-            if (axios.isAxiosError(error)) {
-                if (error.response?.status === 409) {
-                    toast.error("کاربر وجود ندارد !");
-                } else if (error.response?.status === 400) {
-                    toast.error("اطلاعات کامل نیست");
-                } else if (error.response?.status === 401) {
-                    toast.error("رمز عبور نادرست است !");
-                }
-                else if (error.response?.status === 500) {
-                    toast.error("خطای داخلی سرور");
-                }
+            if (error?.response?.status === 409) {
+                toast.error("کاربر وجود ندارد !");
+            } else if (error?.response?.status === 400) {
+                toast.error("اطلاعات کامل نیست");
+            } else if (error?.response?.status === 401) {
+                toast.error("رمز عبور نادرست است !");
+            } else if (error?.response?.status === 500) {
+                toast.error("خطای داخلی سرور");
+            } else {
+                toast.error("خطای ناشناخته");
             }
         }
-    }
+    });
+
+    const handleLogin = (data: LoginData) => {
+        loginMutation.mutate(data);
+    };
 
     return (
         <div className="w-full h-dvh flex justify-between items-center bg-[url(/Images/pple-carplay-ios-26-4000x2182-23298.jpg)] bg-cover bg-no-repeat px-10 ">
@@ -60,7 +70,7 @@ export default function LoginForm() {
                     duration: 0.5,
                     repeatType: "reverse"
                 }}
-                className="w-1/2 h-11/12 bg-white/40 backdrop-blur-3xl rounded-3xl flex flex-col justify-center items-center gap-10 px-20"
+                className="w-1/2 h-11/12 bg-white/40 backdrop-blur-md rounded-3xl flex flex-col justify-center items-center gap-10 px-20"
             >
                 <div className="w-auto h-auto flex flex-col justify-center items-start gap-5">
                     <h1 className="text-6xl font-bold">با <b className="text-green-400">کارنو</b></h1>
@@ -93,7 +103,7 @@ export default function LoginForm() {
                         className="w-full"
                     >
                         <button type="submit" className="w-full bg-black rounded-full text-white p-4 cursor-pointer transition-all hover:bg-gray-900">
-                            {isSubmitting ? "در حال ورود ..." : "ورود"}
+                            {loginMutation.isPending ? "در حال ورود ..." : "ورود"}
                         </button>
                     </motion.div>
                 </form>

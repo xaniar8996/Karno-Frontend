@@ -1,6 +1,9 @@
 "use client";
+import { useEffect } from "react";
+import UserStore from "@Store/UserStore";
 import { ResumeData } from "@Types/resumeType";
 import { useLevelHelper } from "@hooks/useCVLevel";
+import { useRequireVerifiedAccount } from "@hooks/useRequireVerifiedAccount";
 
 interface CVDataProps {
   CVData: ResumeData;
@@ -10,6 +13,7 @@ export default function NovaTemplate({ CVData }: CVDataProps) {
   const { personal, skills, experiences, projects, education, languages, certificate, interests, socialLink } = CVData;
   const { getLevelColor, getLevelLabel } = useLevelHelper();
 
+  useRequireVerifiedAccount();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 text-gray-800 font-[Vazirmatn]">
@@ -17,6 +21,9 @@ export default function NovaTemplate({ CVData }: CVDataProps) {
         {/* Header Section */}
         <header className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white rounded-2xl p-8 mb-8 shadow-xl">
           <div className="text-center">
+            {personal.Image && (
+              <img src={personal.Image ?? "/Images/pple-carplay-ios-26-4000x2182-23298.jpg"} alt="Profile" className="w-32 h-32 rounded-full mx-auto mb-4 object-cover" />
+            )}
             <h1 className="text-4xl md:text-5xl font-bold mb-3">
               {personal.fullName || "نام شما"}
             </h1>

@@ -5,12 +5,20 @@ import { usePathname } from "next/navigation";
 export default function Footer() {
     const pathname = usePathname();
 
-  // don't show header in login or register
-  if (pathname === "/Auth/login" || pathname === "/Auth/register" || pathname === "/Auth/VerifyEmail") {
-    return null;
-  }
+    // hidden routes
+    const hiddenRoutes = [
+        "/Auth/login",
+        "/Auth/register",
+        "/Auth/VerifyEmail",
+        "/Auth/error/UnverifiedEmail"
+    ]
+
+    if (hiddenRoutes.includes(pathname)) {
+        return null;
+    }
+    
     return (
-        <footer className="w-full bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white py-12 px-8 md:px-20 mt-20 border-t border-gray-700">
+        <footer className="w-full bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white py-12 px-8 md:px-20  border-t border-gray-700">
             <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
 
                 {/* بخش اول - برند */}
@@ -48,7 +56,7 @@ export default function Footer() {
 
             {/* خط جداکننده و کپی‌رایت */}
             <div className="mt-12 border-t border-gray-700 pt-6 text-center text-gray-400 text-sm">
-                © {new Date().getFullYear()} <span className="text-green-400 font-medium">Karno</span> — همه حقوق محفوظ است.
+                © {new Date().getFullYear()} <span className="text-green-400 font-medium">Karno</span>
             </div>
         </footer>
     );

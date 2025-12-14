@@ -3,12 +3,31 @@
 import React from "react";
 import { useResumeStore } from "@Store/resumeStore";
 
-const PersonalInput = () => {
+type PersonalInputProps = {
+  onPhotoChange: (file: File | null) => void;
+};
+
+const PersonalInput = ({ onPhotoChange }: PersonalInputProps) => {
   const { personal, setPersonalField } = useResumeStore();
+
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0] ?? null;
+    onPhotoChange(file);
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPersonalField("Image", reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setPersonalField("Image", "");
+    }
+  };
 
   const inputClass =
     "w-full px-4 py-3 rounded-xl bg-white/70 backdrop-blur-sm border border-gray-300 focus:border-black focus:bg-white transition-all outline-none";
-
+  
   return (
     <div className="w-full h-full overflow-y-auto px-2 space-y-4">
       
@@ -17,7 +36,17 @@ const PersonalInput = () => {
         اطلاعات شخصی
       </h2>
 
-      {/* نام کامل */}
+      {/* عکس */}
+      <div className="space-y-1">
+        <label className="text-sm text-gray-700">آپلود عکس</label>
+        <input
+          type="file"
+          accept="image/*"
+          className={inputClass}
+          onChange={handleImageChange}
+        />
+      </div>
+
       <div className="space-y-1">
         <label className="text-sm text-gray-700">نام و نام خانوادگی</label>
         <input

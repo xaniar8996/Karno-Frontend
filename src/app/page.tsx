@@ -5,11 +5,29 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getAccessToken, isAccessTokenValid } from "@lib/auth";
 import { useRefreshAccessToken } from "@/hooks/useRefreshAccesstoken";
+import { Router } from "next/router";
+import Loading from "./loadings/loading";
 
 export default function Home() {
   const router = useRouter();
+  const [load, setLoad] = useState(false);
   const [hasToken, setHasToken] = useState<boolean | null>(null);
   const { refresh, loading } = useRefreshAccessToken();
+
+  useEffect(() => {
+    const handleStart = () => setLoad(true);
+    const handleComplete = () => setLoad(false);
+
+    Router.events.on("routeChangeStart", handleStart);
+    Router.events.on("routeChangeComplete", handleComplete);
+    Router.events.on("routeChangeError", handleComplete);
+
+    return () => {
+      Router.events.off("routeChangeStart", handleStart);
+      Router.events.off("routeChangeComplete", handleComplete);
+      Router.events.off("routeChangeError", handleComplete);
+    };
+  }, [])
 
   useEffect(() => {
     const token = getAccessToken();
@@ -37,8 +55,9 @@ export default function Home() {
     return null;
   }
 
-  return (
-    <h1>Karno</h1>
-  );
+  if (load) {
+    return <Loading />
+  }
+
 }
 

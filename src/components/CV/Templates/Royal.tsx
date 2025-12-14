@@ -1,6 +1,7 @@
 "use client";
 import { useLevelHelper } from "@hooks/useCVLevel";
 import { ResumeData } from "@Types/resumeType";
+import { useRequireVerifiedAccount } from "@hooks/useRequireVerifiedAccount";
 
 interface CVDataProps {
     CVData: ResumeData;
@@ -9,6 +10,8 @@ interface CVDataProps {
 export default function RoyalTemplate({ CVData }: CVDataProps) {
     const { personal, skills, experiences, projects, education, languages, certificate, interests, socialLink } = CVData;
     const { getLevelColor, getLevelLabel } = useLevelHelper();
+
+    useRequireVerifiedAccount();
 
     return (
         <div className="min-h-screen bg-slate-900 text-gray-100 font-[Vazirmatn]">
@@ -19,9 +22,9 @@ export default function RoyalTemplate({ CVData }: CVDataProps) {
                     <aside className="lg:col-span-4 rounded-2xl bg-gradient-to-br from-slate-800 to-slate-900 p-8 lg:p-12">
                         {/* Profile Section */}
                         <div className="mb-12">
-                            <div className="w-40 h-40 mx-auto mb-6 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-full flex items-center justify-center text-6xl font-bold text-white shadow-2xl">
-                                {personal.fullName?.charAt(0) || "guest"}
-                            </div>
+                            {personal.Image && (
+                                <img src={personal.Image ?? "/Images/pple-carplay-ios-26-4000x2182-23298.jpg"} alt="Profile" className="w-32 h-32 rounded-full mx-auto mb-4 object-cover" />
+                            )}
                             <h1 className="text-3xl font-bold text-center mb-2 text-white">
                                 {personal.fullName || "نام شما"}
                             </h1>

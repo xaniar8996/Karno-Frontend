@@ -1,20 +1,25 @@
 "use client";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/effect-coverflow";
-import "swiper/css/pagination";
 import { templatesData } from "@data/TemplatesData";
 import Link from "next/link";
+import UserStore from "@Store/UserStore";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function TemplateSlider() {
+    const User = UserStore((state) => state?.Users);
+    const router = useRouter();
+
+    useEffect(() => {
+        if(!User?.isAccountVerified){
+            router.replace("/Auth/error/UnverifiedEmail")
+        }
+    },[router]);
 
     return (
         <div className="w-full h-[35rem] flex justify-center items-center">
             <div className="w-full h-auto flex flex-col justify-center items-center gap-16">
                 <h1 className="text-3xl">قالبت رو همین الان انتخاب کن</h1>
-
                 <div className="w-full h-auto flex flex-row justify-center items-center gap-6">
-
                     {templatesData.map((tpl) => (
                         <Link href={`/CV?tpl=${tpl.id}`} key={tpl.id}>
                             <div
@@ -43,7 +48,6 @@ export default function TemplateSlider() {
                             </div>
                         </Link>
                     ))}
-
                 </div>
 
             </div>

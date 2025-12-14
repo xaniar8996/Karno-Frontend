@@ -12,11 +12,20 @@ function setCookie(name: string, value: string, maxAgeSeconds: number): void {
 
 function deleteCookie(name: string): void {
     if (typeof document === "undefined") return;
-    document.cookie = `${name}=; Path=/; Max-Age=0; SameSite=Lax`;
+    const isSecure = window.location.protocol === "https:";
+    // Deletion must mirror the attributes used on setCookie
+    document.cookie = `${name}=; Path=/; Max-Age=0; SameSite=Lax; ${isSecure ? "Secure" : ""}`.trim();
 }
 
 export function getAccessToken(): string | null {
     return getCookie("accessToken");
+}
+
+// Server-side version for Next.js API routes
+export function getAccessTokenFromRequest(req: { cookies: { get: (name: string) => { value: string } | undefined }, headers: { get: (name: string) => string | null } }): string | null {
+    const accessToken = req.cookies.get("accessToken")?.value ||
+        req.headers.get("authorization")?.replace("Bearer ", "");
+    return accessToken || null;
 }
 
 export function setAccessToken(token: string): void {
@@ -26,6 +35,15 @@ export function setAccessToken(token: string): void {
 
 export function clearAccessToken(): void {
     deleteCookie("accessToken");
+}
+
+export function clearRefreshToken(): void {
+    deleteCookie("jwt");
+}
+
+export function clearAllTokens(): void {
+    clearAccessToken();
+    clearRefreshToken();
 }
 
 // Decode base64url without relying on atob quirks

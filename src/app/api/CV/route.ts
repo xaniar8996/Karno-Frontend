@@ -1,31 +1,34 @@
-import { BaseAPI } from "@lib/axios";
 import { NextRequest, NextResponse } from "next/server";
-import { getAccessToken } from "@lib/auth";
+import { getAccessTokenFromRequest } from "@lib/auth";
 
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3500";
+
+// Proxy create CV to backend, preserving multipart/form-data
 export async function POST(req: NextRequest) {
+  const accessToken = getAccessTokenFromRequest(req);
 
-    try {
-        const accessToken = req.cookies.get("accessToken")?.value
-        req.headers.get("authorization")?.replace("Bearer ", "");
+  try {
+    const incomingForm = await req.formData();
+    const form = new FormData();
+    incomingForm.forEach((value, key) => {
+      form.append(key, value as any);
+    });
 
-        if (!accessToken) {
-            return NextResponse.json(
-                { error: "No authentication token found" },
-                { status: 401 }
-            )
-        }
+    const backendRes = await fetch(`${API_BASE}/cv/create`, {
+      method: "POST",
+      headers: {
+        ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+      },
+      body: form,
+    });
 
-        const body = await req.json();
-
-        const response = await BaseAPI.post("/cv/create", body, {
-            headers: { Authorization: `Bearer ${accessToken}` }
-        });
-        if (response?.data && response?.status === 200) {
-            return NextResponse.json(response.data)
-        }
-
-        return NextResponse.json(response.data)
-    } catch (error) {
-        console.log(error);
-    }
+    const data = await backendRes.json().catch(() => ({}));
+    return NextResponse.json(data, { status: backendRes.status });
+  } catch (error: any) {
+    console.error("proxy create CV error", error?.message || error);
+    return NextResponse.json(
+      { success: false, message: "failed to create CV" },
+      { status: 500 }
+    );
+  }
 }

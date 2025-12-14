@@ -1,6 +1,7 @@
 // src/types/resume.ts
 
 export interface PersonalInfos {
+  Image:string;
   fullName: string;
   email: string;
   phone: string;
@@ -88,5 +89,6 @@ export interface ResumeState extends ResumeData {
   removeLanguages: (index: number) => void;
   addinterests: (interest: Interests) => void;
   removeInterests: (index: number) => void;
+  hydrate: (data: Partial<ResumeState>) => void;
   reset: () => void;
 }

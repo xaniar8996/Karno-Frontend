@@ -3,6 +3,8 @@ export interface UsersTypes {
     Fullname: string;
     email: string;
     password: string;
+    id?: string;
+    _id?: string;
     roles:{
         User:number,
         Moderator: number,

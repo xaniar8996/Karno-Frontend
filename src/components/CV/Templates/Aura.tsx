@@ -1,12 +1,14 @@
 "use client";
 import { ResumeData } from "@Types/resumeType";
 import { useLevelHelper } from "@hooks/useCVLevel";
+import { useRequireVerifiedAccount } from "@hooks/useRequireVerifiedAccount";
 
 interface CVDataProps {
   CVData: ResumeData;
 }
 
 export default function YellowGradientTemplate({ CVData }: CVDataProps) {
+  const { getLevelColor, getLevelLabel } = useLevelHelper();
   const {
     personal,
     skills,
@@ -19,7 +21,7 @@ export default function YellowGradientTemplate({ CVData }: CVDataProps) {
     socialLink,
   } = CVData;
 
-  const { getLevelColor, getLevelLabel } = useLevelHelper();
+  useRequireVerifiedAccount();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-gray-100 text-gray-800 font-[Vazirmatn]">
@@ -29,10 +31,10 @@ export default function YellowGradientTemplate({ CVData }: CVDataProps) {
         <aside className="bg-gray-900 text-white rounded-3xl p-8 shadow-2xl flex flex-col items-center">
 
           {/* Profile Image Circle */}
-          {/* <div className="w-36 h-36 rounded-full border-4 border-yellow-400 overflow-hidden shadow-lg mb-6">
-            {personal.profileImage ? (
+          <div className="w-36 h-36 rounded-full border-4 border-yellow-400 overflow-hidden shadow-lg mb-6">
+            {personal.Image ? (
               <img
-                src={personal.profileImage}
+                src={personal.Image}
                 className="w-full h-full object-cover"
               />
             ) : (
@@ -40,7 +42,7 @@ export default function YellowGradientTemplate({ CVData }: CVDataProps) {
                 🙂
               </div>
             )}
-          </div> */}
+          </div>
 
           {/* Name */}
           <h1 className="text-3xl font-bold text-center mb-1">
@@ -89,12 +91,12 @@ export default function YellowGradientTemplate({ CVData }: CVDataProps) {
                     <div className="w-full bg-gray-700 h-2 rounded-full mt-1">
                       <div
                         className={`h-2 rounded-full ${sk.level === "expert"
-                            ? "bg-green-400 w-full"
-                            : sk.level === "advanced"
-                              ? "bg-blue-400 w-3/4"
-                              : sk.level === "intermediate"
-                                ? "bg-yellow-300 w-1/2"
-                                : "bg-red-400 w-1/4"
+                          ? "bg-green-400 w-full"
+                          : sk.level === "advanced"
+                            ? "bg-blue-400 w-3/4"
+                            : sk.level === "intermediate"
+                              ? "bg-yellow-300 w-1/2"
+                              : "bg-red-400 w-1/4"
                           }`}
                       />
                     </div>
@@ -226,39 +228,39 @@ export default function YellowGradientTemplate({ CVData }: CVDataProps) {
             </section>
           )}
 
-{certificate.length > 0 && (
-  <section className="bg-white rounded-3xl p-8 shadow-xl border border-yellow-100">
-    <h2 className="text-2xl font-bold mb-6 flex items-center gap-2 text-yellow-600">
-      🏆 گواهینامه‌ها
-    </h2>
+          {certificate.length > 0 && (
+            <section className="bg-white rounded-3xl p-8 shadow-xl border border-yellow-100">
+              <h2 className="text-2xl font-bold mb-6 flex items-center gap-2 text-yellow-600">
+                🏆 گواهینامه‌ها
+              </h2>
 
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      {certificate.map((cert, i) => (
-        <div
-          key={i}
-          className="
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {certificate.map((cert, i) => (
+                  <div
+                    key={i}
+                    className="
             border border-yellow-200 
             rounded-xl p-4 
             hover:shadow-lg transition
           "
-        >
-          <h3 className="font-semibold text-sm">{cert.CourseName}</h3>
-          <p className="text-xs text-gray-500 mt-1">{cert.Date}</p>
+                  >
+                    <h3 className="font-semibold text-sm">{cert.CourseName}</h3>
+                    <p className="text-xs text-gray-500 mt-1">{cert.Date}</p>
 
-          {cert.Image && (
-            <a
-              href={cert.Image}
-              target="_blank"
-              className="inline-block mt-2 text-xs text-yellow-700 hover:underline"
-            >
-              مشاهده گواهینامه
-            </a>
+                    {cert.Image && (
+                      <a
+                        href={cert.Image}
+                        target="_blank"
+                        className="inline-block mt-2 text-xs text-yellow-700 hover:underline"
+                      >
+                        مشاهده گواهینامه
+                      </a>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </section>
           )}
-        </div>
-      ))}
-    </div>
-  </section>
-)}
 
 
           {/* Projects */}

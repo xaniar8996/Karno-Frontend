@@ -1,5 +1,5 @@
 "use client"
-import { BaseAPI } from "@lib/axios";
+import {  NextAPI } from "@lib/axios";
 import UserStore from "@Store/UserStore";
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
@@ -41,7 +41,7 @@ export default function VerifyEmail() {
         }
 
         try {
-            const response = await BaseAPI.post("/api/Auth/otp/verifyEmail", { OTP: OTP.join("") });
+            const response = await NextAPI.post("/api/Auth/otp/verifyEmail", { OTP: OTP.join("") });
             if (response.data && response.status === 200) {
                 toast.success("اکانت با موفقیت تایید شد");
                 console.log(response.data);

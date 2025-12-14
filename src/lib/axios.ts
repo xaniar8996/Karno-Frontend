@@ -12,6 +12,10 @@ export const RefreshAPI = axios.create({
     withCredentials: true,
 });
 
+export const NextAPI = axios.create({
+    withCredentials: true,
+});
+
 // Attach Authorization header if access token exists
 BaseAPI.interceptors.request.use((config) => {
     const token = getAccessToken();
@@ -37,7 +41,7 @@ BaseAPI.interceptors.response.use(
         if (error.response?.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
             try {
-                // Use RefreshAPI to avoid interceptor recursion
+                // Use  to avoid interceptor recursion
                 const refreshResponse = await RefreshAPI.get("/Refresh");
                 const newAccessToken = refreshResponse.data?.accessToken;
                 if (newAccessToken) {

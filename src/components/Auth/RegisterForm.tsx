@@ -5,38 +5,56 @@ import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { BaseAPI } from "@lib/axios";
 import toast from "react-hot-toast";
-import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { setAccessToken } from "@lib/auth";
+import { useQueryClient } from "@tanstack/react-query";
+import { useApiMutation } from "@hooks/useAPIMutation";
+
+interface RegisterData {
+    Fullname: string,
+    email: string;
+    password: string;
+    confirmPassword: string
+}
 
 export default function RegisterForm() {
     const router = useRouter();
+    const queryClient = useQueryClient();
 
     const { register, handleSubmit } = useForm<AuthValidationType>({
         resolver: zodResolver(AuthValidation)
     });
 
-    const Submit = async (data: AuthValidationType) => {
-        try {
-            const {confirmPassword , ...userdata} = data;
-
-            const HandleAddUser = await BaseAPI.post("/Register", userdata);
-            if (HandleAddUser.data && HandleAddUser.status === 200) {
-                toast.success("ثبت نام با موفقیت انجام شد");
-                router.replace("/Auth/login");
+    const RegisterMutation = useApiMutation({
+        url: "/api/Auth/account/Register",
+        successMessage: "ثبت نام با موفقیت انجام شد",
+        useNextAPI: true,
+        onSuccessCallback: (res: any) => {
+            const token = res?.data?.accessToken;
+            if (token) {
+                setAccessToken(token);
             }
-        } catch (error) {
-            if(axios.isAxiosError(error)){
-                if(error.status === 409){
-                    toast.error("این کاربر قبلا ثبت شده");
-                }else if(error.status === 400){
-                    toast.error("اطلاعات کامل نیست");
-                }else if(error.status === 500){
-                    toast.error("خطای داخلی سرور");
-                }
+            router.replace("/Auth/Login");
+            queryClient.invalidateQueries({ queryKey: ["User"] })
+        },
+        onErrorCallback: (error) => {
+            console.log("خطا در ورود , لطفا دوباره امتحان کنید");
+            if (error.status === 409) {
+                toast.error("این کاربر قبلا ثبت شده");
+            } else if (error.status === 400) {
+                toast.error("اطلاعات کامل نیست");
+            } else {
+                toast.error("خطای داخلی سرور");
             }
         }
-    }
+    });
+
+    const handleRegister = (data: RegisterData) => {
+        const { confirmPassword, ...userdata } = data;
+
+        RegisterMutation.mutate(userdata);
+    };
 
     return (
         <div className="w-full h-dvh flex justify-center items-center bg-[url(/Images/green-landscape-3840x2160-20840.jpg)] bg-cover bg-no-repeat relative">
@@ -77,9 +95,9 @@ export default function RegisterForm() {
                     duration: 0.5,
                     repeatType: "reverse"
                 }}
-                className="w-1/2 h-11/12 bg-white/40 py-20 backdrop-blur-3xl rounded-3xl flex flex-col justify-center items-center gap-10 px-20"
+                className="w-1/2 h-11/12 bg-white/40 py-20 backdrop-blur-sm rounded-3xl flex flex-col justify-center items-center gap-10 px-20"
             >
-                <form onSubmit={handleSubmit(Submit)} className="w-full h-full flex flex-col justify-start items-center gap-14">
+                <form onSubmit={handleSubmit(handleRegister)} className="w-full h-full flex flex-col justify-start items-center gap-14">
                     <Image width={100} height={100} src="/logo/logo.png" alt="logo" className="w-1/3 h-auto" />
                     <div className="w-full h-auto grid grid-cols-2 justify-center items-start gap-5">
                         <div className="w-full flex flex-col gap-5">

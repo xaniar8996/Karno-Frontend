@@ -32,7 +32,7 @@ const SkillsInput = () => {
           <input
             type="text"
             className={inputClass}
-            placeholder="مثال: React"
+            placeholder="مهارت شما ..."
             value={skillName}
             onChange={(e) => setSkillName(e.target.value)}
           />

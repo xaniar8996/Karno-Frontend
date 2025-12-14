@@ -31,7 +31,7 @@ const ExperienceInput = () => {
 
   return (
     <div className="w-full h-full overflow-y-auto px-2 space-y-4">
-      <h2 className="text-lg font-semibold text-gray-800 mb-2">تحصیلات</h2>
+      <h2 className="text-lg font-semibold text-gray-800 mb-2">سوابق شغلی</h2>
 
       <form onSubmit={handleAddExperience} className="space-y-3">
         <div className="space-y-1">

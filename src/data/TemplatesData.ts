@@ -14,5 +14,10 @@ export const templatesData = [
       name: "قالب آورا",
       image: "/Images/templates/Aura.jpg",
     },
+    {
+      id: "Quantum",
+      name: "قالب کوانتوم",
+      image: "/Images/templates/Quantum-bg.jpg",
+    },
   ];
   

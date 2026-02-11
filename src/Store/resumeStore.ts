@@ -13,7 +13,7 @@ import {
   Interests
 } from "../Types/resumeType";
 import { getAccessToken } from "@lib/auth";
-import decodeJWTPayload from "@hooks/usedecodeJWT";
+import decodeJWTPayload from "@utils/usedecodeJWT";
 
 const rawToken = getAccessToken();
 

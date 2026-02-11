@@ -10,16 +10,16 @@ type Options = {
 
 export function useRequireVerifiedAccount(options: Options = {}) {
   const router = useRouter();
-  const user = UserStore((state) => state?.Users);
+  const User = UserStore((state) => state?.Users);
   const redirectTo = options.redirectTo ?? "/Auth/error/UnverifiedEmail";
 
   useEffect(() => {
-    if (!user) return;
+    if (!User) return;
 
-    if (!user?.isAccountVerified) {
-      router.replace(redirectTo);
-    }
-  }, [user, redirectTo, router]);
+    if(User && User.isAccountVerified === false){
+      router.replace("/Auth/error/UnverifiedEmail");
+  }
+  }, [User, redirectTo, router]);
 }
 
 

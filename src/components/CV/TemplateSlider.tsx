@@ -10,10 +10,11 @@ export default function TemplateSlider() {
     const router = useRouter();
 
     useEffect(() => {
-        if(!User?.isAccountVerified){
-            router.replace("/Auth/error/UnverifiedEmail")
+        if(User && User.isAccountVerified === false){
+            router.replace("/Auth/error/UnverifiedEmail");
         }
-    },[router]);
+    }, [User]);
+
 
     return (
         <div className="w-full h-[35rem] flex justify-center items-center">

@@ -1,16 +1,17 @@
 import axios from "axios";
 import { getAccessToken, setAccessToken, clearAccessToken } from "@lib/auth";
 
-export const BaseAPI = axios.create({
-    baseURL:"http://localhost:3500",
-    withCredentials: true
-})
+const isMobile =
+  typeof window !== "undefined" &&
+  !window.location.hostname.includes("localhost");
 
-// A dedicated client for refresh endpoint without auth/refresh interceptors
-export const RefreshAPI = axios.create({
-    baseURL: "http://localhost:3500",
-    withCredentials: true,
+export const BaseAPI = axios.create({
+  baseURL: isMobile
+    ? "http://192.168.1.102:3500" // موبایل
+    : "http://localhost:3500",  // دسکتاپ
+  withCredentials: true,
 });
+
 
 export const NextAPI = axios.create({
     withCredentials: true,
@@ -42,7 +43,7 @@ BaseAPI.interceptors.response.use(
             originalRequest._retry = true;
             try {
                 // Use  to avoid interceptor recursion
-                const refreshResponse = await RefreshAPI.get("/Refresh");
+                const refreshResponse = await BaseAPI.get("/Refresh");
                 const newAccessToken = refreshResponse.data?.accessToken;
                 if (newAccessToken) {
                     setAccessToken(newAccessToken);

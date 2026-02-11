@@ -4,13 +4,13 @@ import { NextAPI } from "@lib/axios";
 import { UsersTypes } from "@Types/UserStore";
 import Link from "next/link";
 import { useMemo } from "react";
-import toast from "react-hot-toast";
 
 interface UserDataTypes {
-    userData: UsersTypes | null
+    userData: UsersTypes | null,
+    userVerify: string | null
 }
 
-export default function UserCVs({ userData }: UserDataTypes) {
+export default function UserCVs({ userData, userVerify }: UserDataTypes) {
 
     const { data: userCV, isLoading: cvLoading } = useAPIQuery({
         key: ["UserCV"],
@@ -67,8 +67,17 @@ export default function UserCVs({ userData }: UserDataTypes) {
                         </div>
                     </div>
                 ))
+            ) : userVerify ? (
+                <span className="w-full h-auto flex justify-center text-red-400">{userVerify}</span>
             ) : (
-                <div className="w-full h-auto flex justify-center text-red-400">رزومه‌ای یافت نشد.</div>
+                <div className="w-full h-auto flex flex-col justify-center items-center gap-5">
+                    <span className="w-full h-auto flex justify-center text-red-300">
+                        در حال حاضر رزومه ای ندارید , برای ساخت اینجا کلیک کنید 👇
+                    </span>
+                    <Link href="/CV/CVSlider" className="w-full h-auto flex  justify-center">
+                        <button className="w-full h-auto mx-auto p-3 rounded-xl bg-white/80 text-black/80 cursor-pointer hover:w-1/2 hover:shadow-xs shadow-gray-50 transition-all duration-300 active:scale-95">ساخت رزومه</button>
+                    </Link>
+                </div>
             )}
         </div>
     )

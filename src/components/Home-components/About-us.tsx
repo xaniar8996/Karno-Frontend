@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 export default function AboutUs() {
   return (
@@ -60,14 +61,16 @@ export default function AboutUs() {
               ساده، سریع و حرفه‌ای — چون آینده‌ی شغلی‌ات ارزشش را دارد.
             </p>
 
-            <motion.button
-              type="button"
-              className="w-1/3 bg-green-300 p-4 rounded-2xl text-gray-800 font-semibold hover:shadow-lg hover:shadow-gray-300 transition-all cursor-pointer active:scale-95"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              رزومه‌ات رو بساز
-            </motion.button>
+            <Link href="/CV/CVSlider" className="w-full">
+              <motion.button
+                type="button"
+                className="w-1/3 bg-green-300 p-4 rounded-2xl text-gray-800 font-semibold hover:shadow-lg hover:shadow-gray-300 transition-all cursor-pointer active:scale-95"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                رزومه‌ات رو بساز
+              </motion.button>
+            </Link>
           </div>
         </motion.div>
       </motion.div>

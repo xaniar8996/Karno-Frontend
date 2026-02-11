@@ -24,6 +24,7 @@ export default function LoginForm() {
     const { register, handleSubmit } = useForm<LoginData>();
 
     const loginMutation = useApiMutation({
+      method:"post",
         url: "/api/Auth/account/Login",
         successMessage: "ورود با موفقیت انجام شد",
         useNextAPI:true,
@@ -36,17 +37,16 @@ export default function LoginForm() {
             queryClient.invalidateQueries({ queryKey: ["User"] })
         },
         onErrorCallback: (error) => {
-            console.log("خطا در ورود , لطفا دوباره امتحان کنید");
             if (error?.response?.status === 409) {
-                toast.error("کاربر وجود ندارد !");
+                toast.error("کاربر وجود ندارد !" , { style: { color: '#fff' } });
             } else if (error?.response?.status === 400) {
-                toast.error("اطلاعات کامل نیست");
+                toast.error("اطلاعات کامل نیست" , { style: { color: '#fff' } });
             } else if (error?.response?.status === 401) {
-                toast.error("رمز عبور نادرست است !");
+                toast.error("رمز عبور نادرست است !" , { style: { color: '#fff' } });
             } else if (error?.response?.status === 500) {
-                toast.error("خطای داخلی سرور");
+                toast.error("خطای داخلی سرور" , { style: { color: '#fff' } });
             } else {
-                toast.error("خطای ناشناخته");
+                toast.error("خطای ناشناخته" , { style: { color: '#fff' } });
             }
         }
     });
@@ -56,78 +56,70 @@ export default function LoginForm() {
     };
 
     return (
-        <div className="w-full h-dvh flex justify-between items-center bg-[url(/Images/pple-carplay-ios-26-4000x2182-23298.jpg)] bg-cover bg-no-repeat px-10 ">
-            <motion.div
-                initial={{
-                    x: 20,
-                    opacity: 0
-                }}
-                animate={{
-                    x: 0,
-                    opacity: 1
-                }}
-                transition={{
-                    duration: 0.5,
-                    repeatType: "reverse"
-                }}
-                className="w-1/2 h-11/12 bg-white/40 backdrop-blur-md rounded-3xl flex flex-col justify-center items-center gap-10 px-20"
+        <div className="w-full h-dvh flex items-center justify-center bg-gradient-to-br from-black via-gray-900 to-black p-2 sm:p-0">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="w-[380px] bg-white/10 backdrop-blur-xl rounded-2xl p-8 border border-white/10 shadow-xl"
+        >
+          {/* Header */}
+          <div className="mb-8 text-center">
+            <h1 className="text-3xl font-bold text-white">
+              ورود به <span className="text-green-400">کارنو</span>
+            </h1>
+            <p className="text-sm text-gray-400 mt-2">
+              خوش اومدی، ادامه بده 👋
+            </p>
+          </div>
+  
+          {/* Form */}
+          <form
+            onSubmit={handleSubmit(handleLogin)}
+            className="flex flex-col gap-4"
+          >
+            <input
+              {...register("email")}
+              placeholder="ایمیل"
+              className="w-full rounded-xl bg-white/10 border border-white/10 p-3 text-sm text-white placeholder:text-gray-400 outline-none focus:ring-2 focus:ring-green-400 transition"
+            />
+  
+            <div className="relative">
+              <input
+                {...register("password")}
+                type={showPass ? "text" : "password"}
+                placeholder="رمز عبور"
+                className="w-full rounded-xl bg-white/10 border border-white/10 p-3 text-sm text-white placeholder:text-gray-400 outline-none focus:ring-2 focus:ring-green-400 transition"
+              />
+              <span
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer"
+                onClick={() => setShowPass(!showPass)}
+              >
+                {showPass ? <FiEyeOff /> : <FiEye />}
+              </span>
+            </div>
+  
+            <motion.button
+              whileTap={{ scale: 0.97 }}
+              disabled={loginMutation.isPending}
+              type="submit"
+              className={`mt-4 w-full rounded-xl cursor-pointer text-black font-semibold py-3 ${loginMutation.isPending ? "hover:bg-none" : "hover:bg-green-500"} transition-all ${loginMutation.isPending ? "bg-gray-400" : "bg-green-400"}`}
             >
-                <div className="w-auto h-auto flex flex-col justify-center items-start gap-5">
-                    <h1 className="text-6xl font-bold">با <b className="text-green-400">کارنو</b></h1>
-                    <h2 className="text-2xl">رزومه رویاییت رو بساز</h2>
-                    <p className="text-lg text-gray-800">
-                        هر رزومه‌ای فقط یک برگه نیست… دروازه‌ای به آینده‌ی شغلی توست.
-                        اینجا جاییه که حرفه‌ای دیده می‌شی.
-                        رزومه بساز، فرصت‌ها رو شکار کن
-                    </p>
-                </div>
-                <form onSubmit={handleSubmit(handleLogin)} className="w-full flex flex-col justify-center items-start gap-5">
-                    <h6 className="text-lg">ایمیل</h6>
-                    <input {...register("email")} type="text" placeholder="email" className="w-full h-auto rounded-full p-4 bg-none border border-gray-800 outline-none text-black focus:-translate-y-2 focus:shadow-lg focus:shadow-gray-600 transition-all" />
-                    <h6>رمز عبور</h6>
-                    <div className="w-full flex flex-row justify-center items-center gap-3">
-                        <input {...register("password")} type={showPass ? "text" : "password"} className="w-full h-auto rounded-full p-4 bg-none border border-gray-800 outline-none text-black focus:-translate-y-2 focus:shadow-lg focus:shadow-gray-600 transition-all" />
-                        {!showPass ? (
-                            <FiEye className="text-2xl cursor-pointer transition-all" onClick={() => setShowPass(true)} />
-
-                        ) : (
-                            <FiEyeOff className="text-2xl cursor-pointer transition-all" onClick={() => setShowPass(false)} />
-
-                        )}
-                    </div>
-
-                    <motion.div
-                        whileTap={{
-                            scale: 0.95
-                        }}
-                        className="w-full"
-                    >
-                        <button type="submit" className="w-full bg-black rounded-full text-white p-4 cursor-pointer transition-all hover:bg-gray-900">
-                            {loginMutation.isPending ? "در حال ورود ..." : "ورود"}
-                        </button>
-                    </motion.div>
-                </form>
-            </motion.div>
-            <motion.div
-                initial={{
-                    y: -20,
-                    opacity: 0
-                }}
-                animate={{
-                    y: 0,
-                    opacity: 1
-                }}
-                transition={{
-                    duration: 0.5,
-                    repeatType: "reverse"
-                }}
-                className="w-auto h-full"
+              {loginMutation.isPending ? "در حال ورود..." : "ورود"}
+            </motion.button>
+          </form>
+  
+          {/* Footer */}
+          <div className="mt-6 text-center">
+            <button
+              onClick={() => router.push("/Auth/register")}
+              className="text-sm text-gray-400 cursor-pointer hover:text-white transition inline-flex items-center gap-1"
             >
-                <button onClick={() => router.push("/Auth/register")} className="text-white bg-black p-3 px-8 cursor-pointer rounded-full flex flex-row justify-center items-center gap-2 mt-10 hover:bg-gray-900 transition-all">
-                    <span>ثبت نام</span>
-                    <PiSignInFill className="text-2xl" />
-                </button>
-            </motion.div>
-        </div>
+              ثبت‌نام
+              <PiSignInFill />
+            </button>
+          </div>
+        </motion.div>
+      </div>
     )
 }

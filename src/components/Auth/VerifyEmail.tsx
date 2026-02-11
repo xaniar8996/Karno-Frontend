@@ -1,5 +1,5 @@
 "use client"
-import {  NextAPI } from "@lib/axios";
+import { NextAPI } from "@lib/axios";
 import UserStore from "@Store/UserStore";
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
@@ -7,12 +7,14 @@ import toast from "react-hot-toast";
 import { RiMailSendFill } from "react-icons/ri";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function VerifyEmail() {
     const User = UserStore((state) => state?.Users);
     const [OTP, setOtp] = useState<string[]>(Array(6).fill(""));
     const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
     const router = useRouter();
+    const queryClient = useQueryClient();
 
     useEffect(() => {
         inputRefs.current[0]?.focus();
@@ -45,20 +47,21 @@ export default function VerifyEmail() {
             if (response.data && response.status === 200) {
                 toast.success("اکانت با موفقیت تایید شد");
                 console.log(response.data);
-                router.replace("/")
+                router.replace("/");
+                queryClient.invalidateQueries({ queryKey: ["User"] })
             }
         } catch (error) {
-            if(axios.isAxiosError(error)){
-                if(error.response?.status === 400){
+            if (axios.isAxiosError(error)) {
+                if (error.response?.status === 400) {
                     toast.error("اطلاعات کامل نیست")
-                }else if(error.response?.status === 404){
+                } else if (error.response?.status === 404) {
                     toast.error("کاربر پیدا نشد")
-                }else if(error.response?.status === 410){
-                    toast.error("کد منقضی شده ")
-                }else if(error.response?.status === 401){
+                } else if (error.response?.status === 410) {
+                    toast.error("کد منقضی شده")
+                } else if (error.response?.status === 401) {
                     toast.error("کد نادرست است ")
-                }else{
-                    toast.error("خطای داخلی سرور ")
+                } else {
+                    toast.error("خطای داخلی سرور")
                 }
             }
         }

@@ -1,12 +1,24 @@
 "use client"
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import MainForm from "@components/CV/MainForm";
 import { ResumeTemplate } from "@components/CV/Template";
 import { FaEye, FaEyeSlash, FaFile } from "react-icons/fa6";
+import { useSearchParams } from "next/navigation";
+import { useResumeStore } from "@Store/resumeStore";
 
 export default function page() {
     const [viewMode, setViewMode] = useState<"both" | "form" | "resume">("both");
     const templateRef = useRef<HTMLDivElement | null>(null);
+    const searchParams = useSearchParams();
+    const { template, setTemplate } = useResumeStore();
+    
+    // Ensure template is set from URL even when ResumeTemplate is not mounted
+    useEffect(() => {
+        const tplFromQuery = searchParams.get("tpl");
+        if (tplFromQuery && tplFromQuery !== template) {
+            setTemplate(tplFromQuery);
+        }
+    }, [searchParams, template, setTemplate]);
 
 
     return (

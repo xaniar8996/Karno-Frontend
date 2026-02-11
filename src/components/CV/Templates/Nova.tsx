@@ -1,6 +1,4 @@
 "use client";
-import { useEffect } from "react";
-import UserStore from "@Store/UserStore";
 import { ResumeData } from "@Types/resumeType";
 import { useLevelHelper } from "@hooks/useCVLevel";
 import { useRequireVerifiedAccount } from "@hooks/useRequireVerifiedAccount";
@@ -16,10 +14,10 @@ export default function NovaTemplate({ CVData }: CVDataProps) {
   useRequireVerifiedAccount();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 text-gray-800 font-[Vazirmatn]">
-      <div className="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen print:min-h-0 bg-gradient-to-br from-gray-50 to-gray-100 text-gray-800 font-[Vazirmatn]">
+      <div className="max-w-4xl mx-auto py-12 print:py-4 px-4 sm:px-6 lg:px-8 print:px-2">
         {/* Header Section */}
-        <header className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white rounded-2xl p-8 mb-8 shadow-xl">
+        <header className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white rounded-2xl p-8 print:p-4 mb-8 print:mb-4 shadow-xl resume-section">
           <div className="text-center">
             {personal.Image && (
               <img src={personal.Image ?? "/Images/pple-carplay-ios-26-4000x2182-23298.jpg"} alt="Profile" className="w-32 h-32 rounded-full mx-auto mb-4 object-cover" />
@@ -38,11 +36,11 @@ export default function NovaTemplate({ CVData }: CVDataProps) {
           </div>
 
           {/* Contact Info */}
-          <div className="mt-6 flex flex-wrap justify-center gap-4 text-sm">
+          <div className="mt-6 print:mt-4 flex flex-wrap justify-center gap-4 text-sm">
             {personal.email && (
               <a
                 href={`mailto:${personal.email}`}
-                className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-lg hover:bg-white/30 transition-all"
+                className="flex items-center gap-2 bg-white/20 print:bg-white/90 backdrop-blur-sm print:backdrop-blur-none px-4 py-2 rounded-lg hover:bg-white/30 print:hover:bg-white/90 transition-all"
               >
                 <span>📧</span>
                 <span>{personal.email}</span>
@@ -51,14 +49,14 @@ export default function NovaTemplate({ CVData }: CVDataProps) {
             {personal.phone && (
               <a
                 href={`tel:${personal.phone}`}
-                className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-lg hover:bg-white/30 transition-all"
+                className="flex items-center gap-2 bg-white/20 print:bg-white/90 backdrop-blur-sm print:backdrop-blur-none px-4 py-2 rounded-lg hover:bg-white/30 print:hover:bg-white/90 transition-all"
               >
                 <span>📞</span>
                 <span>{personal.phone}</span>
               </a>
             )}
             {personal.address && (
-              <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-lg">
+              <div className="flex items-center gap-2 bg-white/20 print:bg-white/90 backdrop-blur-sm print:backdrop-blur-none px-4 py-2 rounded-lg">
                 <span>📍</span>
                 <span>{personal.address}</span>
               </div>
@@ -67,14 +65,14 @@ export default function NovaTemplate({ CVData }: CVDataProps) {
 
           {/* Social Links */}
           {socialLink.length > 0 && (
-            <div className="mt-6 flex flex-wrap justify-center gap-3">
+            <div className="mt-6 print:mt-4 flex flex-wrap justify-center gap-3">
               {socialLink.map((link, index) => (
                 <a
                   key={index}
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-lg hover:bg-white/30 transition-all text-sm"
+                  className="bg-white/20 print:bg-white/90 backdrop-blur-sm print:backdrop-blur-none px-4 py-2 rounded-lg hover:bg-white/30 print:hover:bg-white/90 transition-all text-sm"
                 >
                   {link.platform}
                 </a>
@@ -89,14 +87,14 @@ export default function NovaTemplate({ CVData }: CVDataProps) {
           <div className="lg:col-span-2 space-y-6">
             {/* Experience Section */}
             {experiences.length > 0 && (
-              <section className="bg-white rounded-2xl p-6 shadow-lg">
-                <h2 className="text-2xl font-bold mb-6 pb-3 border-b-2 border-blue-500 flex items-center gap-2">
+              <section className="bg-white rounded-2xl p-6 print:p-4 shadow-lg resume-section">
+                <h2 className="text-2xl print:text-xl font-bold mb-6 print:mb-4 pb-3 border-b-2 border-blue-500 flex items-center gap-2">
                   <span className="text-blue-600">💼</span>
                   تجربیات کاری
                 </h2>
-                <div className="space-y-6">
+                <div className="space-y-6 print:space-y-4">
                   {experiences.map((exp, index) => (
-                    <div key={index} className="relative pl-6 border-l-2 border-blue-200">
+                    <div key={index} className="relative pl-6 border-l-2 border-blue-200 experience-item">
                       <div className="absolute -left-2 top-0 w-4 h-4 bg-blue-500 rounded-full"></div>
                       <h3 className="text-lg font-semibold text-gray-800">{exp.jobTitle}</h3>
                       <p className="text-blue-600 font-medium mb-1">{exp.company}</p>
@@ -110,14 +108,14 @@ export default function NovaTemplate({ CVData }: CVDataProps) {
 
             {/* Education Section */}
             {education.length > 0 && (
-              <section className="bg-white rounded-2xl p-6 shadow-lg">
-                <h2 className="text-2xl font-bold mb-6 pb-3 border-b-2 border-green-500 flex items-center gap-2">
+              <section className="bg-white rounded-2xl p-6 print:p-4 shadow-lg resume-section">
+                <h2 className="text-2xl print:text-xl font-bold mb-6 print:mb-4 pb-3 border-b-2 border-green-500 flex items-center gap-2">
                   <span className="text-green-600">🎓</span>
                   تحصیلات
                 </h2>
-                <div className="space-y-6">
+                <div className="space-y-6 print:space-y-4">
                   {education.map((edu, index) => (
-                    <div key={index} className="relative pl-6 border-l-2 border-green-200">
+                    <div key={index} className="relative pl-6 border-l-2 border-green-200 education-item">
                       <div className="absolute -left-2 top-0 w-4 h-4 bg-green-500 rounded-full"></div>
                       <h3 className="text-lg font-semibold text-gray-800">{edu.degree}</h3>
                       <p className="text-green-600 font-medium mb-1">{edu.institute}</p>
@@ -133,16 +131,16 @@ export default function NovaTemplate({ CVData }: CVDataProps) {
 
             {/* Projects Section */}
             {projects.length > 0 && (
-              <section className="bg-white rounded-2xl p-6 shadow-lg">
-                <h2 className="text-2xl font-bold mb-6 pb-3 border-b-2 border-purple-500 flex items-center gap-2">
+              <section className="bg-white rounded-2xl p-6 print:p-4 shadow-lg resume-section">
+                <h2 className="text-2xl print:text-xl font-bold mb-6 print:mb-4 pb-3 border-b-2 border-purple-500 flex items-center gap-2">
                   <span className="text-purple-600">🚀</span>
                   پروژه‌ها
                 </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 print:grid-cols-1 gap-6 print:gap-4">
                   {projects.map((project, index) => (
                     <div
                       key={index}
-                      className="border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow"
+                      className="border border-gray-200 rounded-xl p-4 print:p-3 hover:shadow-md print:hover:shadow-none transition-shadow project-item"
                     >
                       {project.image && (
                         <img
@@ -202,8 +200,8 @@ export default function NovaTemplate({ CVData }: CVDataProps) {
           <div className="space-y-6">
             {/* Skills Section */}
             {skills.length > 0 && (
-              <section className="bg-white rounded-2xl p-6 shadow-lg">
-                <h2 className="text-xl font-bold mb-4 pb-2 border-b border-gray-200">
+              <section className="bg-white rounded-2xl p-6 print:p-4 shadow-lg resume-section">
+                <h2 className="text-xl print:text-lg font-bold mb-4 print:mb-3 pb-2 border-b border-gray-200">
                   مهارت‌ها
                 </h2>
                 <div className="space-y-3">
@@ -237,8 +235,8 @@ export default function NovaTemplate({ CVData }: CVDataProps) {
 
             {/* Languages Section */}
             {languages.length > 0 && (
-              <section className="bg-white rounded-2xl p-6 shadow-lg">
-                <h2 className="text-xl font-bold mb-4 pb-2 border-b border-gray-200">
+              <section className="bg-white rounded-2xl p-6 print:p-4 shadow-lg resume-section">
+                <h2 className="text-xl print:text-lg font-bold mb-4 print:mb-3 pb-2 border-b border-gray-200">
                   زبان‌ها
                 </h2>
                 <div className="space-y-3">
@@ -260,8 +258,8 @@ export default function NovaTemplate({ CVData }: CVDataProps) {
 
             {/* Certificates Section */}
             {certificate.length > 0 && (
-              <section className="bg-white rounded-2xl p-6 shadow-lg">
-                <h2 className="text-xl font-bold mb-4 pb-2 border-b border-gray-200">
+              <section className="bg-white rounded-2xl p-6 print:p-4 shadow-lg resume-section">
+                <h2 className="text-xl print:text-lg font-bold mb-4 print:mb-3 pb-2 border-b border-gray-200">
                   گواهینامه‌ها
                 </h2>
                 <div className="space-y-3">
@@ -292,8 +290,8 @@ export default function NovaTemplate({ CVData }: CVDataProps) {
 
             {/* Interests Section */}
             {interests.length > 0 && (
-              <section className="bg-white rounded-2xl p-6 shadow-lg">
-                <h2 className="text-xl font-bold mb-4 pb-2 border-b border-gray-200">
+              <section className="bg-white rounded-2xl p-6 print:p-4 shadow-lg resume-section">
+                <h2 className="text-xl print:text-lg font-bold mb-4 print:mb-3 pb-2 border-b border-gray-200">
                   علاقه‌مندی‌ها
                 </h2>
                 <p className="text-sm text-gray-700 leading-relaxed">
@@ -305,7 +303,7 @@ export default function NovaTemplate({ CVData }: CVDataProps) {
         </div>
 
         {/* Footer */}
-        <footer className="mt-12 text-center text-gray-400 text-sm">
+        <footer className="mt-12 print:mt-6 text-center text-gray-400 print:text-gray-600 text-sm no-print">
           <p>© {new Date().getFullYear()} {personal.fullName || "رزومه"}.</p>
         </footer>
       </div>

@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const About_us = () => {
   return (
-    <section className="mb-32 mt-16 bg-gradient-to-br from-gray-50 via-white to-gray-100 flex items-center justify-center px-6 font-[Vazirmatn]">
+    <section className="mb-32 mt-16 flex items-center justify-center px-6 font-[Vazirmatn]">
       <div className="max-w-5xl w-full grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
 
         {/* LEFT CONTENT */}
@@ -77,7 +77,17 @@ const About_us = () => {
             </div>
           </div>
         </motion.div>
-
+        <motion.span
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className="text-gray-600"
+        >
+          ساخته شده با ❤️ توسط {""}
+          <Link href="https://github.com/xaniar8996" target="_blank" className="text-blue-500 hover:text-blue-600">
+            xanitech
+          </Link>
+        </motion.span>
       </div>
     </section>
   );

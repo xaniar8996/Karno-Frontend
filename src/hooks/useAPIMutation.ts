@@ -12,9 +12,10 @@ interface MutationTypes {
     onErrorCallback?: (error: any) => void;
     client?: AxiosInstance; // override API client (defaults to BaseAPI)
     useNextAPI?: boolean;   // shortcut: true -> NextAPI
+    method: "post" | "delete" | "put" | "patch"
 }
 
-export const useApiMutation = ({
+export const useApiMutation = <TVariables = any, TResponse = any>({
     url,
     successMessage,
     key,
@@ -22,16 +23,34 @@ export const useApiMutation = ({
     onErrorCallback,
     client,
     useNextAPI,
+    method
 }: MutationTypes) => {
     const apiClient = (useNextAPI ? NextAPI : undefined) || client || BaseAPI;
 
-    return useMutation({
+    return useMutation<TResponse, any, TVariables>({
         mutationKey: [`${key}`],
-        mutationFn: (body?: any) => apiClient.post(url, body),
+        mutationFn: (body?: any) => {
+            switch (method) {
+                case "post":
+                    return apiClient.post(url, body);
+
+                case "put":
+                    return apiClient.put(url, body);
+
+                case "delete":
+                    return apiClient.delete(url, { data: body });
+
+                case "patch":
+                    return apiClient.patch(url, body);
+
+                default:
+                    throw new Error("Invalid method");
+            }
+        },
 
         onSuccess: (res: any) => {
             if (res?.status === 200) {
-                successMessage && toast.success(successMessage);
+                successMessage && toast.success(successMessage, { style: { color: '#000' } });
                 onSuccessCallback?.(res);
             }
         },

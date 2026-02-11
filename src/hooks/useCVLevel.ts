@@ -19,7 +19,7 @@ export const useLevelHelper = () => {
       advanced: "پیشرفته",
       expert: "متخصص",
     };
-    return labels[level] || level;
+    return labels[level] ?? level;
   };
 
   return { getLevelColor, getLevelLabel };

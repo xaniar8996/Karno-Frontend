@@ -18,7 +18,11 @@ export default function Profile() {
         () => (userData?.Fullname ? userData.Fullname.charAt(0) : "Guest"),
         [userData?.Fullname]
     );
-        
+
+    // verify account
+    const isUserAccountVerified = userData?.isAccountVerified ?
+        null : "اول باید ایمیلت رو تایید کنی تا بتونی رزومه بسازی !"
+
     if (isLoading) {
         return (
             <Loading />
@@ -77,9 +81,9 @@ export default function Profile() {
                             رزومه‌های من
                         </h3>
                     </div>
-                    <UserCVs userData={userData ?? null} />
+                    <UserCVs userData={userData ?? null} userVerify={isUserAccountVerified} />
                 </div>
-                
+
                 {/* Drawer for other sections (desktop: side panel, mobile: overlay) */}
                 <div
                     className={`fixed inset-y-0 right-0 z-30 w-64 transform border-l border-white/10 bg-slate-950/95 px-5 py-6 text-xs text-slate-100 backdrop-blur-2xl shadow-[0_0_60px_rgba(15,23,42,0.9)] transition-transform duration-300 md:static md:z-0 md:h-auto md:w-64 md:translate-x-0 md:rounded-3xl md:border md:bg-white/5 md:py-5 ${drawerOpen ? "translate-x-0" : "translate-x-full md:translate-x-0"

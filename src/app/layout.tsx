@@ -1,11 +1,11 @@
 import { Toaster } from "react-hot-toast";
-import "../assets/style/globals.css";
-import "../assets/style/Fontface.css";
-// import AuthProvider from "./providers/AuthProvider";
 import Header from "@layout/Header";
 import Footer from "@layout/Footer";
 import QueryProvider from "./providers/QueryProvider";
 import AuthProvider from "./providers/AuthProvider";
+import "@/lib/chart";
+import "../assets/style/globals.css";
+import "../assets/style/Fontface.css";
 
 export default function RootLayout({
   children,
@@ -54,11 +54,9 @@ export default function RootLayout({
         />
         <AuthProvider>
           <QueryProvider>
-            {/* <AuthProvider> */}
             <Header />
             {children}
             <Footer />
-            {/* </AuthProvider> */}
           </QueryProvider>
         </AuthProvider>
       </body>

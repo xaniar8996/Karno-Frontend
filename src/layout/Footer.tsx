@@ -1,22 +1,12 @@
 "use client"
 import { FaInstagram, FaLinkedin, FaTelegram, FaGithub } from "react-icons/fa";
-import { usePathname } from "next/navigation";
+import { hiddenRoutes } from "@lib/hiddenRoutes";
 
 export default function Footer() {
-    const pathname = usePathname();
+    const isHidden = hiddenRoutes();
 
-    // hidden routes
-    const hiddenRoutes = [
-        "/Auth/login",
-        "/Auth/register",
-        "/Auth/VerifyEmail",
-        "/Auth/error/UnverifiedEmail"
-    ]
+    if (isHidden) return null
 
-    if (hiddenRoutes.includes(pathname)) {
-        return null;
-    }
-    
     return (
         <footer className="w-full bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white py-12 px-8 md:px-20  border-t border-gray-700">
             <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">

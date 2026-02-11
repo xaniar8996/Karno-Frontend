@@ -11,7 +11,6 @@ import SocialLinksInput from "./CVForm/SoicalLinksInput";
 import CertificateInput from "./CVForm/certificateInput";
 import LanguageInput from "./CVForm/LanguageInput";
 import InterestsInput from "./CVForm/interestsInput";
-import "swiper/css";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useResumeStore } from "@Store/resumeStore";
 import { resumeStoreStorageKey } from "@Store/resumeStore";
@@ -20,6 +19,9 @@ import toast from "react-hot-toast";
 import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
 import { NextAPI } from "@lib/axios";
+import { CiSaveDown2 } from "react-icons/ci";
+import { FaRegFilePdf } from "react-icons/fa6";
+import "swiper/css";
 
 interface MainFormProps {
     templateRef: React.RefObject<HTMLDivElement | null>;
@@ -168,7 +170,7 @@ export default function MainForm({ templateRef }: MainFormProps) {
             });
             return CVresponse.data;
         },
-        onSuccess: (_, variables, context) => {
+        onSuccess: (_) => {
             const editId = searchParams.get("editId");
             toast.success(editId ? "رزومه شما به‌روزرسانی شد" : "رزومه شما با موفقیت ذخیره شد");
             query.invalidateQueries({ queryKey: ["CV"] });
@@ -239,13 +241,22 @@ export default function MainForm({ templateRef }: MainFormProps) {
             <div className="w-10/12 h-auto flex flex-row justify-start items-center gap-5" >
                 <button
                     onClick={handlePrint}
-                    className={`w-full sm:w-1/2 h-auto ${isPending ? "bg-gray-400" : "bg-blue-900"} text-white rounded-2xl p-4 cursor-pointer hover:bg-blue-700 transition-all active:scale-95`}>
-                    ذخیره به عنوان PDF
+                    disabled={isPending}
+                    className="bg-white text-center w-full sm:w-1/2 rounded-2xl h-auto p-3 relative text-black text-xl font-semibold group cursor-pointer active:scale-95 transition-all"
+                    type="button">
+                    <div className="bg-blue-400 rounded-xl h-13 w-1/4 flex items-center justify-center absolute left-0 top-[0px] group-hover:w-full z-10 duration-500">
+                    <FaRegFilePdf className="text-black text-2xl"/>
+                    </div>
+                    ذخیره  PDF
                 </button>
                 <button
                     onClick={handleSave}
                     disabled={isPending}
-                    className={`w-full sm:w-1/2 h-auto ${isPending ? "bg-gray-400" : "bg-green-900"} text-white rounded-2xl p-4 cursor-pointer hover:bg-green-700 transition-all active:scale-95`}>
+                    className="bg-white text-center w-full sm:w-1/2 rounded-2xl h-auto p-3 relative text-black text-xl font-semibold group cursor-pointer active:scale-95 transition-all"
+                    type="button">
+                    <div className="bg-green-400 rounded-xl h-13 w-1/4 flex items-center justify-center absolute left-0 top-[0px] group-hover:w-full z-10 duration-500">
+                    <CiSaveDown2 className="text-black text-3xl"/>
+                    </div>
                     {isPending ? "در حال ذخیره..." : `${editId ? "ویرایش رزومه" : "ذخیره در اکانت"}`}
                 </button>
             </div>

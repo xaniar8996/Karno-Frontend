@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAccessTokenFromRequest } from "@lib/auth";
+import { BaseAPI } from "@lib/axios";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3500";
 
@@ -31,15 +32,13 @@ export async function PUT(
       form.append(key, value as any);
     });
 
-    const backendRes = await fetch(`${API_BASE}/cv/${cvId}`, {
-      method: "PUT",
+    const backendRes = await BaseAPI.put(`/cv/${cvId}`, form, {
       headers: {
         ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
       },
-      body: form,
-    });
+    })
 
-    const data = await backendRes.json().catch(() => ({}));
+    const data = await backendRes.data;
     return NextResponse.json(data, { status: backendRes.status });
   } catch (error: any) {
     console.error("proxy update CV error", error?.message || error);

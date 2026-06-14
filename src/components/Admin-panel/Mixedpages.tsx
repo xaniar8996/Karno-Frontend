@@ -6,7 +6,9 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 import { MdKeyboardArrowLeft } from "react-icons/md";
 import Sidebar, { page } from "./Sidebar/sidebar";
 import Dashboard from "./Dashboard/Dashboard";
+import CVs from "./CVManagement/CVs";
 import Users from "./UserManagement/users";
+import Analytics from "./AnalyticsManagement/analytics";
 
 export default function MixedPages() {
     const [isOpen, setIsOpen] = useState(true);
@@ -26,7 +28,7 @@ export default function MixedPages() {
     }, [isOpen]);
 
     return (
-        <div className="w-full h-dvh py-5 flex flex-row justify-start items-start gap-5 bg-slate-900">
+        <div className="w-full min-h-screen py-5 flex flex-row justify-start items-start gap-5 bg-slate-900">
             <div className="w-auto">
                 {!isOpen && (
                     <MdKeyboardArrowLeft
@@ -59,14 +61,19 @@ export default function MixedPages() {
             {/* sections ... */}
 
             {currentPage === "dashboard" ? (
-                <Dashboard/>
+                <Dashboard />
             ) : currentPage === "users" ? (
-                <Users/>
-            ) : (
-                <div className="text-white px-10">
-                    <h1>Page "{currentPage}" is coming soon</h1>
-                </div>
-            )}
+                <Users />
+            ) : currentPage === "CVs" ? (
+                <CVs />
+            ) : currentPage === "analytics" ? (
+                <Analytics />
+            ) :
+                (
+                    <div className="text-white px-10">
+                        <h1>Page "{currentPage}" is coming soon</h1>
+                    </div>
+                )}
 
         </div>
     )

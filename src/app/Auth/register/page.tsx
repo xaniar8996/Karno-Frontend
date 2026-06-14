@@ -1,6 +1,6 @@
 "use client";
 import RegisterForm from "@components/Auth/RegisterForm";
-import { useCheckAuth } from "@hooks/useCheckAuth";
+import { useCheckAuth } from "@hooks/auth/useCheckAuth";
 import Loading from "@app/loadings/loading";
 
 export default function RegisterPage() {

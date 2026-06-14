@@ -1,6 +1,6 @@
 "use client";
 import { useMemo } from "react";
-import { useAPIQuery } from "@hooks/useAPIQuery";
+import { useAPIQuery } from "@hooks/api-hooks/useAPIQuery";
 import { MiniLoader } from "@app/loadings/loading";
 import { NextAPI } from "@lib/axios";
 import { AiOutlineFileText } from "react-icons/ai";

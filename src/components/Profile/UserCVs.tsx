@@ -1,16 +1,16 @@
 import { MiniLoader } from "@app/loadings/loading";
-import { useAPIQuery } from "@hooks/useAPIQuery";
+import { useAPIQuery } from "@hooks/api-hooks/useAPIQuery";
 import { NextAPI } from "@lib/axios";
 import { UsersTypes } from "@Types/UserStore";
 import Link from "next/link";
 import { useMemo } from "react";
+import { HiOutlineDocumentPlus } from "react-icons/hi2";
 
 interface UserDataTypes {
     userData: UsersTypes | null,
-    userVerify: string | null
 }
 
-export default function UserCVs({ userData, userVerify }: UserDataTypes) {
+export default function UserCVs({ userData }: UserDataTypes) {
 
     const { data: userCV, isLoading: cvLoading } = useAPIQuery({
         key: ["UserCV"],
@@ -67,15 +67,28 @@ export default function UserCVs({ userData, userVerify }: UserDataTypes) {
                         </div>
                     </div>
                 ))
-            ) : userVerify ? (
-                <span className="w-full h-auto flex justify-center text-red-400">{userVerify}</span>
             ) : (
-                <div className="w-full h-auto flex flex-col justify-center items-center gap-5">
-                    <span className="w-full h-auto flex justify-center text-red-300">
-                        در حال حاضر رزومه ای ندارید , برای ساخت اینجا کلیک کنید 👇
-                    </span>
-                    <Link href="/CV/CVSlider" className="w-full h-auto flex  justify-center">
-                        <button className="w-full h-auto mx-auto p-3 rounded-xl bg-white/80 text-black/80 cursor-pointer hover:w-1/2 hover:shadow-xs shadow-gray-50 transition-all duration-300 active:scale-95">ساخت رزومه</button>
+                <div className="flex flex-col items-center gap-6 rounded-2xl border border-dashed border-white/15 bg-white/[0.03] px-6 py-10 text-center backdrop-blur-sm">
+                    <div className="flex h-16 w-16 items-center justify-center rounded-2xl border border-white/10 bg-gradient-to-br from-emerald-500/20 to-sky-500/10 shadow-[0_8px_32px_rgba(16,185,129,0.15)]">
+                        <HiOutlineDocumentPlus className="h-8 w-8 text-emerald-300" />
+                    </div>
+
+                    <div className="space-y-1.5">
+                        <p className="text-sm font-medium text-white md:text-base">
+                            رزومه ای نمیبینم!
+                        </p>
+                        <p className="text-xs text-slate-400 md:text-sm">
+                            با چند کلیک ساده، اولین رزومه حرفه‌ای خودت را بساز
+                        </p>
+                    </div>
+
+                    <Link
+                        href="/CV/CVSlider"
+                        className="group relative inline-flex items-center gap-2.5 overflow-hidden rounded-xl border border-emerald-400/30 bg-gradient-to-r from-emerald-500 to-emerald-600 px-6 py-3 text-sm font-semibold text-white shadow-[0_8px_28px_rgba(16,185,129,0.45)] transition-all duration-300 hover:border-emerald-300/50 hover:shadow-[0_12px_36px_rgba(16,185,129,0.55)] active:scale-[0.98]"
+                    >
+                        <span className="pointer-events-none absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                        <HiOutlineDocumentPlus className="relative h-5 w-5" />
+                        <span className="relative">ساخت رزومه</span>
                     </Link>
                 </div>
             )}

@@ -1,7 +1,7 @@
 "use client"
 import { useRef, useState, useEffect } from "react";
 import MainForm from "@components/CV/MainForm";
-import { ResumeTemplate } from "@components/CV/Template";
+import { ResumeTemplate } from "@components/CV/ResumeTemplate";
 import { FaEye, FaEyeSlash, FaFile } from "react-icons/fa6";
 import { useSearchParams } from "next/navigation";
 import { useResumeStore } from "@Store/resumeStore";

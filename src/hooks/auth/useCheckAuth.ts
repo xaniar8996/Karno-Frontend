@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getAccessToken, isAccessTokenValid } from "@lib/auth";
-import { useRefreshAccessToken } from "@/hooks/useRefreshAccesstoken";
+import { useRefreshAccessToken } from "@hooks/auth/useRefreshAccesstoken";
 
 type UseCheckAuthOptions = {
     redirectTo?: string;

@@ -83,32 +83,21 @@ export const ResumeTemplate = forwardRef<HTMLDivElement | null, ResumeTemplatePr
 
   // view or edit CV
     const CVData = useMemo(
-      () =>
-        initialData
-          ? {
-            personal: initialData.personal || personal,
-            skills: initialData.skills || skills,
-            experiences: initialData.experiences || experiences,
-            projects: initialData.projects || projects,
-            education: initialData.education || education,
-            languages: initialData.languages || languages,
-            certificate: initialData.certificate || certificate,
-            interests: initialData.interests || interests,
-            socialLink: initialData.socialLink || socialLink,
-          }
-          : {
-            personal,
-            skills,
-            experiences,
-            projects,
-            education,
-            languages,
-            certificate,
-            interests,
-            socialLink,
-          },
+      () => ({
+        template: initialData?.template ?? activeTemplate,
+        personal: initialData?.personal ?? personal,
+        skills: initialData?.skills ?? skills,
+        experiences: initialData?.experiences ?? experiences,
+        projects: initialData?.projects ?? projects,
+        education: initialData?.education ?? education,
+        languages: initialData?.languages ?? languages,
+        certificate: initialData?.certificate ?? certificate,
+        interests: initialData?.interests ?? interests,
+        socialLink: initialData?.socialLink ?? socialLink,
+      }),
       [
         initialData,
+        activeTemplate,
         personal,
         skills,
         experiences,

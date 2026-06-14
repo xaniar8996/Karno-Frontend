@@ -11,7 +11,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { setAccessToken } from "@lib/auth";
 import { useQueryClient } from "@tanstack/react-query";
-import { useApiMutation } from "@hooks/useAPIMutation";
+import { useApiMutation } from "@hooks/api-hooks/useAPIMutation";
 import "@assets/style/input.css";
 
 interface RegisterData {

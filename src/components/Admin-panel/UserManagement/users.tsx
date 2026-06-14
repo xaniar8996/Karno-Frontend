@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { MiniLoader } from "@app/loadings/loading";
-import { useAPIQuery } from "@hooks/useAPIQuery";
+import { useAPIQuery } from "@hooks/api-hooks/useAPIQuery";
 import { usePagination } from "@hooks/usePagination";
 import UserStore from "@Store/UserStore";
 import { UserRole, UsersTypes } from "@Types/UserStore";
@@ -8,19 +8,23 @@ import { Pagination } from "../../../utils/Pagination";
 import { IoAdd } from "react-icons/io5";
 import { IoTrashBinOutline } from "react-icons/io5";
 import { MdOutlineModeEdit } from "react-icons/md";
+import { GoBellFill } from "react-icons/go";
 import { motion } from "framer-motion";
+import SendNotificationModal from "../../modal/UserModal/SendNotificationModal";
 import AddUserModal from "@components/modal/UserModal/AddUserModal";
-import DeleteUserModal from "@components/modal/UserModal/DeleteUser";
-import { useModal } from "@hooks/useModal";
+import { useModal } from "@hooks/ui/useModal";
+import { useDeleteModalHook } from "@hooks/ui/useDeleteModal";
 import { getUserId } from "@utils/GetUserId";
 
 export default function Users() {
+    const sendNotificationModal = useModal();
+    const openDeleteModal = useDeleteModalHook();
+
     const GetAllUsers = UserStore((state) => state.GetAllUsers);
     const [selectedUser, setSelectedUser] =
         useState<Partial<Pick<UsersTypes, "Fullname" | "_id" | "email" | "password" | "Birthdate" | "roles">> | null>(null);
     const [method, setMethod] = useState<"add" | "edit">("add");
     const addUserModal = useModal();
-    const deleteUserModal = useModal();
 
     const { data: allUsers, isLoading, isError, error } = useAPIQuery<UsersTypes | UsersTypes[] | null>({
         key: ["allUsers"],
@@ -49,12 +53,15 @@ export default function Users() {
         addUserModal?.open();
     };
 
-    const openDeleteModal = (
+    const handleDeleteUser = (
         username: UsersTypes["Fullname"],
         id: UsersTypes["_id"]
     ) => {
-        setSelectedUser({ Fullname: username, _id: id });
-        deleteUserModal?.open();
+        openDeleteModal({
+            id: id || "",
+            name: username || "",
+            type: "user"
+        });
     };
 
     const openEditModal = (user: UsersTypes) => {
@@ -87,7 +94,16 @@ export default function Users() {
         return String(date);
     };
 
-    const currentUserId = getUserId();    
+    const currentUserId = getUserId();
+
+    // open notifs modal
+    const openNotifModal = (id: UsersTypes["_id"] , username:UsersTypes["Fullname"]) => {
+        sendNotificationModal?.open();
+        setSelectedUser({
+            _id: id,
+            Fullname:username
+        });
+    }
 
     return (
         <div className="w-full h-auto flex flex-col justify-center items-start gap-5 px-5">
@@ -108,9 +124,20 @@ export default function Users() {
                 {isLoading ? (
                     <MiniLoader />
                 ) : isError ? (
-                    <div className="w-full flex justify-center items-center">
-                        <p>{error?.message || "خطا در گرفتن اطلاعات کاربران"}</p>
+                    <div className="w-full rounded-2xl border border-red-200 bg-red-50/80 px-4 py-3 text-sm text-red-800 shadow-sm flex items-start gap-3">
+                    <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-red-100 text-red-500">
+                        <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden="true">
+                            <path d="M11 7h2v6h-2zm0 8h2v2h-2z" />
+                            <path d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2Zm0 18a8 8 0 1 1 8-8 8.009 8.009 0 0 1-8 8Z" />
+                        </svg>
+                    </span>
+                    <div className="space-y-1">
+                        <p className="font-medium">خطا در بارگیری کاربران</p>
+                        <p className="text-xs text-red-600">
+                            {error.message ?? "لطفاً چند لحظه دیگر دوباره تلاش کنید."}
+                        </p>
                     </div>
+                </div>
                 ) : (
                     <div className="w-full h-auto border-2 border-gray-700 p-3 rounded-3xl py-5 relative group p-5">
                         <table className="w-full text-white border-separate border-spacing-y-5">
@@ -153,10 +180,23 @@ export default function Users() {
                                             {/* Actions */}
                                             <td>
                                                 <div className="flex gap-3">
+                                                    {/* notifications */}
+                                                    <button
+                                                        disabled={CurrentAdmin}
+                                                        onClick={() => openNotifModal(user._id , user?.Fullname)}
+                                                        className={`p-2 rounded-md transition-all active:scale-95 cursor-pointer
+                                                        ${CurrentAdmin
+                                                                ? "bg-gray-500/10 text-gray-500 cursor-not-allowed"
+                                                                : "text-yellow-500/60 bg-yellow-500/20 hover:text-yellow-500/80 hover:bg-yellow-500/40"
+                                                            }`}
+                                                    >
+                                                        <GoBellFill className="w-4 h-4" />
+                                                    </button>
+
                                                     {/* delete */}
                                                     <button
                                                         disabled={CurrentAdmin}
-                                                        onClick={() => openDeleteModal(user.Fullname, user._id)}
+                                                        onClick={() => handleDeleteUser(user.Fullname, user._id)}
                                                         className={`p-2 rounded-md transition-all active:scale-95 cursor-pointer
                                                         ${CurrentAdmin
                                                                 ? "bg-gray-500/10 text-gray-500 cursor-not-allowed"
@@ -203,11 +243,10 @@ export default function Users() {
                     method={method as "add" | "edit"}
                     user={selectedUser}
                 />}
-            {deleteUserModal.isOpen && (
-                <DeleteUserModal
-                    onClose={deleteUserModal.close}
-                    username={selectedUser?.Fullname ?? ""}
-                    id={selectedUser?._id ?? ""}
+            {sendNotificationModal.isOpen && (
+                <SendNotificationModal
+                    onClose={sendNotificationModal.close}
+                    selectedUser={selectedUser ?? null}
                 />
             )}
         </div>

@@ -8,6 +8,8 @@ import { RiMailSendFill } from "react-icons/ri";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { useQueryClient } from "@tanstack/react-query";
+import { useSendOTP } from "@hooks/auth/useSendOTP";
+import OTPVerification from "@components/otp-veification/otpVerification";
 
 export default function VerifyEmail() {
     const User = UserStore((state) => state?.Users);
@@ -65,6 +67,12 @@ export default function VerifyEmail() {
                 }
             }
         }
+    };
+
+    const sendOTPMutation = useSendOTP();
+
+    const HandleSendOTP = () => {
+        sendOTPMutation.mutate({});
     }
 
     return (
@@ -83,29 +91,18 @@ export default function VerifyEmail() {
             >
                 <RiMailSendFill className="text-7xl" />
                 <span className="text-xs text-gray-700">کد تایید به ایمیل {User?.email} فرستاده شد</span>
-                <div className="w-1/4 h-1/2 bg-white rounded-3xl flex flex-row-reverse justify-center items-center gap-2 ">
-                    {Array.from({ length: 6 }).map((_, index) => (
-                        <input
-                            dir="ltr"
-                            type="text"
-                            ref={(el) => { inputRefs.current[index] = el; }}
-                            inputMode="numeric"
-                            maxLength={1}
-                            key={index}
-                            value={OTP[index]}
-                            className="w-12 h-12 text-center border border-gray-300 rounded-lg focus:outline-none bg-gray-100 focus:border-blue-500 focus:scale-110 transition-all"
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                                handleChange(index, e.target.value)
-                            }
-                        />
-                    ))}
-                </div>
-                <span className="text-sm">کد دریافت نکردی ؟ <b className="text-blue-400 cursor-pointer hover:text-blue-600 transition-all">ارسال دوباره</b></span>
-                <div className="w-full h-auto p-5">
-                    <button type="button" onClick={() => handleVerifyAccount()} className="w-full h-auto bg-black rounded-xl p-3 text-white cursor-pointer hover:bg-gray-800 transition-all active:scale-95">
-                        ارسال کد
-                    </button>
-                </div>
+                <OTPVerification
+                    verifyUrl="/api/Auth/otp/verifyEmail"
+                    successMessage="اکانت با موفقیت تایید شد"
+                    className="p-3 bg-black rounded-xl text-white cursor-pointer hover:bg-gray-800 transition-all active:scale-95"
+                    onSuccess={() => {
+                        router.replace("/");
+                        queryClient.invalidateQueries({
+                            queryKey: ["User"]
+                        });
+                    }}
+                />
+                <span className="text-sm">کد دریافت نکردی ؟ <b onClick={HandleSendOTP} className="text-blue-400 cursor-pointer hover:text-blue-600 transition-all">ارسال دوباره</b></span>
             </motion.div>
         </div>
     )

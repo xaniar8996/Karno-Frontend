@@ -3,6 +3,8 @@ import Header from "@layout/Header";
 import Footer from "@layout/Footer";
 import QueryProvider from "./providers/QueryProvider";
 import AuthProvider from "./providers/AuthProvider";
+import { DeleteModalProvider } from "@context/DeleteModalContext";
+import DeleteUser from "@components/modal/UserModal/DeleteModal";
 import "@/lib/chart";
 import "../assets/style/globals.css";
 import "../assets/style/Fontface.css";
@@ -54,9 +56,12 @@ export default function RootLayout({
         />
         <AuthProvider>
           <QueryProvider>
-            <Header />
-            {children}
-            <Footer />
+            <DeleteModalProvider>
+              <Header />
+              {children}
+              <Footer />
+              <DeleteUser />
+            </DeleteModalProvider>
           </QueryProvider>
         </AuthProvider>
       </body>

@@ -2,8 +2,8 @@
 
 import { useMemo } from "react";
 import { useSearchParams } from "next/navigation";
-import { useAPIQuery } from "@hooks/useAPIQuery";
-import { ResumeTemplate } from "@components/CV/Template";
+import { useAPIQuery } from "@hooks/api-hooks/useAPIQuery";
+import { ResumeTemplate } from "@components/CV/ResumeTemplate";
 import toast from "react-hot-toast";
 import Loader from "@app/loadings/loading";
 import { NextAPI } from "@lib/axios";
@@ -20,15 +20,18 @@ export default function ViewResumePage() {
     key: ["resume-view", resumeId],
     enabled: Boolean(resumeId),
     queryFn: async () => {
+      if (!resumeId) return null;
+
       try {
-        const res = await NextAPI.get("/api/CV/userCV");
-        const list = Array.isArray(res?.data?.data) ? res.data.data : [];
-        if (!list.length) return null;
-        const match = list.find((item: any) => item._id === resumeId);
-        if (!match) {
-          toast.error("رزومه مورد نظر یافت نشد");
+        const res = await NextAPI.get(`/api/CV/${resumeId}`);
+        const data = (res as any)?.data;
+
+        if (!data?.success || !data?.data) {
+          toast.error(data?.message || "رزومه مورد نظر یافت نشد");
+          return null;
         }
-        return match || null;
+
+        return data.data;
       } catch (error) {
         console.error(error);
         toast.error("خطا در دریافت رزومه");
@@ -81,7 +84,7 @@ export default function ViewResumePage() {
 
   if (!selectedResume) {
     return (
-      <div className="w-full min-h-screen flex items-center justify-center text-sm text-white/80">
+      <div className="w-full min-h-screen flex items-center justify-center text-sm text-black/80">
         رزومه‌ای برای نمایش یافت نشد.
       </div>
     );

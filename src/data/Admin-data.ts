@@ -26,15 +26,9 @@ export const Sidebar_Data = [
     },
     {
       title: "مدیریت رزومه‌ها",
-      key: "resumes",
+      key: "CVs",
       path: "/admin/resumes",
       icon: FiFileText,
-    },
-    {
-      title: "مدیریت قالب‌ها",
-      key: "templates",
-      path: "/admin/templates",
-      icon: FaPalette,
     },
     {
       title: "مهارت‌ها و سطوح",

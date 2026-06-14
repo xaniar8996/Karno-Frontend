@@ -1,6 +1,6 @@
 "use client";
 import Mainpage from "@components/Home-components/mainpage";
-import { useCheckAuth } from "@hooks/useCheckAuth";
+import { useCheckAuth } from "@hooks/auth/useCheckAuth";
 import Loading from "@app/loadings/loading";
 
 export default function HomePage() {

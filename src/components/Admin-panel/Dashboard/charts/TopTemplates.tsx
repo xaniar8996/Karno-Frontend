@@ -1,6 +1,6 @@
 import "@/lib/chart";
 import { MiniLoader } from "@app/loadings/loading";
-import { useAPIQuery } from "@hooks/useAPIQuery";
+import { useAPIQuery } from "@hooks/api-hooks/useAPIQuery";
 import { NextAPI } from "@lib/axios";
 import { useMemo } from "react";
 import { Bar } from "react-chartjs-2";

@@ -12,12 +12,12 @@ import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import UserStore from "@Store/UserStore";
 import { clearAllTokens } from "@lib/auth";
-import { useApiMutation } from "@hooks/useAPIMutation";
+import { useApiMutation } from "@hooks/api-hooks/useAPIMutation";
 import  SearchModal  from "../components/modal/SearchModal";
 import { useResumeStore } from "@Store/resumeStore";
 import { hiddenRoutes } from "@lib/hiddenRoutes";
 import { RiAdminLine } from "react-icons/ri";
-
+import { useSendOTP } from "@hooks/auth/useSendOTP";
 
 export default function Header() {
   const isHidden = hiddenRoutes();
@@ -35,6 +35,10 @@ export default function Header() {
 
   const { reset } = useResumeStore();
 
+  // OTP
+  const sendOTPMutation = useSendOTP();
+
+  // Scroll
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 30);
@@ -43,17 +47,7 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // send OTP ...
-
-  const sendOTPMutation = useApiMutation({
-    method:"post",
-    url: "/api/Auth/otp/sendOtp",
-    successMessage: "کد تایید به ایمیل شما ارسال شد",
-    useNextAPI: true
-  });
-
   // logout ...
-
   const Logout = useApiMutation({
     method:"post",
     url: "/api/Auth/account/Logout",

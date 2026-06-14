@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef } from "react";
-import { useRefreshAccessToken } from "@/hooks/useRefreshAccesstoken";
+import { useRefreshAccessToken } from "@hooks/auth/useRefreshAccesstoken";
 import { getAccessToken, isAccessTokenValid, getAccessTokenExpiry } from "@/lib/auth";
 
 type Props = { children: React.ReactNode };

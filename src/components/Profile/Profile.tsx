@@ -2,12 +2,19 @@
 import Loading from "@app/loadings/loading";
 import UserStore from "@Store/UserStore";
 import { useMemo, useState } from "react";
-import { useAPIQuery } from "@hooks/useAPIQuery";
+import { useAPIQuery } from "@hooks/api-hooks/useAPIQuery";
 import UserCVs from "./UserCVs";
+import { CiBellOn } from "react-icons/ci";
+import { useModal } from "@hooks/ui/useModal";
+import NotificationsInboxModal from "@components/modal/UserModal/InboxModal";
+import ChangePassword from "@components/modal/UserModal/verifyResetPassword";
+import { FaLock } from "react-icons/fa";
 
 export default function Profile() {
     const GetUser = UserStore((state) => state?.GetUser);
     const [drawerOpen, setDrawerOpen] = useState(false);
+    const openNotificationsModal = useModal();
+    const openChangePasswordModal = useModal();
 
     const { data: userData, isLoading } = useAPIQuery({
         key: ["User"],
@@ -18,10 +25,6 @@ export default function Profile() {
         () => (userData?.Fullname ? userData.Fullname.charAt(0) : "Guest"),
         [userData?.Fullname]
     );
-
-    // verify account
-    const isUserAccountVerified = userData?.isAccountVerified ?
-        null : "اول باید ایمیلت رو تایید کنی تا بتونی رزومه بسازی !"
 
     if (isLoading) {
         return (
@@ -36,7 +39,7 @@ export default function Profile() {
             <div className="pointer-events-none absolute bottom-[-6rem] right-[-4rem] h-80 w-80 rounded-full bg-sky-500/15 blur-3xl" />
 
             {/* Main layout */}
-            <div className="relative flex w-full max-w-6xl flex-col gap-6 px-4 md:flex-row md:px-6">
+            <div className="relative flex w-full max-w-6xl flex-col gap-6 px-4 md:flex-row md:px-6 -mt-24">
                 {/* Profile + resumes card */}
                 <div className="flex-1 rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur-2xl shadow-[0_20px_90px_rgba(15,23,42,0.9)] md:p-7">
                     {/* Header */}
@@ -81,7 +84,7 @@ export default function Profile() {
                             رزومه‌های من
                         </h3>
                     </div>
-                    <UserCVs userData={userData ?? null} userVerify={isUserAccountVerified} />
+                    <UserCVs userData={userData ?? null} />
                 </div>
 
                 {/* Drawer for other sections (desktop: side panel, mobile: overlay) */}
@@ -109,13 +112,22 @@ export default function Profile() {
                                 فعال
                             </span>
                         </button>
-                        <button className="flex w-full items-center justify-between rounded-xl bg-white/5 px-3 py-2 text-left text-slate-200 hover:bg-white/10">
-                            اطلاعات حساب
-                            <span className="text-[10px] text-slate-400">به زودی</span>
+                        <button
+                            onClick={openNotificationsModal?.open}
+                            className="flex w-full items-center justify-between rounded-xl cursor-pointer active:scale-95 transition-all bg-white/5 px-3 py-2 text-left text-slate-200 hover:bg-white/10">
+                            نوتیفیکیشن ها
+                            <div className="w-auto relative">
+                                <span className="bg-red-500 w-2 h-2 absolute left-3 rounded-full" />
+                                <CiBellOn className="text-xl cursor-pointer" />
+                            </div>
                         </button>
-                        <button className="flex w-full items-center justify-between rounded-xl bg-white/5 px-3 py-2 text-left text-slate-200 hover:bg-white/10">
-                            تنظیمات نمایش
-                            <span className="text-[10px] text-slate-400">دارک / لایت</span>
+                        <button
+                        onClick={openChangePasswordModal?.open}
+                        className="flex w-full items-center justify-between rounded-xl cursor-pointer bg-white/5 px-3 py-2 text-left text-slate-200 hover:bg-white/10">
+                            تغییر رمز عبور
+                            <span className="text-[10px] text-slate-400">
+                                <FaLock />
+                            </span>
                         </button>
                     </div>
 
@@ -126,6 +138,12 @@ export default function Profile() {
                     </div>
                 </div>
             </div>
+            {openNotificationsModal.isOpen && (
+                <NotificationsInboxModal onClose={openNotificationsModal.close} />
+            )}
+            {openChangePasswordModal.isOpen && (
+                <ChangePassword onClose={openChangePasswordModal.close} />
+            )}
         </div>
     );
 }

@@ -1,12 +1,12 @@
 import { create } from "zustand";
-import { UserStoreTypes } from "@Types/UserStore";
-import axios from "axios";
+import { UserStoreTypes, UsersTypes } from "@Types/UserStore";
+import { NextAPI } from "@lib/axios";
 
 const UserStore = create<UserStoreTypes>((set) => ({
     Users: null,
     GetUser: async () => {
         try {
-            const response = await axios.get("/api/user");
+            const response = await NextAPI.get<UsersTypes>("/api/user");
             set({ Users: response?.data })
             return response?.data ?? null;
         } catch (error) {
@@ -17,7 +17,7 @@ const UserStore = create<UserStoreTypes>((set) => ({
 
     GetAllUsers: async () => {
         try {
-            const response = await axios.get("/api/user?all=true");
+            const response = await NextAPI.get("/api/user?all=true");
             set({ Users: response?.data })
             return response?.data ?? null;
         } catch (error) {

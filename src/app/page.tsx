@@ -4,7 +4,7 @@ import "../assets/style/Fontface.css";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getAccessToken, isAccessTokenValid } from "@lib/auth";
-import { useRefreshAccessToken } from "@/hooks/useRefreshAccesstoken";
+import { useRefreshAccessToken } from "@hooks/auth/useRefreshAccesstoken";
 import { Router } from "next/router";
 import Loading from "./loadings/loading";
 

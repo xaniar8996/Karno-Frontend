@@ -1,6 +1,6 @@
 import "@/lib/chart";
 import { MiniLoader } from "@app/loadings/loading";
-import { useAPIQuery } from "@hooks/useAPIQuery";
+import { useAPIQuery } from "@hooks/api-hooks/useAPIQuery";
 import UserStore from "@Store/UserStore";
 import { UsersTypes } from "@Types/UserStore";
 import { useMemo } from "react";
@@ -10,7 +10,7 @@ export default function UsersStatus() {
   const GetAllUsers = UserStore((state) => state?.GetAllUsers);
 
   // Share the same query key with UsersNumbers component for cache efficiency
-  const { data: allUsers, isLoading, isError, error } = useAPIQuery<UsersTypes | UsersTypes[] | null>({
+  const { data: allUsers, isLoading } = useAPIQuery<UsersTypes | UsersTypes[] | null>({
     key: ["allUsers"],
     queryFn: GetAllUsers,
   });

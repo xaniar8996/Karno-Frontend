@@ -1,7 +1,9 @@
 // src/types/resume.ts
 
+import { JSX } from "react/jsx-runtime";
+
 export interface PersonalInfos {
-  Image:string;
+  Image: string;
   fullName: string;
   email: string;
   phone: string;
@@ -51,16 +53,19 @@ export interface Certificate {
 }
 
 export interface Languages {
-  languageName:string,
-  level:"beginner" | "midlevel" |  "advanced" | "expert"
+  languageName: string,
+  level: "beginner" | "midlevel" | "advanced" | "expert"
 }
 
 export interface Interests {
-  Description:string
+  Description: string
 }
 
 
 export interface ResumeData {
+  // made _id optional
+  _id?: string;
+  template:string;
   personal: PersonalInfos;
   skills: Skill[];
   experiences: Experience[];

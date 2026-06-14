@@ -1,7 +1,7 @@
 "use client";
-import { useLevelHelper } from "@hooks/useCVLevel";
+import { useLevelHelper } from "@hooks/ui/useCVLevel";
 import { ResumeData } from "@Types/resumeType";
-import { useRequireVerifiedAccount } from "@hooks/useRequireVerifiedAccount";
+import { useRequireVerifiedAccount } from "@hooks/auth/useRequireVerifiedAccount";
 
 interface CVDataProps {
     CVData: ResumeData;

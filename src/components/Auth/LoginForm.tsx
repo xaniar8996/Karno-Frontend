@@ -9,7 +9,7 @@ import { setAccessToken } from "@lib/auth";
 import toast from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { useApiMutation } from "@hooks/useAPIMutation";
+import { useApiMutation } from "@hooks/api-hooks/useAPIMutation";
 
 interface LoginData {
     email: string;

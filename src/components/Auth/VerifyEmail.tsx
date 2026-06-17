@@ -22,53 +22,6 @@ export default function VerifyEmail() {
         inputRefs.current[0]?.focus();
     }, []);
 
-    const handleChange = (index: number, value: string) => {
-        if (value.length > 1) return;
-
-        const newOtp = [...OTP];
-        newOtp[index] = value;
-        setOtp(newOtp);
-
-        if (value && index < 6) {
-            inputRefs.current[index + 1]?.focus();
-        } else {
-            inputRefs.current[index - 1]?.focus();
-        }
-    };
-
-
-    const handleVerifyAccount = async () => {
-        const isComplete = OTP.every((digit) => digit.trim().length === 1);
-        if (!isComplete) {
-            toast.error("کد کامل را وارد نمایید")
-            return;
-        }
-
-        try {
-            const response = await NextAPI.post("/api/Auth/otp/verifyEmail", { OTP: OTP.join("") });
-            if (response.data && response.status === 200) {
-                toast.success("اکانت با موفقیت تایید شد");
-                console.log(response.data);
-                router.replace("/");
-                queryClient.invalidateQueries({ queryKey: ["User"] })
-            }
-        } catch (error) {
-            if (axios.isAxiosError(error)) {
-                if (error.response?.status === 400) {
-                    toast.error("اطلاعات کامل نیست")
-                } else if (error.response?.status === 404) {
-                    toast.error("کاربر پیدا نشد")
-                } else if (error.response?.status === 410) {
-                    toast.error("کد منقضی شده")
-                } else if (error.response?.status === 401) {
-                    toast.error("کد نادرست است ")
-                } else {
-                    toast.error("خطای داخلی سرور")
-                }
-            }
-        }
-    };
-
     const sendOTPMutation = useSendOTP();
 
     const HandleSendOTP = () => {

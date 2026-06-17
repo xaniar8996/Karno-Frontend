@@ -26,7 +26,7 @@ export default function SendNotificationModal({ onClose, selectedUser }: SendNot
             onClose?.();
         },
         onErrorCallback: (error) => {
-            toast.error(error.message ?? "خطایی رخ داده است", { style: { color: "#fff" } });
+            toast.error( "خطایی رخ داده , دوباره امتحان کن", { style: { color: "#fff" } });
         }
     });
 

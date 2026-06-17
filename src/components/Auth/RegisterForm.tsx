@@ -10,7 +10,6 @@ import toast from "react-hot-toast";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { setAccessToken } from "@lib/auth";
-import { useQueryClient } from "@tanstack/react-query";
 import { useApiMutation } from "@hooks/api-hooks/useAPIMutation";
 import "@assets/style/input.css";
 
@@ -24,7 +23,6 @@ interface RegisterData {
 export default function RegisterForm() {
   const [showPass, setShowPass] = useState(false);
   const router = useRouter();
-  const queryClient = useQueryClient();
 
   const { register, handleSubmit } = useForm<AuthValidationType>({
     resolver: zodResolver(AuthValidation)

@@ -8,6 +8,15 @@ export const AuthValidation = z.object({
 }).refine((data) => data.password === data.confirmPassword, {
     message: "رمز عبور و تکرار آن مطابقت ندارند",
     path: ["confirmPassword"],
-})
+});
+
+export const ResetPasswordValidation = z.object({
+    newPassword: z.string().min(8, "رمز عبور باید حداقل 8 رقم باشد"),
+    confirmPassword: z.string(),
+}).refine((data) => data.newPassword === data.confirmPassword , {
+    message: "رمز عبور و تکرار آن مطابقت ندارند",
+    path: ["confirmPassword"],
+});
 
 export type AuthValidationType = z.infer<typeof AuthValidation>;
+export type ResetPasswordValidationType = z.infer<typeof ResetPasswordValidation>;

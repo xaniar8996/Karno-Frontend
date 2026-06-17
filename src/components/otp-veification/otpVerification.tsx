@@ -10,8 +10,8 @@ interface OTPVerificationProps {
     onSuccess?: () => void;
     successMessage?: string;
     buttonText?: string;
-    className: string;
-    extraData:Record<string,any>
+    className?: string;
+    extraData?:Record<string,any>;
 }
 
 export default function OTPVerification({
@@ -20,7 +20,7 @@ export default function OTPVerification({
     successMessage = "",
     buttonText = "تایید کد",
     className = "",
-    extraData
+    extraData,
 }: OTPVerificationProps) {
 
     const [otp, setOtp] = useState<string[]>(Array(6).fill(""));
@@ -97,7 +97,7 @@ export default function OTPVerification({
     };
 
     return (
-        <>
+        <div className={`flex flex-col justify-center items-center gap-6`}>
             <div className="flex flex-row-reverse justify-center items-center gap-2">
                 {Array.from({ length: 6 }).map((_, index) => (
                     <input
@@ -125,6 +125,6 @@ export default function OTPVerification({
             >
                 {buttonText}
             </button>
-        </>
+        </div>
     );
 }

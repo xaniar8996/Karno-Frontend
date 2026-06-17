@@ -17,23 +17,25 @@ export async function POST(req: NextRequest) {
 
         const body = await req.json().catch(() => null);
 
-        if (!body || !body.OTP || !body.newPassword) {
+        if (!body || !body.OTP) {
             return NextResponse.json(
-                { error: "informations are required !" },
+                { error: "body is required !" },
                 { status: 401 }
             );
         }
 
-        const response = await BaseAPI.post("/otp/reset-password", {
-            data: {
-                email:body.email,
-                OTP:body.OTP,
-                newPassword:body.newPassword
+        const response = await BaseAPI.post(
+            "/otp/verify-reset-otp",
+            {
+                email: body.email,
+                OTP:body.OTP
             },
-            headers: {
-                Authorization: `Bearer ${accessToken}`,
-            },
-        });
+            {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            }
+        );
 
         if (response?.data?.success) {
             return NextResponse.json(response.data);
@@ -41,7 +43,7 @@ export async function POST(req: NextRequest) {
 
         return NextResponse.json(response?.data);
     } catch (error: any) {
-        console.error("Error reseting password:", error);
+        console.error("Error reseting OTP:", error);
         console.error("Error details:", {
             message: error?.message,
             status: error?.response?.status,
@@ -49,7 +51,7 @@ export async function POST(req: NextRequest) {
         });
         return NextResponse.json(
             {
-                error: "Failed to reset password",
+                error: "Failed to reset OTP",
                 details: error?.response?.data?.message || error?.message,
             },
             { status: error?.response?.status || 500 }

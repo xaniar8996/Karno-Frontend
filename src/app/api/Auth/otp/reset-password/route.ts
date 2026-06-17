@@ -1,4 +1,3 @@
-
 import { BaseAPI } from "@lib/axios";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -16,32 +15,23 @@ export async function POST(req: NextRequest) {
             );
         }
 
-        // Read body sent from the client (id, username)
         const body = await req.json().catch(() => null);
 
-        if (!body || !body.userId ) {
+        if (!body.email || !body.newPassword) {
             return NextResponse.json(
-                { error: "body is required !" },
-                { status: 401 }
+                { error: "Email and password are required !" },
+                { status: 400 }
             );
         }
 
-        // Forward request to backend with proper Axios signature:
-        // axios.post(url, data, config)
-        const response = await BaseAPI.post(
-            "/notifications/sendNotification",
-            {
-                userId: body.userId,
-                title: body.title,
-                message: body.message,
-                type: body.type,
+        const response = await BaseAPI.post("/otp/reset-password", {
+            email: body.email,
+            newPassword: body.newPassword
+        }, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
             },
-            {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            }
-        );
+        });
 
         if (response?.data?.success) {
             return NextResponse.json(response.data);
@@ -49,7 +39,7 @@ export async function POST(req: NextRequest) {
 
         return NextResponse.json(response?.data);
     } catch (error: any) {
-        console.error("Error sending notification to user:", error);
+        console.error("Error reseting password:", error);
         console.error("Error details:", {
             message: error?.message,
             status: error?.response?.status,
@@ -57,7 +47,7 @@ export async function POST(req: NextRequest) {
         });
         return NextResponse.json(
             {
-                error: "Failed to send notification",
+                error: "Failed to reset password",
                 details: error?.response?.data?.message || error?.message,
             },
             { status: error?.response?.status || 500 }

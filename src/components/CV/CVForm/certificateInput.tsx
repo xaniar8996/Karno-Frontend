@@ -6,6 +6,7 @@ import { FaTrashCan } from "react-icons/fa6";
 import DatePicker from "react-multi-date-picker"
 import persian from "react-date-object/calendars/persian"
 import persian_fa from "react-date-object/locales/persian_fa"
+import { Button } from "@components/base/button";
 
 export default function CertificateInput() {
     const { certificate, addcertificate, removecertificate } = useResumeStore();
@@ -77,12 +78,15 @@ export default function CertificateInput() {
                     />
                 </div>
 
-                <button
+                <Button
                     type="submit"
-                    className="w-full px-4 py-3 cursor-pointer bg-blue-600 text-white rounded-xl hover:bg-blue-700 active:scale-95 transition-all"
-                >
+                    variant="contained"
+                    color="secondary"
+                    size="md"
+                    fullWidth
+                    className='cursor-pointer hover:bg-blue-500 transition-all'                >
                     افزودن گواهینامه
-                </button>
+                </Button>
             </form>
 
             {certificate.length > 0 && (

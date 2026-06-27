@@ -1,4 +1,4 @@
-import About_us from '@components/Info/About-us'
+import About_us from '@components/info/AboutUs'
 
 const AboutPage = () => {
   return (

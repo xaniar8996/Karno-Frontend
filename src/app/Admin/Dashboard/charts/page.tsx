@@ -1,4 +1,4 @@
-import UsersStatus from "@components/Admin-panel/Dashboard/charts/UsersStatus"
+import UsersStatus from "@components/admin-panel/Dashboard/charts/UsersStatus"
 
 export default function TopReports() {
     return (

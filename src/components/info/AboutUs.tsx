@@ -1,10 +1,11 @@
 "use client";
+import { Button } from "@components/base/button";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
 const About_us = () => {
   return (
-    <section className="mb-32 mt-16 flex items-center justify-center px-6 font-[Vazirmatn]">
+    <section className="mb-32 mt-36 flex items-center justify-center px-6 font-[Vazirmatn]">
       <div className="max-w-5xl w-full grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
 
         {/* LEFT CONTENT */}
@@ -39,13 +40,22 @@ const About_us = () => {
 
           <div className="flex gap-4 pt-4">
             <Link href="/CV/CVSlider">
-              <button className="px-6 py-3 cursor-pointer rounded-xl bg-black text-white hover:scale-105 transition active:scale-95 transition-all duration-200">
+              <Button
+                variant="contained"
+                color="default"
+                size="md"
+                className="cursor-pointer hover:bg-black/80 transition-all"
+              >
                 شروع ساخت رزومه
-              </button>
+              </Button>
             </Link>
-            <button className="px-6 py-3 rounded-xl border border-black/20 text-gray-700 hover:bg-black/5 transition">
+            <Button
+              variant="outlined"
+              color="default"
+              size="md"
+            >
               قالب‌ها
-            </button>
+            </Button>
           </div>
         </motion.div>
 
@@ -56,7 +66,7 @@ const About_us = () => {
           transition={{ duration: 0.5, ease: "easeOut" }}
           className="relative flex justify-center"
         >
-          <div className="w-72 h-72 rounded-3xl bg-gradient-to-br from-yellow-400 to-orange-500 blur-2xl opacity-30 absolute"></div>
+          <div className="w-72 h-72 rounded-3xl bg-gradient-to-br from-yellow-400 to-orange-500 blur-2xl opacity-20 absolute"></div>
           <div className="relative w-80 h-80 rounded-3xl bg-white/60 backdrop-blur-xl border border-white/30 shadow-2xl flex flex-col justify-center items-center gap-4 text-center p-8">
             <img src="/logo/logo.png" alt="logo" className="w-auto h-20" />
             <p className="text-gray-600 text-sm leading-relaxed">

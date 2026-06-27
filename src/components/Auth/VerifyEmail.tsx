@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import { useQueryClient } from "@tanstack/react-query";
 import { useSendOTP } from "@hooks/auth/useSendOTP";
-import OTPVerification from "@components/otp-veification/otpVerification";
+import OTPVerification from "@components/otp-veification/OtpVerification";
 
 export default function VerifyEmail() {
     const User = UserStore((state) => state?.Users);

@@ -22,7 +22,7 @@ export default function page() {
 
 
     return (
-        <div className="w-full min-h-screen p-4">
+        <div className="w-full min-h-screen p-4 mt-30">
             <div className="max-w-7xl mx-auto mb-6 flex justify-center gap-3">
                 <button
                     onClick={() => setViewMode("both")}
@@ -66,7 +66,7 @@ export default function page() {
                 )}
                 {(viewMode === "both" || viewMode === "form") && (
                     <div className={`${viewMode === "form" ? "w-full max-w-2xl" : "w-1/2"} transition-all`}>
-                        <MainForm templateRef={templateRef} />
+                        <MainForm templateRef={templateRef} viewMode={viewMode}/>
                     </div>
                 )}
             </div>

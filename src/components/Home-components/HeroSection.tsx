@@ -1,11 +1,12 @@
 "use client"
 import { motion } from "framer-motion";
 import Link from 'next/link';
+import { Button } from "@components/base/button";
 
 export default function HeroSection() {
     return (
         <div
-            className='h-[32rem] w-full flex flex-row justify-around items-center mb-60 relative'
+            className='h-[32rem] w-full flex flex-row justify-around items-center mb-60 mt-32 relative'
         >
             <motion.div
                 initial={{ y: -15, opacity: 0 }}
@@ -32,7 +33,16 @@ export default function HeroSection() {
                             }}
                             className='w-full'
                         >
-                            <button type='button' className='w-full bg-black cursor-pointer text-white p-4 text-lg rounded-xl'>اولین رزومه ات رو بساز</button>
+                            <Button
+                                type="button"
+                                variant="contained"
+                                color="default"
+                                size="lg"
+                                fullWidth
+                                className="cursor-pointer"
+                                >
+                                اولین رزومه ات رو بساز
+                            </Button>
                         </motion.div>
                     </Link>
                 </div>

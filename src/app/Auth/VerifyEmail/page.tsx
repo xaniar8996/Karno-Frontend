@@ -1,4 +1,4 @@
-import VerifyEmail from '@components/Auth/VerifyEmail'
+import VerifyEmail from '@components/auth/VerifyEmail'
 import React from 'react'
 
 const VerifyEmailpage = () => {

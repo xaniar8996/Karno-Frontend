@@ -25,9 +25,10 @@ import "swiper/css";
 
 interface MainFormProps {
     templateRef: React.RefObject<HTMLDivElement | null>;
+    viewMode: "both" | "form" | "resume"
 }
 
-export default function MainForm({ templateRef }: MainFormProps) {
+export default function MainForm({ templateRef, viewMode }: MainFormProps) {
     const query = useQueryClient();
     const searchParams = useSearchParams();
     const router = useRouter();
@@ -211,7 +212,7 @@ export default function MainForm({ templateRef }: MainFormProps) {
 
     return (
         <div className="flex flex-col justify-start items-center gap-5 w-full h-auto">
-            <div className="w-full h-auto bg-gray-200 rounded-3xl flex flex-col justify-start items-center p-4">
+            <div className="w-full h-auto bg-gray-100 rounded-3xl flex flex-col justify-start items-center p-4">
                 {/* Swiper */}
                 <Swiper slidesPerView={"auto"} spaceBetween={5} className="w-full mt-5">
                     {CVTitles.map((cv, idx) => (
@@ -239,23 +240,25 @@ export default function MainForm({ templateRef }: MainFormProps) {
                 </div>
             </div>
             <div className="w-10/12 h-auto flex flex-row justify-start items-center gap-5" >
-                <button
-                    onClick={handlePrint}
-                    disabled={isPending}
-                    className="bg-white text-center w-full sm:w-1/2 rounded-2xl h-auto p-3 relative text-black text-xl font-semibold group cursor-pointer active:scale-95 transition-all"
-                    type="button">
-                    <div className="bg-blue-400 rounded-xl h-13 w-1/4 flex items-center justify-center absolute left-0 top-[0px] group-hover:w-full z-10 duration-500">
-                    <FaRegFilePdf className="text-black text-2xl"/>
-                    </div>
-                    ذخیره  PDF
-                </button>
+                {viewMode !== "form" && (
+                    <button
+                        onClick={handlePrint}
+                        disabled={isPending}
+                        className="bg-white text-center w-full sm:w-1/2 rounded-2xl h-auto p-3 relative text-black text-xl font-semibold group cursor-pointer active:scale-95 transition-all"
+                        type="button">
+                        <div className="bg-blue-400 rounded-xl h-13 w-1/4 flex items-center justify-center absolute left-0 top-[0px] group-hover:w-full z-10 duration-500">
+                            <FaRegFilePdf className="text-black text-2xl" />
+                        </div>
+                        ذخیره  PDF
+                    </button>
+                )}
                 <button
                     onClick={handleSave}
                     disabled={isPending}
-                    className="bg-white text-center w-full sm:w-1/2 rounded-2xl h-auto p-3 relative text-black text-xl font-semibold group cursor-pointer active:scale-95 transition-all"
+                    className="bg-white text-center w-full  rounded-2xl h-auto p-3 relative text-black text-xl font-semibold group cursor-pointer active:scale-95 transition-all"
                     type="button">
                     <div className="bg-green-400 rounded-xl h-13 w-1/4 flex items-center justify-center absolute left-0 top-[0px] group-hover:w-full z-10 duration-500">
-                    <CiSaveDown2 className="text-black text-3xl"/>
+                        <CiSaveDown2 className="text-black text-3xl" />
                     </div>
                     {isPending ? "در حال ذخیره..." : `${editId ? "ویرایش رزومه" : "ذخیره در اکانت"}`}
                 </button>

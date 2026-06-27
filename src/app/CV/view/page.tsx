@@ -91,7 +91,7 @@ export default function ViewResumePage() {
   }
 
   return (
-    <div className="w-full min-h-screen p-4">
+    <div className="w-full min-h-screen p-4 mt-34">
       <div className="max-w-5xl mx-auto">
         <ResumeTemplate
           initialData={initialData || undefined}

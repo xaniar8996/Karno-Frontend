@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { UserStoreTypes, UsersTypes } from "@Types/UserStore";
+import { UserStoreTypes, UsersTypes } from "@Types/userStore";
 import { NextAPI } from "@lib/axios";
 
 const UserStore = create<UserStoreTypes>((set) => ({

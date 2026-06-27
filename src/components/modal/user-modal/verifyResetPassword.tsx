@@ -3,8 +3,8 @@ import { BaseModal } from "../BaseModal";
 import { useForm } from "react-hook-form";
 import { useApiMutation } from "@hooks/api-hooks/useAPIMutation";
 import toast from "react-hot-toast";
-import OTPVerification from "@components/otp-veification/otpVerification";
-import { ResetPasswordValidation, ResetPasswordValidationType } from "@Types/AuthSchema";
+import OTPVerification from "@components/otp-veification/OtpVerification";
+import { ResetPasswordValidation, ResetPasswordValidationType } from "@Types/authSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 interface VerifyResetPasswordProps {
@@ -151,8 +151,7 @@ export default function verifyResetPassword({ onClose }: VerifyResetPasswordProp
                                     hover:scale-[1.02]
                                     active:scale-95
                                     shadow-lg shadow-blue-900/20
-                                    transition-all
-                            "
+                                    transition-all"
                                 >
                                     تغییر رمز
                                 </button>
@@ -175,8 +174,7 @@ export default function verifyResetPassword({ onClose }: VerifyResetPasswordProp
                             outline-none
                             focus:border-blue-500/50
                             focus:shadow-lg focus:shadow-blue-500/20
-                            transition-all
-                          "
+                            transition-all"
                             />
 
                             <button
@@ -189,8 +187,7 @@ export default function verifyResetPassword({ onClose }: VerifyResetPasswordProp
                             hover:scale-[1.02]
                             active:scale-95
                             shadow-lg shadow-blue-500/10
-                            transition-all
-                          "
+                            transition-all"
                             >
                                 ارسال کد ✨
                             </button>

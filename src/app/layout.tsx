@@ -4,10 +4,11 @@ import Footer from "@layout/Footer";
 import QueryProvider from "./providers/QueryProvider";
 import AuthProvider from "./providers/AuthProvider";
 import { DeleteModalProvider } from "@context/DeleteModalContext";
-import DeleteUser from "@components/modal/UserModal/DeleteModal";
+import DeleteUser from "@components/modal/user-modal/DeleteModal";
 import "@/lib/chart";
 import "../assets/style/globals.css";
 import "../assets/style/Fontface.css";
+import "../assets/style/Theme.css"
 
 export default function RootLayout({
   children,
@@ -19,7 +20,7 @@ export default function RootLayout({
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
-      <body>
+      <body className="bg-gradient-to-br from-white via-white to-green-50">
         <Toaster
           position="top-center"
           reverseOrder={false}

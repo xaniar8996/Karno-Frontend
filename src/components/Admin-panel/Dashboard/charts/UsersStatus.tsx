@@ -2,7 +2,7 @@ import "@/lib/chart";
 import { MiniLoader } from "@app/loadings/loading";
 import { useAPIQuery } from "@hooks/api-hooks/useAPIQuery";
 import UserStore from "@Store/UserStore";
-import { UsersTypes } from "@Types/UserStore";
+import { UsersTypes } from "@Types/userStore";
 import { useMemo } from "react";
 import { Doughnut } from "react-chartjs-2";
 

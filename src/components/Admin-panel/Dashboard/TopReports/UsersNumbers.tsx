@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import UserStore from "@Store/UserStore";
 import { useAPIQuery } from "@hooks/api-hooks/useAPIQuery";
 import { MiniLoader } from "@app/loadings/loading";
-import { UsersTypes } from "@Types/UserStore";
+import { UsersTypes } from "@Types/userStore";
 import { HiUsers } from "react-icons/hi";
 
 

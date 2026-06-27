@@ -1,4 +1,4 @@
-import MixedPages from "@components/Admin-panel/Mixedpages";
+import MixedPages from "@components/admin-panel/Mixedpages";
 
     export default function Mixedpage(){
         return(

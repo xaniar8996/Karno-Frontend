@@ -1,5 +1,5 @@
 "use client";
-import Mainpage from "@components/Home-components/mainpage";
+import Mainpage from "@components/home-components/MainPage";
 import { useCheckAuth } from "@hooks/auth/useCheckAuth";
 import Loading from "@app/loadings/loading";
 

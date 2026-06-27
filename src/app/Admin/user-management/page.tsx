@@ -1,4 +1,4 @@
-import Users from "@components/Admin-panel/UserManagement/users"
+import Users from "@components/admin-panel/UserManagement/users"
 
 export default function UserManagementPage() {
     return (

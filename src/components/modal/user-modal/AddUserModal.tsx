@@ -7,7 +7,7 @@ import { FiEyeOff, FiEye } from "react-icons/fi";
 import { useForm, Controller } from "react-hook-form";
 import { useQueryClient } from "@tanstack/react-query";
 import { useApiMutation } from "@hooks/api-hooks/useAPIMutation";
-import { AddUserFormInputs, UserRole, UsersTypes } from "@Types/UserStore";
+import { AddUserFormInputs, UserRole, UsersTypes } from "@Types/userStore";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { BaseModal } from "../BaseModal";

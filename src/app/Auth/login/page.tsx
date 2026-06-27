@@ -1,5 +1,5 @@
 "use client";
-import LoginForm from "@components/Auth/LoginForm";
+import LoginForm from "@components/auth/LoginForm";
 import { useCheckAuth } from "@hooks/auth/useCheckAuth";
 import Loading from "@app/loadings/loading";
 

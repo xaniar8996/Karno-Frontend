@@ -2,18 +2,19 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { Button } from "@components/base/button";
 
 export default function AboutUs() {
   return (
-    <div className="w-11/12 h-auto flex flex-col justify-center items-center gap-20 mb-10 px-20">
+    <div className="w-full h-auto flex flex-col justify-center items-center gap-20 mb-10 px-20">
       <motion.h1
-        className="relative text-5xl text-center z-10 after:content-[''] after:block after:w-1/2 after:h-[4px] after:bg-gradient-to-r after:from-black after:to-green-600 after:mx-auto after:mt-3 after:rounded-md"
+        className="relative text-4xl text-center z-10 after:content-[''] after:block after:w-1/2 after:h-[4px] after:bg-gradient-to-r after:from-black after:to-green-600 after:mx-auto after:mt-3 after:rounded-md"
         initial={{ opacity: 0, y: -50 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
         viewport={{ once: true }}
       >
-        درباره ما
+        ساخت رزومه، ساده‌تر از همیشه
       </motion.h1>
 
       <motion.div
@@ -62,14 +63,14 @@ export default function AboutUs() {
             </p>
 
             <Link href="/CV/CVSlider" className="w-full">
-              <motion.button
-                type="button"
-                className="w-1/3 bg-green-300 p-4 rounded-2xl text-gray-800 font-semibold hover:shadow-lg hover:shadow-gray-300 transition-all cursor-pointer active:scale-95"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                رزومه‌ات رو بساز
-              </motion.button>
+                <Button
+                variant="contained"
+                color="default"
+                size="md"
+                className="w-1/2 cursor-pointer active:scale-95 transition-all"
+                >
+                  رزومه‌ات رو بساز
+                </Button>
             </Link>
           </div>
         </motion.div>

@@ -1,4 +1,4 @@
-import UnverifiedAccount from "@components/Auth/UnverifiedAccount";
+import UnverifiedAccount from "@components/auth/UnverifiedAccount";
 
     export default function UnverifiedEmail(){
         return(

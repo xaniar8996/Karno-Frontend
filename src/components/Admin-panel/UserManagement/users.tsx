@@ -3,15 +3,15 @@ import { MiniLoader } from "@app/loadings/loading";
 import { useAPIQuery } from "@hooks/api-hooks/useAPIQuery";
 import { usePagination } from "@hooks/usePagination";
 import UserStore from "@Store/UserStore";
-import { UserRole, UsersTypes } from "@Types/UserStore";
+import { UserRole, UsersTypes } from "@Types/userStore";
 import { Pagination } from "../../../utils/Pagination";
 import { IoAdd } from "react-icons/io5";
 import { IoTrashBinOutline } from "react-icons/io5";
 import { MdOutlineModeEdit } from "react-icons/md";
 import { GoBellFill } from "react-icons/go";
 import { motion } from "framer-motion";
-import SendNotificationModal from "../../modal/UserModal/SendNotificationModal";
-import AddUserModal from "@components/modal/UserModal/AddUserModal";
+import SendNotificationModal from "../../modal/user-modal/SendNotificationModal";
+import AddUserModal from "@components/modal/user-modal/AddUserModal";
 import { useModal } from "@hooks/ui/useModal";
 import { useDeleteModalHook } from "@hooks/ui/useDeleteModal";
 import { getUserId } from "@utils/GetUserId";
@@ -154,7 +154,6 @@ export default function Users() {
                                 {users.map((user, index) => {
                                     const roles = getUserRoles(user.roles);
                                     const CurrentAdmin = roles.includes("Admin") && user._id !== currentUserId;
-
                                     return (
                                         <tr key={user._id || index} className="text-sm">
                                             <td>{user.Fullname ?? "ناشناس"}</td>
@@ -224,13 +223,11 @@ export default function Users() {
                                     );
                                 })}
                             </tbody>
-
                         </table>
                     </div>
                 )}
             </motion.div>
 
-            {/* Pagination */}
             <div className="w-full flex justify-center items-center">
                 <Pagination
                     pageCount={pageCount}

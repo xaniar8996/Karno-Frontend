@@ -1,9 +1,12 @@
+import {z} from "zod"
 
-export interface notificationType {
-    userId: string,
-    title: string,
-    message: string,
-    type: "VERIFY_ACCOUNT" | "SYSTEM" | "WARNING",
-    isRead?: boolean,
-    createdAt: Date
-}
+export const NotifValidation = z.object({
+    userId:z.string(),
+    title:z.string(),
+    message:z.string(),
+    type:z.string(),
+    isRead:z.boolean(),
+    createdAt:z.date()
+});
+
+export type NotificationType = z.infer<typeof NotifValidation>

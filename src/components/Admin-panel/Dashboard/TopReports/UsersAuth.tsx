@@ -3,7 +3,7 @@ import { useCallback, useMemo, useState } from "react";
 import UserStore from "@Store/UserStore";
 import { useAPIQuery } from "@hooks/api-hooks/useAPIQuery";
 import { MiniLoader } from "@app/loadings/loading";
-import { UsersTypes } from "@Types/UserStore";
+import { UsersTypes } from "@Types/userStore";
 import UnAuthorizedUsersModal from "@components/modal/unAuthorizedUsers";
 import { HiShieldExclamation } from "react-icons/hi";
 import { IoIosArrowRoundBack } from "react-icons/io";

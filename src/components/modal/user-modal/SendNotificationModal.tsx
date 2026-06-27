@@ -1,8 +1,8 @@
 "use client";
 
 import { useApiMutation } from "@hooks/api-hooks/useAPIMutation";
-import { notificationType } from "@Types/NotificationType";
-import { UsersTypes } from "@Types/UserStore";
+import { NotificationType } from "@Types/notificationType";
+import { UsersTypes } from "@Types/userStore";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { IoSend } from "react-icons/io5";
@@ -15,7 +15,11 @@ interface SendNotificationModalProps {
 
 export default function SendNotificationModal({ onClose, selectedUser }: SendNotificationModalProps) {
 
-    const { register, handleSubmit } = useForm<notificationType>();
+    const { register, handleSubmit } = useForm<NotificationType>({
+        defaultValues: {
+            type: "system"
+        }
+    });
 
     const SendNotification = useApiMutation({
         url: "/api/Notifications/sendNotification",
@@ -25,12 +29,12 @@ export default function SendNotificationModal({ onClose, selectedUser }: SendNot
             toast.success("اعلان با موفقیت ارسال شد", { style: { color: "#fff" } });
             onClose?.();
         },
-        onErrorCallback: (error) => {
-            toast.error( "خطایی رخ داده , دوباره امتحان کن", { style: { color: "#fff" } });
+        onErrorCallback: () => {
+            toast.error("خطایی رخ داده , دوباره امتحان کن" , { style: { color: "#fff" } });
         }
     });
 
-    const HandleSendNotification = (data: notificationType) => {
+    const HandleSendNotification = (data: NotificationType) => {
         if (!data || !selectedUser?._id) {
             toast.error("اطلاعات کامل نیست", { style: { color: "#fff" } });
             return;
@@ -62,7 +66,7 @@ export default function SendNotificationModal({ onClose, selectedUser }: SendNot
                         <div className="flex flex-col gap-1 w-full">
                             <label className="text-sm text-white/60">عنوان اعلان</label>
                             <input
-                                {...register("title")}
+                                {...register("title", { required: "عنوان اعلان الزامی است" })}
                                 type="text"
                                 placeholder="مثلاً: احراز هویت ناقص"
                                 className="bg-white/5 border border-white/10 rounded-xl px-4 py-2 outline-none focus:border-blue-500/60 transition-all"
@@ -72,7 +76,7 @@ export default function SendNotificationModal({ onClose, selectedUser }: SendNot
                         <div className="flex flex-col gap-1 w-full">
                             <label className="text-sm text-white/60">پیام اعلان</label>
                             <textarea
-                                {...register("message")}
+                                {...register("message", { required: "پیام اعلان الزامی است" })}
                                 placeholder="..."
                                 className="bg-white/5 border border-white/10 rounded-xl px-4 py-2 outline-none focus:border-blue-500/60 transition-all max-h-60 min-h-[100px]"
                             />
@@ -83,30 +87,30 @@ export default function SendNotificationModal({ onClose, selectedUser }: SendNot
 
                             <label className="flex items-center gap-2 cursor-pointer">
                                 <input
-                                    {...register("type")}
+                                    {...register("type", { required: true })}
                                     type="radio"
-                                    value="VERIFY_ACCOUNT"
-                                    className="accent-indigo-500"
+                                    value="auth"
+                                    className="accent-red-500"
                                 />
                                 <span className="text-white">احراز هویت</span>
                             </label>
 
                             <label className="flex items-center gap-2 cursor-pointer">
                                 <input
-                                    {...register("type")}
+                                    {...register("type", { required: true })}
                                     type="radio"
-                                    value="WARNING"
-                                    className="accent-red-500"
+                                    value="warning"
+                                    className="accent-yellow-500"
                                 />
                                 <span className="text-white">هشدار</span>
                             </label>
 
                             <label className="flex items-center gap-2 cursor-pointer">
                                 <input
-                                    {...register("type")}
+                                    {...register("type", { required: true })}
                                     type="radio"
-                                    value="SYSTEM"
-                                    className="accent-yellow-500"
+                                    value="system"
+                                    className="accent-blue-500"
                                 />
                                 <span className="text-white">سیستمی</span>
                             </label>

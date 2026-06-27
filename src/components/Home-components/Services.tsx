@@ -20,7 +20,7 @@ export default function Services() {
         چرا <b className='text-green-600'>کارنو</b> ؟
       </h1>
 
-      <div className="relative z-10 w-11/12 flex flex-col justify-center items-center gap-12 sm:flex-row flex-wrap">
+      <div className="relative z-10 w-full flex flex-col justify-center items-center gap-12 sm:flex-row flex-wrap">
         {Services_Data.map((service, idx) => (
           <div
             key={idx}

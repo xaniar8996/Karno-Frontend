@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@components/base/button";
 import { useResumeStore } from "@Store/resumeStore";
 import React, { useState } from "react";
 import { FaTrashCan } from "react-icons/fa6";
@@ -81,12 +82,15 @@ export default function SocialLinksInput() {
           />
         </div>
 
-        <button
+        <Button
           type="submit"
-          className="w-full px-4 py-3 cursor-pointer bg-blue-600 text-white rounded-xl hover:bg-blue-700 active:scale-95 transition-all"
-        >
+          variant="contained"
+          color="secondary"
+          size="md"
+          fullWidth
+          className='cursor-pointer hover:bg-blue-500 transition-all'        >
           افزودن لینک اجتماعی
-        </button>
+        </Button>
       </form>
 
       {socialLink.length > 0 && (

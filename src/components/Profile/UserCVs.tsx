@@ -1,16 +1,20 @@
 import { MiniLoader } from "@app/loadings/loading";
 import { useAPIQuery } from "@hooks/api-hooks/useAPIQuery";
 import { NextAPI } from "@lib/axios";
-import { UsersTypes } from "@Types/UserStore";
+import { UsersTypes } from "@Types/userStore";
 import Link from "next/link";
 import { useMemo } from "react";
+import { IoTrashBinOutline } from "react-icons/io5";
 import { HiOutlineDocumentPlus } from "react-icons/hi2";
+import { useDeleteModalHook } from "@hooks/ui/useDeleteModal";
+import { ResumeData } from "@Types/resumeType";
 
 interface UserDataTypes {
     userData: UsersTypes | null,
 }
 
 export default function UserCVs({ userData }: UserDataTypes) {
+    const openDeleteModal = useDeleteModalHook();
 
     const { data: userCV, isLoading: cvLoading } = useAPIQuery({
         key: ["UserCV"],
@@ -25,6 +29,15 @@ export default function UserCVs({ userData }: UserDataTypes) {
         },
         enabled: Boolean(userData),
     });
+
+    // open delete modal
+    const handleDeleteUserCV = (cv: ResumeData) => {
+        openDeleteModal({
+            id: cv._id || "",
+            name: cv.personal?.fullName || cv.personal?.jobTitle || "رزومه",
+            type: "CV"
+        })
+    }
 
     const resumeList = useMemo(() => userCV?.data || [], [userCV]);
 
@@ -54,6 +67,11 @@ export default function UserCVs({ userData }: UserDataTypes) {
                             </div>
                         </div>
                         <div className="flex items-center gap-2 text-[11px] md:text-xs">
+                            <button 
+                            onClick={() => handleDeleteUserCV(resume)}
+                            className="bg-red-500/30 p-2 rounded-md cursor-pointer group transition-all hover:bg-red-600/40 active:scale-95">
+                                <IoTrashBinOutline className="text-sm text-red-500/80" />
+                            </button>
                             <Link href={`/CV/view?id=${resume._id}&tpl=${resume.template}`}>
                                 <button className="rounded-xl bg-white/10 px-3 py-1.5 text-slate-100 transition hover:bg-white/20 cursor-pointer">
                                     مشاهده

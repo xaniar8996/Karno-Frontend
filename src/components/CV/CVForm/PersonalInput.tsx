@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useResumeStore } from "@Store/resumeStore";
+import { useCurrentUser } from "@hooks/currentUser";
 
 type PersonalInputProps = {
   onPhotoChange: (file: File | null) => void;
@@ -9,6 +10,7 @@ type PersonalInputProps = {
 
 const PersonalInput = ({ onPhotoChange }: PersonalInputProps) => {
   const { personal, setPersonalField } = useResumeStore();
+  const { data: currentUser } = useCurrentUser();
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] ?? null;
@@ -25,12 +27,16 @@ const PersonalInput = ({ onPhotoChange }: PersonalInputProps) => {
     }
   };
 
+  const setUserEmail = () => {
+    setPersonalField("email" , currentUser?.email || personal.email || "")
+  }
+
   const inputClass =
     "w-full px-4 py-3 rounded-xl bg-white/70 backdrop-blur-sm border border-gray-300 focus:border-black focus:bg-white transition-all outline-none";
-  
+
   return (
     <div className="w-full h-full overflow-y-auto px-2 space-y-4">
-      
+
       {/* عنوان */}
       <h2 className="text-lg font-semibold text-gray-800 mb-2">
         اطلاعات شخصی
@@ -71,7 +77,7 @@ const PersonalInput = ({ onPhotoChange }: PersonalInputProps) => {
       </div>
 
       {/* ایمیل */}
-      <div className="space-y-1">
+      <div className="space-y-3">
         <label className="text-sm text-gray-700">ایمیل</label>
         <input
           type="email"
@@ -80,6 +86,16 @@ const PersonalInput = ({ onPhotoChange }: PersonalInputProps) => {
           value={personal.email}
           onChange={(e) => setPersonalField("email", e.target.value)}
         />
+        <div className="space-x-2">
+          <span className="text-xs text-gray-500">ایمیل تو :</span>
+          <button
+          onClick={() => setUserEmail()}
+          className="text-xs text-gray-500/80 px-3 py-1 bg-gray-300/30
+         rounded-full transition-all hover:bg-gray-300/70 hover:text-gray-500/100 cursor-pointer active:scale-95"
+         >
+          {currentUser?.email}
+         </button>
+        </div>
       </div>
 
       {/* شماره تماس */}

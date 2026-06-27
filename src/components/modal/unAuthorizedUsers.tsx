@@ -1,8 +1,8 @@
 "use client";
 import { motion } from "framer-motion";
-import { UsersTypes } from "@Types/UserStore";
+import { UsersTypes } from "@Types/userStore";
 import { IoSend } from "react-icons/io5";
-import SendNotificationModal from "./UserModal/SendNotificationModal";
+import SendNotificationModal from "./user-modal/SendNotificationModal";
 import { useModal } from "@hooks/ui/useModal";
 import { useState } from "react";
 import { BaseModal } from "./BaseModal";

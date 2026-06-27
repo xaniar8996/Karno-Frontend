@@ -1,7 +1,7 @@
 "use client"
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AuthValidation, AuthValidationType } from "@Types/AuthSchema";
+import { AuthValidation, AuthValidationType } from "@Types/authSchema";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { FiEye } from "react-icons/fi";

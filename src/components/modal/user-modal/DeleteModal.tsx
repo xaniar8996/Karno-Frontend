@@ -31,11 +31,10 @@ export default function DeleteUser() {
         useNextAPI: true,
         onSuccessCallback: () => {
             if (!data) return;
-
             deleteConfig.queryKeys.forEach(key => {
                 queryClient.invalidateQueries({ queryKey: key });
             });
-            toast.success(deleteConfig.successMessage, { style: { color: "#fff" } });
+            toast.success(deleteConfig.successMessage, { style: { color: "#000" } });
             closeModal();
             setCurrentUsername("");
         },

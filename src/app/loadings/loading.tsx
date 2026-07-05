@@ -2,18 +2,26 @@
 
 type LoaderVariant = "large" | "mini";
 
-const loaderClassByVariant: Record<LoaderVariant, string> = {
+interface LoaderProps {
+  variant?: LoaderVariant;
+  className?: string;
+}
+
+const loaderClassByVariant = {
   large: "loader",
   mini: "miniloader",
-};
+} as const;
 
-function Loader({ variant = "large" }: { variant?: LoaderVariant }) {
+function Loader({ variant = "large", className }: LoaderProps) {
   return (
-    <div className={`w-full flex justify-center items-center ${variant === "large" ? "h-dvh" : "h-auto"}`}>
-      <div className={loaderClassByVariant[variant]}></div>
+    <div className={`w-full flex justify-center items-center ${variant === "large" && "h-dvh"}`}>
+      <div className={`${loaderClassByVariant[variant]} ${className}`} />
     </div>
   );
 }
 
 export default Loader;
-export const MiniLoader = () => <Loader variant="mini" />;
+
+export const MiniLoader = (props: Omit<LoaderProps, "variant">) => (
+  <Loader variant="mini" {...props} />
+);

@@ -62,7 +62,7 @@ export default function RegisterForm() {
       {/* Login Button */}
       <div className="absolute top-6 left-6">
         <button
-          onClick={() => router.push("/Auth/login")}
+          onClick={() => router.push("/login")}
           className="text-sm text-gray-300 cursor-pointer hover:text-white transition"
         >
           ورود

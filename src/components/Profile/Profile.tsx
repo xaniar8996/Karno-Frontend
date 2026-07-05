@@ -53,7 +53,7 @@ export default function Profile() {
                     <div className="mb-5 flex items-center justify-between gap-4">
                         <div className="flex items-center gap-4">
                             <div className="relative h-14 w-14 rounded-2xl border border-white/30 bg-slate-900/80 p-[3px]">
-                                <div className="flex h-full w-full items-center justify-center rounded-xl bg-gradient-to-br from-slate-800 to-slate-950 text-lg font-semibold text-primary-500">
+                                <div className="flex h-full w-full items-center justify-center rounded-xl bg-gradient-to-br from-slate-800 to-slate-950 text-lg font-semibold text-white">
                                     {userInitial}
                                 </div>
                             </div>

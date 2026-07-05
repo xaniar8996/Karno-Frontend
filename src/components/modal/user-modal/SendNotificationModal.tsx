@@ -50,7 +50,7 @@ export default function SendNotificationModal({ onClose, selectedUser }: SendNot
     const displayName = selectedUser?.Fullname ?? selectedUser?.email ?? "";
 
     return (
-        <BaseModal onClose={onClose} zIndex={110} scrollable>
+        <BaseModal onClose={onClose} scrollable>
             <BaseModal.Header
                 title={
                     <>

@@ -1,4 +1,4 @@
-import React, { ButtonHTMLAttributes } from "react";
+import React, { ButtonHTMLAttributes, ReactNode } from "react";
 import { clx } from "@utils/classnames";
 
 type Variant = "contained" | "outlined" | "text";
@@ -10,14 +10,15 @@ type Color =
   | "warning"
   | "default";
 
-type Size = "sm" | "md" | "lg" | "xl";
+type Size = "xs" | "sm" | "md" | "lg" | "xl";
 
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: Variant;
   color?: Color;
   size?: Size;
-  fullWidth?:boolean
+  icon?: ReactNode;
+  fullWidth?: boolean
 }
 
 const buttonBaseStyles =
@@ -65,10 +66,11 @@ const variants = {
 } as const;
 
 const sizes = {
+  xs: "py-1 px-1 text-xs",
   sm: "py-3 px-5 text-sm",
   md: "py-4 px-6 text-base",
   lg: "py-5 px-7 text-lg",
-  xl:"py-6 px-8 text-xl"
+  xl: "py-6 px-8 text-xl"
 } as const;
 
 export const Button: React.FC<ButtonProps> = ({
@@ -78,6 +80,7 @@ export const Button: React.FC<ButtonProps> = ({
   fullWidth = false,
   className,
   children,
+  icon,
   ...props
 }) => {
   return (
@@ -87,11 +90,12 @@ export const Button: React.FC<ButtonProps> = ({
         variants[variant][color],
         sizes[size],
         fullWidth && "w-full",
-        className
+        className,
+        "gap-2"
       )}
       {...props}
     >
-      {children}
+      {icon && icon}{children}
     </button>
   );
 };

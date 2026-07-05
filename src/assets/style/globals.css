@@ -44,7 +44,7 @@ body {
 
   /* HTML: <div class="loader"></div> */
 .miniloader {
-    width: 50px;
+
     aspect-ratio: 1;
     --c:no-repeat radial-gradient(farthest-side,#514b82 92%,#0000);
     background: 

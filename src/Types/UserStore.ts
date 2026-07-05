@@ -12,6 +12,10 @@ export interface UsersTypes {
         Moderator: number,
         Admin: number,
     };
+    aiUsage:{
+        count:number,
+        lastReset:Date
+    }
     verifyOtp: string,
     verifyOtpExpiredAt: number,
     isAccountVerified: boolean,

@@ -65,7 +65,7 @@ export interface Interests {
 export interface ResumeData {
   // made _id optional
   _id?: string;
-  template:string;
+  template: string;
   personal: PersonalInfos;
   skills: Skill[];
   experiences: Experience[];

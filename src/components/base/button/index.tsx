@@ -76,7 +76,7 @@ const sizes = {
 export const Button: React.FC<ButtonProps> = ({
   variant = "contained",
   color = "primary",
-  size = "md",
+  size,
   fullWidth = false,
   className,
   children,
@@ -88,7 +88,7 @@ export const Button: React.FC<ButtonProps> = ({
       className={clx(
         buttonBaseStyles,
         variants[variant][color],
-        sizes[size],
+        size && sizes[size],
         fullWidth && "w-full",
         className,
         "gap-2"

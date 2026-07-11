@@ -28,7 +28,7 @@ export const CopyCV = ({ id , tpl }: CVId) => {
             toast.success("رزومه با موفقیت کپی شد");
             queryClient.invalidateQueries({
                 queryKey: ["UserCV"]
-            })
+            });
         },
         onErrorCallback: (error) => {
             if (error.response?.status === 404) {

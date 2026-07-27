@@ -16,7 +16,11 @@ import { useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import EditableField from "@components/base/editable-field";
 
-type EditProfilePayload = Partial<Pick<UsersTypes, "Fullname" | "email">>;
+type EditProfilePayload = Partial<
+  Pick<UsersTypes, "Fullname" | "email">
+> & {
+  field: "Fullname" | "email";
+};
 
 export default function Profile() {
   const GetUser = UserStore((state) => state?.GetUser);
@@ -50,7 +54,7 @@ export default function Profile() {
         queryKey: ["User"],
       });
       toast.success(
-        vairables.Fullname
+        vairables.field
           ? "نام با موفقیت تغییر کرد"
           : "ایمیل با موفقیت تغییر کرد",
       );
@@ -58,7 +62,9 @@ export default function Profile() {
     onErrorCallback: (error) => {
       if (error.response?.status === 400) {
         toast.error("کاربر پیدا نشد !");
-      } else {
+      } else if(error.response?.status === 409) {
+        toast.error("ایمیل نامعتبر است!");
+      }else {
         toast.error("خطای داخلی سرور , دوباره امتحان کن");
       }
     },
@@ -97,7 +103,7 @@ export default function Profile() {
                     onSave={async (value) => {
                       await editProfile.mutateAsync({
                         Fullname: value,
-                        field: "username",
+                        field: "Fullname",
                       });
                     }}
                   />

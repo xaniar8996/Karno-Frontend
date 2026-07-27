@@ -48,10 +48,11 @@ export const useApiMutation = <TVariables = any, TResponse = any>({
             }
         },
 
-        onSuccess: (res: any) => {
+        onSuccess: (res: any, variables: TVariables) => {
             if (res?.status === 200 || res?.status === 201) {
-                successMessage && toast.success(successMessage, { style: { color: '#000' } });
-                onSuccessCallback?.(res);
+                successMessage && toast.success(successMessage);
+        
+                onSuccessCallback?.(variables);
             }
         },
 

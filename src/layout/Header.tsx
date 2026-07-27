@@ -185,7 +185,7 @@ export default function Header() {
                           rounded-2xl
                           border
                           border-white/20
-                          bg-white/30
+                          bg-white/90
                           backdrop-blur-3xl
                           shadow-2xl
                           p-2

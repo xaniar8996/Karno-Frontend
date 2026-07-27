@@ -6,8 +6,7 @@ export async function GET(req: NextRequest) {
         const { searchParams } = new URL(req.url);
         const AllOrSingleUser = searchParams.get("all") === "true"; 
 
-        // getAccessToken() doesn't work server-side because it uses document.cookie
-        // Instead, read the cookie directly from the request
+
         const accessToken = req.cookies.get("accessToken")?.value ||
             req.headers.get("authorization")?.replace("Bearer ", "");
 

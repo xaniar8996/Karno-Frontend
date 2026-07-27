@@ -16,13 +16,15 @@ import { useModal } from "@hooks/ui/useModal";
 import { useDeleteModalHook } from "@hooks/ui/useDeleteModal";
 import { useDebounce } from "../../../hooks/ui/useDebounce";
 import { getUserId } from "@utils/GetUserId";
+import SearchUser from "./searchUser";
+import { useCurrentUser } from "@hooks/currentUser";
+import { NextAPI } from "@lib/axios";
 
 export default function Users() {
   const sendNotificationModal = useModal();
   const openDeleteModal = useDeleteModalHook();
 
   const GetAllUsers = UserStore((state) => state.GetAllUsers);
-  const [query, setQuery] = useState("");
   const [selectedUser, setSelectedUser] = useState<Partial<
     Pick<
       UsersTypes,
@@ -30,9 +32,14 @@ export default function Users() {
     >
   > | null>(null);
   const [method, setMethod] = useState<"add" | "edit">("add");
+  const [query, setQuery] = useState("");
+  const currentUser = useCurrentUser();
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const [role, setRole] = useState(currentUser.data?.roles);
   const addUserModal = useModal();
 
-  const debouncedValue = useDebounce(query, 500);
+  const debouncedQuery = useDebounce(query, 500);
 
   const {
     data: allUsers,
@@ -119,12 +126,26 @@ export default function Users() {
     });
   };
 
+  // search user
+  const { data: filteredUsers } = useAPIQuery<UsersTypes[] | null>({
+    key: ["search-user", debouncedQuery, page, role],
+    queryFn: async () => {
+      const response = await NextAPI.get("/api/admin/searchUser", {
+        params: {
+          search: debouncedQuery,
+          page: page,
+          limit,
+          role,
+        },
+      });
 
-  useEffect(() => {
+      // route returns { success: true, data: { users: [...] } }
+      return response.data?.data?.users || [];
+    },
+  });
 
-    
-
-  },[])
+  // pick which list to show: when searching use filteredUsers, otherwise paginated users
+  const displayedUsers = debouncedQuery ? filteredUsers || [] : users || [];
 
   return (
     <div className="w-full h-auto flex flex-col justify-center items-start gap-5 px-5">
@@ -132,28 +153,7 @@ export default function Users() {
         <h1 className="text-white text-2xl whitespace-nowrap">
           مدیریت کاربران
         </h1>
-
-        <div className="flex-1">
-          <input
-            type="search"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="جستجوی کاربر..."
-            className="
-            w-full 
-            px-4 
-            py-2 
-            rounded-xl 
-            text-white 
-            bg-transparent
-            border-2 
-            border-gray-600
-            outline-none
-            focus:border-green-500
-            transition-all
-        "
-          />
-        </div>
+        <SearchUser query={query} setQuery={setQuery} />
         <button
           onClick={openAddModal}
           type="button"
@@ -209,7 +209,7 @@ export default function Users() {
             </div>
           </div>
         ) : (
-          <div className="w-full h-auto border-2 border-gray-700 p-3 rounded-3xl py-5 relative group p-5">
+          <div className="w-full h-auto border-2 border-gray-700 rounded-3xl py-5 relative group p-5">
             <table className="w-full text-white border-separate border-spacing-y-5">
               <thead>
                 <tr className="border-b border-gray-600 px-10">
@@ -231,7 +231,7 @@ export default function Users() {
                 </tr>
               </thead>
               <tbody>
-                {users.map((user, index) => {
+                {displayedUsers.map((user, index) => {
                   const roles = getUserRoles(user.roles);
                   const CurrentAdmin =
                     roles.includes("Admin") && user._id !== currentUserId;

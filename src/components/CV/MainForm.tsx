@@ -21,6 +21,7 @@ import axios from "axios";
 import { NextAPI } from "@lib/axios";
 import { CiSaveDown2 } from "react-icons/ci";
 import { FaRegFilePdf } from "react-icons/fa6";
+// @ts-ignore
 import "swiper/css";
 
 interface MainFormProps {
@@ -39,6 +40,11 @@ export default function MainForm({ templateRef, viewMode }: MainFormProps) {
     const handlePrint = useReactToPrint({
         contentRef: templateRef,
         documentTitle: "resume",
+        pageStyle: `
+            @page { size: A4 portrait; margin: 8mm; }
+            body { -webkit-print-color-adjust: exact; color-adjust: exact; zoom: 0.88; transform: scale(0.92); transform-origin: top left; }
+            html, body { width: auto !important; min-height: auto !important; overflow: visible !important; }
+        `,
     });
 
     const renderForm = () => {
@@ -239,7 +245,7 @@ export default function MainForm({ templateRef, viewMode }: MainFormProps) {
                     {renderForm()}
                 </div>
             </div>
-            <div className="w-10/12 h-auto flex flex-row justify-start items-center gap-5" >
+            <div className="w-10/12 h-auto flex flex-col justify-start items-center gap-5 sm:flex-row" >
                 {viewMode !== "form" && (
                     <button
                         onClick={handlePrint}

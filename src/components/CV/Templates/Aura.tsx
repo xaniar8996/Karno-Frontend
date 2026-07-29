@@ -24,8 +24,8 @@ export default function YellowGradientTemplate({ CVData }: CVDataProps) {
   useRequireVerifiedAccount();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-gray-100 text-gray-800 font-[Vazirmatn]">
-      <div className="max-w-5xl mx-auto py-12 px-4 sm:px-6 lg:px-10 grid grid-cols-1 lg:grid-cols-3 gap-10">
+    <div className="min-h-screen print:min-h-0 print:w-full print:max-w-none print:bg-white print:text-black bg-gradient-to-br from-yellow-50 to-gray-100 text-gray-800 font-[Vazirmatn]">
+      <div className="max-w-5xl mx-auto py-12 px-4 sm:px-6 lg:px-10 print:px-4 print:py-8 grid grid-cols-1 lg:grid-cols-3 print:grid-cols-3 gap-10">
 
         {/* ================= LEFT SIDEBAR ================= */}
         <aside className="bg-gray-900 text-white rounded-3xl p-8 shadow-2xl flex flex-col items-center">

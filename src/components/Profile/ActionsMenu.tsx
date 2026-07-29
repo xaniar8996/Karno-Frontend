@@ -24,6 +24,7 @@ export const CopyCV = ({ id , tpl }: CVId) => {
         method: "post",
         url: `/api/CV/copy/${id}`,
         useNextAPI: true,
+        successMessage:"رزومه با موفقیت کپی شد",
         onSuccessCallback: () => {
             toast.success("رزومه با موفقیت کپی شد");
             queryClient.invalidateQueries({

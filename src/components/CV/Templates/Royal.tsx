@@ -14,12 +14,12 @@ export default function RoyalTemplate({ CVData }: CVDataProps) {
     useRequireVerifiedAccount();
 
     return (
-        <div className="min-h-screen bg-slate-900 text-gray-100 font-[Vazirmatn]">
-            <div className="max-w-7xl mx-auto">
+        <div className="min-h-screen bg-slate-900 text-gray-100 font-[Vazirmatn] print:min-h-0 print:bg-white print:text-black">
+            <div className="max-w-7xl mx-auto print:max-w-none">
                 {/* Sidebar */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 min-h-screen rounded-xl">
+                <div className="grid grid-cols-1 lg:grid-cols-12 print:grid-cols-12 min-h-screen rounded-xl print:min-h-0">
                     {/* Left Sidebar - Dark */}
-                    <aside className="lg:col-span-4 rounded-2xl bg-gradient-to-br from-slate-800 to-slate-900 p-8 lg:p-12">
+                    <aside className="lg:col-span-4 print:col-span-4 rounded-2xl bg-gradient-to-br from-slate-800 to-slate-900 p-8 lg:p-12 print:bg-slate-900 print:text-white">
                         {/* Profile Section */}
                         <div className="mb-12">
                             {personal.Image && (
@@ -147,7 +147,7 @@ export default function RoyalTemplate({ CVData }: CVDataProps) {
                     </aside>
 
                     {/* Main Content */}
-                    <main className="lg:col-span-8 bg-white text-gray-900 p-8 lg:p-12">
+                    <main className="lg:col-span-8 print:col-span-8 bg-white text-gray-900 p-8 lg:p-12 print:bg-white print:text-gray-900">
                         {/* About Me */}
                         {personal.about && (
                             <section className="mb-12">

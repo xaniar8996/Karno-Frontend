@@ -7,7 +7,6 @@ const About_us = () => {
   return (
     <section className="mb-32 mt-36 flex items-center justify-center px-6 font-[Vazirmatn]">
       <div className="max-w-5xl w-full grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-
         {/* LEFT CONTENT */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -22,20 +21,21 @@ const About_us = () => {
           <h1 className="text-4xl md:text-5xl font-extrabold leading-tight text-gray-900">
             رزومه‌ای که
             <span className="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
-              {" "}شخصیت تو{" "}
+              {" "}
+              شخصیت تو{" "}
             </span>
             رو نشون میده
           </h1>
 
           <p className="text-gray-600 text-lg leading-relaxed">
-            ما اینجا هستیم تا ساخت رزومه رو از یک کار خسته‌کننده،
-            به یک تجربه‌ی سریع، حرفه‌ای و لذت‌بخش تبدیل کنیم.
-            بدون قالب‌های تکراری، بدون دردسر.
+            ما اینجا هستیم تا ساخت رزومه رو از یک کار خسته‌کننده، به یک تجربه‌ی
+            سریع، حرفه‌ای و لذت‌بخش تبدیل کنیم. بدون قالب‌های تکراری، بدون
+            دردسر.
           </p>
 
           <p className="text-gray-500 text-sm leading-relaxed">
-            هدف ما اینه که هر فرد بتونه با چند کلیک، رزومه‌ای بسازه
-            که دقیقاً نمایانگر مهارت‌ها، مسیر شغلی و شخصیتش باشه.
+            هدف ما اینه که هر فرد بتونه با چند کلیک، رزومه‌ای بسازه که دقیقاً
+            نمایانگر مهارت‌ها، مسیر شغلی و شخصیتش باشه.
           </p>
 
           <div className="flex gap-4 pt-4">
@@ -49,13 +49,11 @@ const About_us = () => {
                 شروع ساخت رزومه
               </Button>
             </Link>
-            <Button
-              variant="outlined"
-              color="default"
-              size="md"
-            >
-              قالب‌ها
-            </Button>
+            <Link href="/CV/CVSlider">
+              <Button variant="outlined" color="default" size="md">
+                قالب‌ها
+              </Button>
+            </Link>
           </div>
         </motion.div>
 
@@ -70,8 +68,7 @@ const About_us = () => {
           <div className="relative w-80 h-80 rounded-3xl bg-white/60 backdrop-blur-xl border border-white/30 shadow-2xl flex flex-col justify-center items-center gap-4 text-center p-8">
             <img src="/logo/logo.png" alt="logo" className="w-auto h-20" />
             <p className="text-gray-600 text-sm leading-relaxed">
-              طراحی‌شده برای برنامه‌نویس‌ها، طراح‌ها،
-              فریلنسرها و حرفه‌ای‌ها
+              طراحی‌شده برای برنامه‌نویس‌ها، طراح‌ها، فریلنسرها و حرفه‌ای‌ها
             </p>
 
             <div className="mt-6 flex gap-3">
@@ -94,7 +91,11 @@ const About_us = () => {
           className="text-gray-600"
         >
           ساخته شده با ❤️ توسط {""}
-          <Link href="https://github.com/xaniar8996" target="_blank" className="text-blue-500 hover:text-blue-600">
+          <Link
+            href="https://github.com/xaniar8996"
+            target="_blank"
+            className="text-blue-500 hover:text-blue-600"
+          >
             xanitech
           </Link>
         </motion.span>

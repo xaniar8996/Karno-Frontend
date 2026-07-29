@@ -26,7 +26,7 @@ export default function page() {
             <div className="max-w-7xl mx-auto mb-6 flex justify-center gap-3">
                 <button
                     onClick={() => setViewMode("both")}
-                    className={`px-4 py-2 cursor-pointer rounded-lg font-medium transition-all flex items-center gap-2 ${viewMode === "both"
+                    className={`px-4 py-2 cursor-pointer rounded-lg font-medium transition-all hidden lg:flex items-center gap-2 ${viewMode === "both"
                             ? "bg-blue-600 text-white shadow-md"
                             : "bg-white text-gray-700 hover:bg-gray-50"
                         }`}

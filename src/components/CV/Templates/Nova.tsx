@@ -14,8 +14,8 @@ export default function NovaTemplate({ CVData }: CVDataProps) {
   useRequireVerifiedAccount();
 
   return (
-    <div className="min-h-screen print:min-h-0 bg-gradient-to-br from-gray-50 to-gray-100 text-gray-800 font-[Vazirmatn]">
-      <div className="max-w-4xl mx-auto py-12 print:py-4 px-4 sm:px-6 lg:px-8 print:px-2">
+    <div dir="rtl" className="min-h-screen print:min-h-0 print:w-full print:max-w-none print:bg-white print:text-black bg-gradient-to-br from-gray-50 to-gray-100 text-gray-800 font-[Vazirmatn]">
+      <div className="max-w-4xl mx-auto py-12 print:py-4 px-4 sm:px-6 lg:px-8 print:px-2 print:max-w-none ">
         {/* Header Section */}
         <header className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white rounded-2xl p-8 print:p-4 mb-8 print:mb-4 shadow-xl resume-section">
           <div className="text-center">
@@ -40,7 +40,7 @@ export default function NovaTemplate({ CVData }: CVDataProps) {
             {personal.email && (
               <a
                 href={`mailto:${personal.email}`}
-                className="flex items-center gap-2 bg-white/20 print:bg-white/90 backdrop-blur-sm print:backdrop-blur-none px-4 py-2 rounded-lg hover:bg-white/30 print:hover:bg-white/90 transition-all"
+                className="flex items-center gap-2 bg-white/20 print:bg-white/20 backdrop-blur-sm print:backdrop-blur-none px-4 py-2 rounded-lg hover:bg-white/30 print:hover:bg-white/90 transition-all"
               >
                 <span>📧</span>
                 <span>{personal.email}</span>
@@ -49,14 +49,14 @@ export default function NovaTemplate({ CVData }: CVDataProps) {
             {personal.phone && (
               <a
                 href={`tel:${personal.phone}`}
-                className="flex items-center gap-2 bg-white/20 print:bg-white/90 backdrop-blur-sm print:backdrop-blur-none px-4 py-2 rounded-lg hover:bg-white/30 print:hover:bg-white/90 transition-all"
+                className="flex items-center gap-2 bg-white/20 print:bg-white/20 backdrop-blur-sm print:backdrop-blur-none px-4 py-2 rounded-lg hover:bg-white/30 print:hover:bg-white/90 transition-all"
               >
                 <span>📞</span>
                 <span>{personal.phone}</span>
               </a>
             )}
             {personal.address && (
-              <div className="flex items-center gap-2 bg-white/20 print:bg-white/90 backdrop-blur-sm print:backdrop-blur-none px-4 py-2 rounded-lg">
+              <div className="flex items-center gap-2 bg-white/20 print:bg-white/20 backdrop-blur-sm print:backdrop-blur-none px-4 py-2 rounded-lg">
                 <span>📍</span>
                 <span>{personal.address}</span>
               </div>
@@ -72,7 +72,7 @@ export default function NovaTemplate({ CVData }: CVDataProps) {
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-white/20 print:bg-white/90 backdrop-blur-sm print:backdrop-blur-none px-4 py-2 rounded-lg hover:bg-white/30 print:hover:bg-white/90 transition-all text-sm"
+                  className="bg-white/20 print:bg-white/20 backdrop-blur-sm print:backdrop-blur-none px-4 py-2 rounded-lg hover:bg-white/30 print:hover:bg-white/90 transition-all text-sm"
                 >
                   {link.platform}
                 </a>
@@ -82,12 +82,12 @@ export default function NovaTemplate({ CVData }: CVDataProps) {
         </header>
 
         {/* Main Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 print:grid-cols-3 gap-6">
           {/* Left Column */}
           <div className="lg:col-span-2 space-y-6">
             {/* Experience Section */}
             {experiences.length > 0 && (
-              <section className="bg-white rounded-2xl p-6 print:p-4 shadow-lg resume-section">
+              <section className="bg-white rounded-2xl p-6 print:p-4 shadow-lg resume-section" style={{ pageBreakInside: "avoid", breakInside: "avoid"}}>
                 <h2 className="text-2xl print:text-xl font-bold mb-6 print:mb-4 pb-3 border-b-2 border-blue-500 flex items-center gap-2">
                   <span className="text-blue-600">💼</span>
                   تجربیات کاری
@@ -108,7 +108,7 @@ export default function NovaTemplate({ CVData }: CVDataProps) {
 
             {/* Education Section */}
             {education.length > 0 && (
-              <section className="bg-white rounded-2xl p-6 print:p-4 shadow-lg resume-section">
+              <section className="bg-white rounded-2xl p-6 print:p-4 shadow-lg resume-section" style={{ pageBreakInside: "avoid", breakInside: "avoid" }}>
                 <h2 className="text-2xl print:text-xl font-bold mb-6 print:mb-4 pb-3 border-b-2 border-green-500 flex items-center gap-2">
                   <span className="text-green-600">🎓</span>
                   تحصیلات
@@ -131,12 +131,12 @@ export default function NovaTemplate({ CVData }: CVDataProps) {
 
             {/* Projects Section */}
             {projects.length > 0 && (
-              <section className="bg-white rounded-2xl p-6 print:p-4 shadow-lg resume-section">
+              <section className="bg-white rounded-2xl p-6 print:p-4 shadow-lg resume-section" style={{ pageBreakInside: "avoid", breakInside: "avoid" }}>
                 <h2 className="text-2xl print:text-xl font-bold mb-6 print:mb-4 pb-3 border-b-2 border-purple-500 flex items-center gap-2">
                   <span className="text-purple-600">🚀</span>
                   پروژه‌ها
                 </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 print:grid-cols-1 gap-6 print:gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 print:grid-cols-2 gap-6 print:gap-4">
                   {projects.map((project, index) => (
                     <div
                       key={index}
@@ -200,7 +200,7 @@ export default function NovaTemplate({ CVData }: CVDataProps) {
           <div className="space-y-6">
             {/* Skills Section */}
             {skills.length > 0 && (
-              <section className="bg-white rounded-2xl p-6 print:p-4 shadow-lg resume-section">
+              <section className="bg-white rounded-2xl p-6 print:p-4 shadow-lg resume-section" style={{ pageBreakInside: "avoid", breakInside: "avoid" }}>
                 <h2 className="text-xl print:text-lg font-bold mb-4 print:mb-3 pb-2 border-b border-gray-200">
                   مهارت‌ها
                 </h2>
@@ -235,7 +235,7 @@ export default function NovaTemplate({ CVData }: CVDataProps) {
 
             {/* Languages Section */}
             {languages.length > 0 && (
-              <section className="bg-white rounded-2xl p-6 print:p-4 shadow-lg resume-section">
+              <section className="bg-white rounded-2xl p-6 print:p-4 shadow-lg resume-section" style={{ pageBreakInside: "avoid", breakInside: "avoid" }}>
                 <h2 className="text-xl print:text-lg font-bold mb-4 print:mb-3 pb-2 border-b border-gray-200">
                   زبان‌ها
                 </h2>
@@ -258,7 +258,7 @@ export default function NovaTemplate({ CVData }: CVDataProps) {
 
             {/* Certificates Section */}
             {certificate.length > 0 && (
-              <section className="bg-white rounded-2xl p-6 print:p-4 shadow-lg resume-section">
+              <section className="bg-white rounded-2xl p-6 print:p-4 shadow-lg resume-section" style={{ pageBreakInside: "avoid", breakInside: "avoid" }}>
                 <h2 className="text-xl print:text-lg font-bold mb-4 print:mb-3 pb-2 border-b border-gray-200">
                   گواهینامه‌ها
                 </h2>
@@ -290,7 +290,7 @@ export default function NovaTemplate({ CVData }: CVDataProps) {
 
             {/* Interests Section */}
             {interests.length > 0 && (
-              <section className="bg-white rounded-2xl p-6 print:p-4 shadow-lg resume-section">
+              <section className="bg-white rounded-2xl p-6 print:p-4 shadow-lg resume-section" style={{ pageBreakInside: "avoid", breakInside: "avoid"}}>
                 <h2 className="text-xl print:text-lg font-bold mb-4 print:mb-3 pb-2 border-b border-gray-200">
                   علاقه‌مندی‌ها
                 </h2>

@@ -1,6 +1,7 @@
 "use client"
 import { FaInstagram, FaLinkedin, FaTelegram, FaGithub } from "react-icons/fa";
 import { hiddenRoutes } from "@lib/hiddenRoutes";
+import Link from "next/link";
 
 export default function Footer() {
     const isHidden = hiddenRoutes();
@@ -10,8 +11,6 @@ export default function Footer() {
     return (
         <footer className="w-full bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white py-12 px-8 md:px-20  border-t border-gray-700">
             <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
-
-                {/* بخش اول - برند */}
                 <div className="flex flex-col gap-3">
                     <h1 className="text-3xl font-bold text-green-400 tracking-wide">Karno</h1>
                     <p className="text-gray-300 text-sm leading-6">
@@ -28,7 +27,7 @@ export default function Footer() {
                         <li className="hover:text-green-400 transition-all cursor-pointer">خانه</li>
                         <li className="hover:text-green-400 transition-all cursor-pointer">درباره ما</li>
                         <li className="hover:text-green-400 transition-all cursor-pointer">خدمات</li>
-                        <li className="hover:text-green-400 transition-all cursor-pointer">تماس با ما</li>
+                        <Link href="/contact-us"><li className="hover:text-green-400 transition-all cursor-pointer" >تماس با ما</li></Link>
                     </ul>
                 </div>
 

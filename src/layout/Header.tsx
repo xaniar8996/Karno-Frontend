@@ -103,7 +103,7 @@ export default function Header() {
             {/* Menu */}
             <div className="flex flex-row justify-center items-center gap-10 text-black font-medium">
               <Link href="/CV/CVSlider">
-                <div className="group cursor-pointer transition-all hover:bg-gray-200/20 p-2 rounded-xl active:scale-95">
+                <div className="group cursor-pointer transition-all hover:bg-gray-800/10 p-2 rounded-xl active:scale-95">
                   <span className="transition-all duration-300">
                     ساخت رزومه
                   </span>
@@ -111,14 +111,14 @@ export default function Header() {
               </Link>
 
               <Link href="/about-us">
-                <div className="group relative cursor-pointer transition-all hover:bg-gray-200/20 p-2 rounded-xl active:scale-95">
+                <div className="group relative cursor-pointer transition-all hover:bg-gray-800/10 p-2 rounded-xl active:scale-95">
                   <h6 className="transition-all duration-300">
                     درباره ما
                   </h6>
                 </div>
               </Link>
 
-              <div className="group relative cursor-pointer transition-all hover:bg-gray-200/20 p-2 rounded-xl active:scale-95">
+              <div className="group relative cursor-pointer transition-all hover:bg-gray-800/10 p-2 rounded-xl active:scale-95">
                 <h6 className="transition-all duration-300">
                   نمونه رزومه
                 </h6>

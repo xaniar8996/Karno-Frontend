@@ -24,11 +24,11 @@ export default function QuantumTemplate({ CVData }: CVDataProps) {
     useRequireVerifiedAccount();
 
     return (
-        <div className="min-h-screen bg-[#0b0e14] text-gray-200">
-            <div className="max-w-6xl mx-auto px-6 py-16 space-y-20">
+        <div className="min-h-screen bg-[#0b0e14] text-gray-200 print:min-h-0 print:bg-white print:text-black">
+            <div className="max-w-6xl mx-auto px-6 py-16 space-y-20 print:max-w-none print:px-4 print:py-10">
 
                 {/* ================= HERO ================= */}
-                <section className="w-full flex flex-row justify-between items-center items-center gap-1">
+                <section className="w-full flex flex-row justify-between items-center gap-1 print:flex-col">
                     <div className="space-y-6 w-auto">
                         <h1 className="text-4xl md:text-5xl font-extrabold leading-tight">
                             {personal.fullName || "نام شما"}
@@ -62,8 +62,8 @@ export default function QuantumTemplate({ CVData }: CVDataProps) {
                     </div>
 
                     {/* Profile Card */}
-                    <div className="w-auto bg-gradient-to-br from-cyan-500 to-purple-600 blur-2xl opacity-30"></div>
-                    <div className="bg-[#111827] border border-white/10 rounded-3xl p-8 flex flex-col justify-center text-center gap-4">
+                    <div className="w-auto bg-gradient-to-br from-cyan-500 to-purple-600 blur-2xl opacity-30 print:hidden"></div>
+                    <div className="bg-[#111827] border border-white/10 rounded-3xl p-8 flex flex-col justify-center text-center gap-4 print:bg-white print:border-slate-300 print:text-black">
                         {personal.Image && (
                             <img
                                 src={personal.Image}
@@ -77,13 +77,13 @@ export default function QuantumTemplate({ CVData }: CVDataProps) {
                 </section>
                 {/* ================= EXPERIENCE TIMELINE ================= */}
                 {experiences.length > 0 && (
-                    <section className="w-auto flex flex-row justify-center items-start gap-5">
+                    <section className="w-auto flex flex-row justify-center items-start gap-5 print:flex-col">
                         <div className="w-full">
                             <h2 className="text-2xl font-bold mb-8 text-cyan-400">
                                 سابقه شغلی
                             </h2>
 
-                            <div className="grid grid-cols-1 gap-6 overflow-x-auto pb-4 w-full">
+                            <div className="grid grid-cols-1 gap-6 overflow-x-auto pb-4 w-full print:overflow-visible print:grid-cols-1">
                                 {experiences.map((exp, i) => (
                                     <div
                                         key={i}
@@ -137,7 +137,7 @@ export default function QuantumTemplate({ CVData }: CVDataProps) {
                             مهارت ها
                         </h2>
 
-                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 print:grid-cols-3 gap-4">
                             {skills.map((sk, i) => (
                                 <div
                                     key={i}
@@ -217,7 +217,7 @@ export default function QuantumTemplate({ CVData }: CVDataProps) {
                             تحصیلات
                         </h2>
 
-                        <div className="space-y-4 grid grid-cols-2 justify-center gap-5">
+                        <div className="space-y-4 grid grid-cols-2 justify-center gap-5 print:grid-cols-2">
                             {education.map((ed, i) => (
                                 <div
                                     key={i}

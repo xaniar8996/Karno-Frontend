@@ -111,7 +111,7 @@ export const ResumeTemplate = forwardRef<HTMLDivElement | null, ResumeTemplatePr
     );
 
     return (
-      <div ref={ref} className="w-full h-auto">
+      <div ref={ref} dir="rtl" className="w-full h-auto print:scale-105 print:origin-top-left print:w-full print:overflow-visible">
         {activeTemplate === "Nova" && <NovaTemplate CVData={CVData} />}
         {activeTemplate === "Royal" && <RoyalTemplate CVData={CVData} />}
         {activeTemplate === "Aura" && <AuraTemplate CVData={CVData} />}

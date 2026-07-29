@@ -94,7 +94,7 @@ export default function InterestsInput() {
                     )}
                 </div>
 
-                <div className="w-full flex justify-center items-center gap-3 mb-5">
+                <div className="w-full flex flex-col sm:flex-row justify-center items-center gap-3 mb-5">
                     <Button
                         type="submit"
                         variant="contained"
@@ -111,7 +111,8 @@ export default function InterestsInput() {
                         onClick={summariesText}
                         icon={<FaWandMagicSparkles className="text-lg" />}
                         className="
-                        w-1/2
+                        w-full
+                        sm:w-1/2
                         cursor-pointer
                         text-white
                         bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500

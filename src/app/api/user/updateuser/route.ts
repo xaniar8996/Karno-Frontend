@@ -1,12 +1,10 @@
 import { BaseAPI } from "@lib/axios";
+import { getAccessTokenFromRequest } from "@lib/auth";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PUT(req: NextRequest) {
     try {
-        // Read auth token from cookies / headers
-        const accessToken =
-            req.cookies.get("accessToken")?.value ||
-            req.headers.get("authorization")?.replace("Bearer ", "");
+        const accessToken = getAccessTokenFromRequest(req);
 
         if (!accessToken) {
             return NextResponse.json(

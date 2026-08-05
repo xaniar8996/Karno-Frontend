@@ -2,9 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getAccessTokenFromRequest } from "@lib/auth";
 import { BaseAPI } from "@lib/axios";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3500";
 
-// Proxy update CV with multipart/form-data support
 export async function PUT(
   req: NextRequest,
   { params }: { params: { id: string } }

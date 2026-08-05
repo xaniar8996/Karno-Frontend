@@ -21,7 +21,7 @@ export default function LoginForm() {
     const queryClient = useQueryClient();
     const router = useRouter();
 
-    const { register, handleSubmit } = useForm<LoginData>();
+    const { register, handleSubmit, formState: { errors } } = useForm<LoginData>();
 
     const loginMutation = useApiMutation({
       method:"post",
@@ -37,12 +37,12 @@ export default function LoginForm() {
             queryClient.invalidateQueries({ queryKey: ["User"] })
         },
         onErrorCallback: (error) => {
-            if (error?.response?.status === 409) {
+            if (error?.response?.status === 404) {
                 toast.error("کاربر وجود ندارد !" , { style: { color: '#fff' } });
             } else if (error?.response?.status === 400) {
                 toast.error("اطلاعات کامل نیست" , { style: { color: '#fff' } });
             } else if (error?.response?.status === 401) {
-                toast.error("رمز عبور نادرست است !" , { style: { color: '#fff' } });
+                toast.error("اطلاعات نادرست است !" , { style: { color: '#fff' } });
             } else if (error?.response?.status === 500) {
                 toast.error("خطای داخلی سرور" , { style: { color: '#fff' } });
             } else {
@@ -79,18 +79,20 @@ export default function LoginForm() {
             className="flex flex-col gap-4"
           >
             <input
-              {...register("email")}
+              {...register("email", { required: "ایمیل الزامی است", pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: "ایمیل نامعتبر است" } })}
               placeholder="ایمیل"
               className="w-full rounded-xl bg-white/10 border border-white/10 p-3 text-sm text-white placeholder:text-gray-400 outline-none focus:ring-2 focus:ring-green-400 transition"
             />
+            {errors.email && <p className="text-xs text-red-400">{errors.email.message}</p>}
   
             <div className="relative">
               <input
-                {...register("password")}
+                {...register("password", { required: "رمز عبور اجباری است", minLength: { value: 8, message: "رمز عبور باید حداقل 8 کاراکتر باشد" } })}
                 type={showPass ? "text" : "password"}
                 placeholder="رمز عبور"
                 className="w-full rounded-xl bg-white/10 border border-white/10 p-3 text-sm text-white placeholder:text-gray-400 outline-none focus:ring-2 focus:ring-green-400 transition"
               />
+              {errors.password && <p className="text-xs text-red-400">{errors.password.message}</p>}
               <span
                 className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer"
                 onClick={() => setShowPass(!showPass)}

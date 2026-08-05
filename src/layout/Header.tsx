@@ -117,12 +117,6 @@ export default function Header() {
                   </h6>
                 </div>
               </Link>
-
-              <div className="group relative cursor-pointer transition-all hover:bg-gray-800/10 p-2 rounded-xl active:scale-95">
-                <h6 className="transition-all duration-300">
-                  نمونه رزومه
-                </h6>
-              </div>
             </div>
 
             {/* Right Side */}

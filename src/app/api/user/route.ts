@@ -1,4 +1,5 @@
 import { BaseAPI } from "@lib/axios";
+import { getAccessTokenFromRequest } from "@lib/auth";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
@@ -7,8 +8,7 @@ export async function GET(req: NextRequest) {
         const AllOrSingleUser = searchParams.get("all") === "true"; 
 
 
-        const accessToken = req.cookies.get("accessToken")?.value ||
-            req.headers.get("authorization")?.replace("Bearer ", "");
+        const accessToken = getAccessTokenFromRequest(req);
 
         if (!accessToken) {
             return NextResponse.json(
@@ -25,13 +25,10 @@ export async function GET(req: NextRequest) {
             }
         });
 
-        // Backend returns { success: true, message: "...", data: user }
-        // Extract the actual user data from the response
         if (response?.data?.success && response?.data?.data) {
             return NextResponse.json(response.data.data);
         }
 
-        // If response format is unexpected, return the whole response
         return NextResponse.json(response?.data);
     } catch (error: any) {
         console.error("Error fetching user:", error);

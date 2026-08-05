@@ -1,49 +1,43 @@
-function getCookie(name: string): string | null {
-    if (typeof document === "undefined") return null;
-    const match = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([.$?*|{}()\[\]\\\/\+^])/g, "\\$1") + "=([^;]*)"));
-    return match ? decodeURIComponent(match[1]) : null;
-}
+// Client-side auth helpers
+// Security change: do NOT persist access tokens in cookies accessible to JS.
+// Keep access token in-memory on the client.
 
-function setCookie(name: string, value: string, maxAgeSeconds: number): void {
-    if (typeof document === "undefined") return;
-    const isSecure = window.location.protocol === "https:";
-    document.cookie = `${name}=${encodeURIComponent(value)}; Path=/; Max-Age=${maxAgeSeconds}; SameSite=Lax; ${isSecure ? "Secure" : ""}`.trim();
-}
-
-function deleteCookie(name: string): void {
-    if (typeof document === "undefined") return;
-    const isSecure = window.location.protocol === "https:";
-    // Deletion must mirror the attributes used on setCookie
-    document.cookie = `${name}=; Path=/; Max-Age=0; SameSite=Lax; ${isSecure ? "Secure" : ""}`.trim();
-}
+let inMemoryAccessToken: string | null = null;
 
 export function getAccessToken(): string | null {
-    return getCookie("accessToken");
+    return inMemoryAccessToken;
 }
 
-// Server-side version for Next.js API routes
-export function getAccessTokenFromRequest(req: { cookies: { get: (name: string) => { value: string } | undefined }, headers: { get: (name: string) => string | null } }): string | null {
-    const accessToken = req.cookies.get("accessToken")?.value ||
-        req.headers.get("authorization")?.replace("Bearer ", "");
-    return accessToken || null;
+// Server-side version for Next.js API routes.
+// The browser forwards the in-memory token via Authorization header.
+export function getAccessTokenFromRequest(req: { headers: { get: (name: string) => string | null } }): string | null {
+    const authorization = req.headers.get("authorization") || req.headers.get("Authorization");
+    if (!authorization) return null;
+    return authorization.replace(/^Bearer\s+/i, "").trim() || null;
 }
 
 export function setAccessToken(token: string): void {
-    // 15 minutes default to align with backend access token expiry
-    setCookie("accessToken", token, 15 * 60);
+    inMemoryAccessToken = token;
 }
 
 export function clearAccessToken(): void {
-    deleteCookie("accessToken");
+    inMemoryAccessToken = null;
 }
 
-export function clearRefreshToken(): void {
-    deleteCookie("jwt");
+// Refresh token is stored as httpOnly cookie by backend. To clear it,
+// call the backend logout endpoint which will clear the cookie server-side.
+export async function clearRefreshToken(): Promise<void> {
+    try {
+        const token = inMemoryAccessToken;
+        await fetch("/logout", { method: "POST", credentials: "include", headers: token ? { Authorization: `Bearer ${token}` } : {} });
+    } catch (e) {
+        // ignore
+    }
 }
 
-export function clearAllTokens(): void {
+export async function clearAllTokens(): Promise<void> {
     clearAccessToken();
-    clearRefreshToken();
+    await clearRefreshToken();
 }
 
 // Decode base64url without relying on atob quirks

@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAccessTokenFromRequest } from "@lib/auth";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3500";
+const API_BASE = process.env.NEXT_PUBLIC_API_URL 
 
-// Proxy create CV to backend, preserving multipart/form-data
 export async function POST(req: NextRequest) {
   const accessToken = getAccessTokenFromRequest(req);
 

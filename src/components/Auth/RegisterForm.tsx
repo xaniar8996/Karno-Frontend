@@ -11,7 +11,8 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { setAccessToken } from "@lib/auth";
 import { useApiMutation } from "@hooks/api-hooks/useAPIMutation";
-import "@assets/style/input.css";
+// @ts-ignore
+import "../../assets/style/input.css";
 
 interface RegisterData {
   Fullname: string,
@@ -62,7 +63,7 @@ export default function RegisterForm() {
       {/* Login Button */}
       <div className="absolute top-6 left-6">
         <button
-          onClick={() => router.push("/login")}
+          onClick={() => router.push("/Auth/login")}
           className="text-sm text-gray-300 cursor-pointer hover:text-white transition"
         >
           ورود

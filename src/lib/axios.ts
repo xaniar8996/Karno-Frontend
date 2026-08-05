@@ -7,33 +7,32 @@ const isMobile =
 
 export const BaseAPI = axios.create({
   baseURL: isMobile
-    ? "http://192.168.1.102:3500" // موبایل
-    : "http://localhost:3500",  // دسکتاپ
+    ? "http://192.168.1.102:3500" 
+    : process.env.NEXT_PUBLIC_API_URL,
   withCredentials: true,
 });
 
-
 export const NextAPI = axios.create({
-    withCredentials: true,
+  withCredentials: true,
 });
 
-// Attach Authorization header if access token exists
-BaseAPI.interceptors.request.use((config) => {
+const attachAccessToken = (config: any) => {
     const token = getAccessToken();
     if (token) {
         config.headers = config.headers || {};
         config.headers["Authorization"] = `Bearer ${token}`;
     }
     return config;
-});
+};
 
-// Handle 401 by attempting to refresh and retrying once
+BaseAPI.interceptors.request.use(attachAccessToken);
+NextAPI.interceptors.request.use(attachAccessToken);
+
 BaseAPI.interceptors.response.use(
     (response) => response,
     async (error) => {
         const originalRequest = error.config || {};
 
-        // Avoid refresh attempts for the refresh endpoint itself
         const url = (originalRequest.url || "") as string;
         if (url.includes("/Refresh")) {
             return Promise.reject(error);
@@ -42,7 +41,6 @@ BaseAPI.interceptors.response.use(
         if (error.response?.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
             try {
-                // Use  to avoid interceptor recursion
                 const refreshResponse = await BaseAPI.get("/Refresh");
                 const newAccessToken = refreshResponse.data?.accessToken;
                 if (newAccessToken) {

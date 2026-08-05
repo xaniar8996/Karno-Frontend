@@ -13,11 +13,11 @@ export const useLogout = () => {
     method: "post",
     url: "/api/Auth/account/Logout",
     useNextAPI: true,
-    onSuccessCallback() {
+    async onSuccessCallback() {
+      await clearAllTokens();
+      reset();
       router.replace("/Auth/login");
       toast.success("خروج از اکانت موفقیت آمیز بود", { style: { color: "#fff" } })
-      clearAllTokens();
-      reset();
     },
   })
 }

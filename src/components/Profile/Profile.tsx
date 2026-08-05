@@ -153,7 +153,7 @@ export default function Profile() {
 
         {/* Drawer for other sections (desktop: side panel, mobile: overlay) */}
         <div
-          className={`fixed inset-y-0 right-0 z-30 w-64 transform border-l border-white/10 bg-black px-5 py-6 text-xs text-slate-100 backdrop-blur-2xl shadow-[0_0_60px_rgba(15,23,42,0.5)] transition-transform duration-300
+          className={`fixed inset-y-0 right-0 z-30 w-64 transform border-l border-white/10 bg-black px-5 py-6 text-xs text-slate-100 backdrop-blur-2xl transition-transform duration-300
                          md:static md:z-0 md:h-auto md:w-64 md:translate-x-0 md:rounded-3xl md:border md:bg-[radial-gradient(circle_at_top_left,rgba(16,185,129,0.15),transparent_40%),radial-gradient(circle_at_top_right,rgba(14,165,233,0.12),transparent_45%),linear-gradient(to_bottom_right,#0a0f1c,#0b1220,#0a0f1a)] shadow-[0_20px_120px_rgba(0,0,0,0.6)] 
                          md:py-5 ${
                            drawerOpen

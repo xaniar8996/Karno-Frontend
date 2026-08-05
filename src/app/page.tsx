@@ -1,5 +1,7 @@
 "use client"
+// @ts-ignore
 import "../assets/style/globals.css";
+// @ts-ignore
 import "../assets/style/Fontface.css";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";

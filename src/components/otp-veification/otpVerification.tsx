@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 
 interface OTPVerificationProps {
   verifyUrl: string;
-  onSuccess?: () => void;
+  onSuccess?: (data?: unknown) => void;
   successMessage?: string;
   buttonText?: string;
   className?: string;
@@ -62,7 +62,7 @@ export default function OTPVerification({
 
       if (response.status === 200) {
         toast.success(successMessage);
-        onSuccess?.();
+        onSuccess?.(response.data);
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {

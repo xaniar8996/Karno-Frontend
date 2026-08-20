@@ -4,14 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
     try {
-        const accessToken = getAccessTokenFromRequest(req);
-
-        if (!accessToken) {
-            return NextResponse.json(
-                { error: "No authentication token found" },
-                { status: 401 }
-            );
-        }
+   
 
         const body = await req.json().catch(() => null);
 
@@ -27,11 +20,6 @@ export async function POST(req: NextRequest) {
             {
                 email: body.email,
             },
-            {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            }
         );
 
         if (response?.data?.success) {

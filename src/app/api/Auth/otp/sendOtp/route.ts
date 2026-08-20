@@ -4,20 +4,8 @@ import { getAccessTokenFromRequest } from "@lib/auth";
 
 export async function POST(req : NextRequest) {
     try {
-        const accessToken = getAccessTokenFromRequest(req);
-        
-        if (!accessToken) {
-            return NextResponse.json(
-                { error: "No authentication token found" },
-                { status: 401 }
-            );
-        }
 
-        const otpResponse = await BaseAPI.post("/otp/send-otp", {}, {
-            headers: {
-                Authorization: `Bearer ${accessToken}`
-            }
-        });
+        const otpResponse = await BaseAPI.post("/otp/send-otp", {},);
 
         return NextResponse.json(otpResponse.data, { status: 200 });
     } catch (error: any) {

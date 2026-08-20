@@ -13,6 +13,7 @@ import { Button } from "@components/base/button";
 
 interface VerifyResetPasswordProps {
   onClose?: () => void;
+  mode?: "forgot" | "profile";
 }
 
 type EmailForm = {
@@ -21,9 +22,19 @@ type EmailForm = {
 
 export default function verifyResetPassword({
   onClose,
+  mode = "profile",
 }: VerifyResetPasswordProps) {
   const [step, setStep] = useState<"email" | "otp" | "password">("email");
   const [email, setEmail] = useState("");
+  const [resetToken, setResetToken] = useState("");
+
+  const isForgotMode = mode === "forgot";
+  const verifyOtpUrl = isForgotMode
+    ? "/api/Auth/otp/forgot-password/verify-reset-otp"
+    : "/api/Auth/otp/verify-reset-otp";
+  const resetPasswordUrl = isForgotMode
+    ? "/api/Auth/otp/forgot-password/reset-password"
+    : "/api/Auth/otp/reset-password";
 
   const emailForm = useForm<EmailForm>();
 
@@ -44,7 +55,7 @@ export default function verifyResetPassword({
 
   const ResetPasswordMutation = useApiMutation({
     key: "reset-password",
-    url: "/api/Auth/otp/reset-password",
+    url: resetPasswordUrl,
     method: "post",
     useNextAPI: true,
     onSuccessCallback: () => {
@@ -59,6 +70,20 @@ export default function verifyResetPassword({
   };
 
   const HandleResetPassword = async (data: ResetPasswordValidationType) => {
+    if (isForgotMode) {
+      if (!resetToken) {
+        toast.error("ابتدا کد تایید را وارد کنید");
+        setStep("otp");
+        return;
+      }
+
+      await ResetPasswordMutation.mutateAsync({
+        resetToken,
+        newPassword: data.newPassword,
+      });
+      return;
+    }
+
     await ResetPasswordMutation.mutateAsync({
       email: email,
       newPassword: data.newPassword,
@@ -91,10 +116,13 @@ export default function verifyResetPassword({
                   کد 6 رقمی را وارد کنید
                 </p>
                 <OTPVerification
-                  verifyUrl="/api/Auth/otp/verify-reset-otp"
+                  verifyUrl={verifyOtpUrl}
                   successMessage="کد با موفقیت تایید شد"
                   className="w-full p-3 bg-black rounded-xl text-white cursor-pointer hover:bg-gray-900 transition-all active:scale-95 font-semibold"
-                  onSuccess={() => {
+                  onSuccess={(data) => {
+                    if (isForgotMode && data && typeof data === "object" && "resetToken" in data) {
+                      setResetToken(String((data as { resetToken: string }).resetToken));
+                    }
                     setStep("password");
                   }}
                   extraData={{
